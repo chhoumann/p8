@@ -1,33 +1,46 @@
-To gather requirements for this project we would first have to arrange a meeting with our customer. 
-Before the initial meeting we had communicated with one of our stakeholders which had given us a vague idea of what the project could be about.
-We were told that the system would be used for booking meeting rooms, and associated tasks. This gave us a broad idea of the problem, but we did not know specifics, such as what devices it would have to run on, or communicate with.
-Due to this, we found it difficult to create close-ended questions for a structured interview, as it would require further knowledge about the domain.
-Therefore we chose to perform a semi-structured interview, as a part of our first meeting. 
-This in turn allows us to explore the whole problem domain, while minimizing the risk of missing points that they would deem important. 
-A semi-structured interview allows us 
-\cite{InterviewsNHS}
-
-
-% When we encountered vague or unclear ideas, we would explore them further with the stakeholder during the interview.
-% Likewise, we clarified priorities and any conflicting elements.
-
-The outcome of this interview was a collection of user stories.
-
-%how we clarify conflicting elements and how we do it, how we refine user stories and how/why we do it.
-
+To gather requirements for this project we would first have to arrange a meeting with the stakeholder. 
+Before the initial meeting we had we had received a list of ideas that could alleviate the stakeholders problem.
+We were told that the system would be used for booking meeting rooms, and associated tasks. 
+This gave us a broad idea of the problem, but we did not know specifics, such as what devices it would have to run on, or communicate with.
+Due to not knowing the specifics about the problem, we could not create close-ended questions for a structured interview, as it would require further knowledge about the domain.
+Therefore we chose to perform a semi-structured interview as a part of our first meeting.
+A semi-structured focuses on open-ended questions which allows us to ask complementary questions to clarify answers. 
+The interview questions were based on initial ideas sent to us by the stakeholder. 
+This allowed us to explore the whole problem, while minimizing the risk of missing points that the stakeholders would deem important. \cite{InterviewsNHS}
 
 
 %We need a section that describes the user and the situation in much more detail.
-Prior to the interview we sent open questions to the stakeholders such that they could reflect on the project and write down key ideas.
-This led to a document of semi-prioritized points we would use as a basis for discussion during the interview.
 
-After conducting the interview, we refined the ideas into user stories. These user stories were prioritized further using MoSCoW analysis.
+After conducting the interview, we refined the ideas into user stories in collaboration with the stakeholder. These user stories were prioritized further using MoSCoW analysis\cite{DEBbook}.
 These were sent to the stakeholder for feedback and to confirm mutual understanding.
 
-%what the benefits of user stories are
-\section{User Stories}
-In this section, we present the user stories for the system that we have identified with the stakeholders.
+A MoSCoW prioritization is a rough prioritization into four categories based on an agreement between stakeholders and the developers.
+Each category describes a prioritization level of particular user stories. The four categories are as follows: \textit{Must have}, \textit{Should have}, \textit{Could have}, \textit{Wont have}.
 
+% \begin{table}[]
+%     \begin{tabular}{|l|}
+%     \hline
+%     \textbf{Must Have}                                                                                                                                                                                                                                                                       \\ \hline
+%     As a user, I want to be able to book a meeting room through Outlook/Outlook mobile and select it as a location, so that I can easily schedule my meetings and reserve a space                                                                                                            \\ \hline
+%     As a user, I want to be able to book a meeting room through a website and view it in Outlook afterward, so that I can use the platform that is most convenient for me.                                                                                                                   \\ \hline
+%     As a user, I want to be able to see who has booked a meeting room, so that I can avoid scheduling conflicts and ensure that the room is available when I need it.                                                                                                                        \\ \hline
+%     As a user, I want there to be a screen at each meeting room displaying the name of the person who has booked it (without meeting details), and the ability to book the room immediately for an upcoming meeting.                                                                         \\ \hline
+%     As a user, I want the platform to use MFA login for both users and the admin page, to ensure that only authorized individuals can access and use the system.                                                                                                                             \\ \hline
+%     As an administrator, I want to be able to create multiple customers, each with their own unique administration flow, so that I can set up and manage multiple organizations within a single solution                                                                                     \\ \hline
+%     \textbf{Should Have}                                                                                                                                                                                                                                                                     \\ \hline
+%     As a user, I want to be able to end a meeting early on the screen, so that I can free up the meeting room for another user                                                                                                                                                               \\ \hline
+%     As a user, I want to be able to create a meeting room in the administration section and have it automatically created in Exchange Online, so that I can manage the process from a central location and avoid duplication of effort                                                       \\ \hline
+%     As a user, I want to be able to customize the application deployment to feature branding such as a custom logo. This enables me to personalize the platform and align it with my company's branding                                                                                      \\ \hline
+%     As a user, I want to be able to send reminders to attendees via email, so that I can ensure that they are aware of the meeting and arrive on time                                                                                                                                        \\ \hline
+%     As a user, I want to be able to view an overview of available meeting rooms, such as a floor plan or other layout, on a large screen, so that I can quickly and easily find an appropriate space for my meeting                                                                          \\ \hline
+%     \textbf{Could Have}                                                                                                                                                                                                                                                                      \\ \hline
+%     As a user, I want to be able to display an info screen if there are no meetings scheduled, until a certain time before the next meeting. This would allow me to use the meeting room for other purposes, such as advertisements or presentations, when it is not being used for meetings \\ \hline
+%     \textbf{Won’t Have}                                                                                                                                                                                                                                                                      \\ \hline
+%     As a user, I want to be able to order catering, such as coffee, bread, and lunch, and send an email to the canteen, so that I can easily provide refreshments for my meeting attendees                                                                                                   \\ \hline
+%     As a user, I want to be able to order equipment, such as a projector or whiteboard, so that I can make sure that the meeting has the necessary tools to be successful                                                                                                                    \\ \hline
+%     \end{tabular}
+%     \end{table}
+%what the benefits of user stories are
 \subsection{Must have}
 \begin{itemize}
 \item As a user, I want to be able to book a meeting room through Outlook/Outlook mobile and select it as a location, so that I can easily schedule my meetings and reserve a space.

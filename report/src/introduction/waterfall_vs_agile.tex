@@ -1,2 +1,60 @@
 %This section should describe different approaches to handling software development complexity
 %It should highlight that both approaches are possible but one is more suitable.
+
+Developing a software product for a business can be a complex process.
+It can be useful to use software process models to guide the development process.
+In practice, there are two predominant models: the plan-driven waterfall model, and the incremental agile model.
+
+These frameworks can be extended and adapted to create more specific software engineering processes.
+
+The waterfall model has development cascade from one phase to the next, which is what gives the model its name.
+In broad terms, development starts with defining requirements, proceeds to a design phase, then to implementation, then testing, and lastly operation and maintenance.
+That is, development happens in stages. The next phase doesn't start until the previous phase is finished.
+
+However, this isn't often the case. Problems can occur during development, leading to delays. Each time new information emerges, the team has to go back to the previous stages and update design documents. The customer also needs to sign off on these, which contributes to the delays.
+It is also possible to simply freeze the softwware specification. Then, no changes can be made. This would, however, also mean that the identified problems aren't fixed. In the end, this could result in the system not behaving as the user desired. It can also lead to technical debt, as the development team has to somehow navigate around the identified problems.
+
+This is where the strengths of the incremental approach lie. Here, a system is developed as a series of increments, where each adds functionality to the system. Between these increments, you gather feedback from users to prioritize functionality for the next increment. Therefore, each increment adds something the user needs.
+
+By continuously getting feedback and working with these increments, the development process becomes cheaper and faster as a result of less time spent reworking the system.\cite{sommervilleSoftwareEngineering2016}
+
+Choosing the appropriate model for a given project is important.
+Using a plan-driven approach is appropriate when you believe the entire process can be planned and laid out beforehand. That is, you expect the process to be deterministic.
+Agile teams, on the other hand, expects change and frequently makes sure they are working on what is creating the most value.
+
+\Citeauthor{boehmObservationsBalancingDiscipline} developed a method to select between plan-driven and agile approaches based on a risk-based analysis.
+This analysis is based on the \textit{size} of the team, \textit{criticality} of the project, as determined by the loss due to errors, \textit{dynamism} regarding how frequently requirements change, \textit{personnel} regarding the ability of the team, and \textit{culture}, regarding whether the team thrives on chaos or order. Depending on where the project places on these dimensions, agile, plan-drive, or a hybrid is appropriate.
+
+This project will be developed by a small team of 6 developers, which is far toward the agile end.
+Errors during the project would not have significant consequences, which also places the project in the agile end of the criticality dimension.
+During collaboration with the stakeholder, it is expected that requirements will be explored incrementally, and that they will provide feedback periodically. This places the project on the agile end of the dynamism dimension.
+Finally, the personnel \& culture dimensions also lead toward the agile end for this project.\cite{boehmObservationsBalancingDiscipline}
+
+Based on this analysis, it is concluded that an agile approach is an appropriate process model for this project.
+
+Agile is a set of values, and does not present practical activities which a process model would consist of. Therefore, the team has decided on Scrum, which is an agile framework that puts the values to practice. This decision was made due to prior experience with using the framework amongst team members.
+
+Scrum introduces a vareity of new practices and roles. In a Scrum team, there is a Scrum Master, a Product Owner, and developers. The Scrum Master is responsible for enforcing scrum and helping the team remain productive. Their goal is to guide the team towards continuous improvement. A Product Owner is responsible for maximizing value from the product. They are also accountable for managing the product backlog, which includes developing a product goal, creating backlog items and prioritizing them, and making sure the team understands this backlog.
+
+The process for working as a Scrum team boils down to repeatedly taking backlog items and working on them during a sprint. After the sprint, the team and stakeholders inspect the results and adjust for the next sprint. This process is what fosters continuous improvement by getting rapid feedback on work.
+
+During this report, we will present the work done during sprints. This includes the initial planning, and later the product feedback received.
+To find common understanding of the process, we present definitions of the artifacts and tools used during the Scrum process below.
+
+One of the first things a Scrum team implements is the \textbf{product backlog}. This is a list of user stories, and represents every possible addition to the project. Due to the comprehensive nature of this list, it is not possible to build everything. Therefore, the list should be prioritized by what delivers the most value to users.
+Backlog items then are estimated by the team in terms of relative size. A common measure for estimation is the Fibonacci sequence.
+As the stakeholders provide feedback, items in the backlog should be prioritized accordingly. All these items contribute to achieving the \textbf{product goal}.
+
+The backlog items are \textbf{user stories}. These stories represent functionality the stakeholder would like to see in the system. For this reason, they must include \textit{who} it is for, \textit{what} should be done, and \textit{why} they want it. This is captured in the general "\texttt{As a X, I want Y, such that Z.}" format for user stories.
+
+A \textbf{sprint} is a short period of time, during which the team works on a subset of the product backlog, captured in a \textbf{sprint backlog}. This defines the \textit{what} of the sprint. The items in the sprint backlog are chosen based on a \textbf{sprint goal}, defining the \textit{why} of the sprint. The sprint also has an actionable plan for delivering the increment, representing the \textit{how}.
+
+Sprints start by planning them. During \textbf{sprint planning}, the team discuss and choose the most important backlog items. Then they find a sprint goal which clarifies why the sprint is valuable to the users. The team also discussed how the chosen work will get done in increments that meet the definition of done. \textbf{Increments} can be viewed as stepping stones toward the product goal. Each one is better than the previous, as measured in terms of progress towards the goal. It is possible to have multiple increments during a spring. Increments have requirements for when they are considered done. This is the \textbf{definition of done}. Usually, simply implementing a feature does not meet this definition. Testing, ensuring deployability, and writing documentation may also be required.
+
+As the sprint progresses, the team hold \textbf{daily scrums}, which are short meetings where the team inspects progress towards the sprint goal and adjust the sprint backlog as necessary.
+
+Each increment will be inspected during \textbf{sprint review}. During such a review, progress is examined, the team and its stakeholders discuss any changes, and then figure out what to do next.
+
+Finally, the team conducts a \textbf{sprint retrospective}, where the team examines how their last sprint went, and how they may improve. This is part of the quest for continuous improvement.
+
+These are the elements of Scrum. In the next section, we will describe how we gathered intial requirements for the project and created user stories for the product backlog.

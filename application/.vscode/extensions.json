@@ -1,3 +1,7 @@
 {
-  "recommendations": ["bradlc.vscode-tailwindcss", "prisma.prisma"]
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "prisma.prisma",
+    "dbaeumer.vscode-eslint"
+  ]
 }

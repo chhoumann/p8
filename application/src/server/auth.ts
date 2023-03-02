@@ -4,7 +4,7 @@ import {
   type NextAuthOptions,
   type DefaultSession,
 } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+import AzureADProvider from "next-auth/providers/azure-ad";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../env.mjs";
 import { prisma } from "./db";
@@ -58,6 +58,11 @@ export const authOptions: NextAuthOptions = {
      * NextAuth.js docs for the provider you want to use. Example:
      * @see https://next-auth.js.org/providers/github
      **/
+    AzureADProvider({
+      clientId: env.AZURE_AD_CLIENT_ID,
+      clientSecret: env.AZURE_AD_CLIENT_SECRET,
+      tenantId: env.AZURE_AD_TENANT_ID,
+    }),
   ],
 };
 

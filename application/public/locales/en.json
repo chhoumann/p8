@@ -1,6 +1,7 @@
 {
     "language": "English",
     "example": {
-        "hello": "Hello, world!"
+        "hello": "Hello, world!",
+        "changeLanguage": "Change language"
     }
 }

@@ -1,6 +1,7 @@
 {
     "language": "Danish",
     "example": {
-        "hello": "Hej, verden!"
+        "hello": "Hej, verden!",
+        "changeLanguage": "Skift sprog"
     }
 }

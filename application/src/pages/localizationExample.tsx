@@ -9,9 +9,10 @@ function LocalizationExample(): JSX.Element {
         <div>
             <div>{t("example.hello")}</div>
             <button
-                onClick={() =>
-                    i18n.changeLanguage(i18n.language === "da" ? "en" : "da")
-                }
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => {
+                    i18n.changeLanguage(i18n.language === "da" ? "en" : "da");
+                }}
             >
                 {t("example.changeLanguage")}
             </button>

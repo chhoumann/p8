@@ -14,3 +14,6 @@ Open cypress using ```npx cypress open```. This will pop up with a UI. Here, you
 In ./cypress/e2e is a simple example of a todo component. To create a test, create cypress file (xxx.cy.ts) in that directory.
 When creating tests, a single file should fully specify the behavior of the component under test.
 That is, a single file should test the full functionality of the delivery/usecase.
+
+# Running github actions
+Use `act -j e2e-test` when in project directory to run test

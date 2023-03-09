@@ -1,13 +1,23 @@
+\input{setup/hyphenations.tex}%
+\input{setup/macros.tex}
+
+\pagestyle{empty} %disable headers and footers
+\pagenumbering{roman}
+\input{setup/frontpage.tex}
+\input{setup/colophon.tex}
+\input{setup/titlepages.tex}
+\input{setup/preface.tex}
+\cleardoublepage
+\pdfbookmark[0]{Contents}{label:contents}
+\pagestyle{fancy} %enable headers and footers again
+\tableofcontents
+\cleardoublepage
+%mainmatter
+\pagenumbering{arabic} 
 
 \input{introduction/intro.tex}
 
-\input{user_stories.tex}
-
 \include{introduction/intro.tex}
-\include{introduction/premise.tex}
-\include{introduction/waterfall_vs_agile.tex}
-\include{introduction/requirements.tex}
-\include{introduction/problem_statement.tex}
 \include{sprint_1/index.tex}
 
 \printbibliography[heading=bibintoc, title=Bibliography]

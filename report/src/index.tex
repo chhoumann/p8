@@ -1,10 +1,19 @@
 \input{setup/hyphenations.tex}%
 \input{setup/macros.tex}
 
+\pagestyle{empty} %disable headers and footers
+\pagenumbering{roman}
 \input{setup/frontpage.tex}
 \input{setup/colophon.tex}
 \input{setup/titlepages.tex}
 \input{setup/preface.tex}
+\cleardoublepage
+\pdfbookmark[0]{Contents}{label:contents}
+\pagestyle{fancy} %enable headers and footers again
+\tableofcontents
+\cleardoublepage
+%mainmatter
+\pagenumbering{arabic} 
 
 \input{introduction/intro.tex}
 

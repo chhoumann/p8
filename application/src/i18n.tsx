@@ -1,8 +1,8 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-import English from "./en.json";
-import Danish from "./da.json";
+import English from "../public/locales/en.json";
+import Danish from "../public/locales/da.json";
 
 const resources = {
     da: {
@@ -24,8 +24,6 @@ i18n.use(initReactI18next)
         defaultNS: "messages",
         fallbackLng: "en",
         debug: true,
-        // backend: {loadPath: '/public/locales/{{lng}}/{{ns}}.json'},
-
         interpolation: {
             escapeValue: false, // not needed for react as it escapes by default
         },

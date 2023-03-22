@@ -1,31 +1,37 @@
-\section{Requirement Elicitation}\label{sec:requirement_elicitation}
-
-% to establish knowledge about the domain, current issues with their current system, and knowledge about system users, we arrange a meeting with the stakeholders.
-% The goal of this meeting is twofold.
-% 1. gather information about the users and how they interact with current systems.
-% 2. The environment in which the users interact
-% 3. Requirements that a substitute system must adhere to.
-% 
-
+To establish knowledge about the domain and issues with the current system for managing meeting arrangements, two interviews with the stakeholders was conducted.  
+The goals of these interviews were twofold: 
+First and foremost, we wanted  to understand the current issues the stakeholders are facing. 
+To figure this out we conducted an unstructured interview\cite{robson2002real}.
+Secondly, we wanted to understand what the stakeholder sees as minimum requirements for a potential solution to their problem through an interview.
+This interview was based on ideas provided to us by the stakeholder during the initial contact.
+Due to not knowing the specifics about the problem, we could not create close-ended questions for a structured interview, and thus chose to use a semi structured interview focusing on open-ended questions. This allowed us to ask complementary questions to clarify answers \cite{InterviewsNHS}.
 
 
+\section{Understanding the problem} % What constitutes a solution for 
+During the initial interview, the stakeholders provided us with insight into what their current needs are, and why their current system does not satisfy these needs.
+First and foremost, the stakeholder have issues with arranging meetings throughout their day to day life.
+When employees of Mariendal IT schedues meetings they sometimes experience problems with not having available rooms.
+The unavailability is often due to the meeting organizer not registering that a meeting has concluded early.
+This leads to meeting rooms being unattended while still being marked as in-use in their calendar system.
+Furthermore, the stakeholder will sometimes have unscheduled visits from clients, and will thus need a place discuss business impromptu.
+Secondly, registering new meetings requires the user to use their computer and open propriatery software to schedule the the meeting and reserve a room. Making changes to an existing meetins, such as extending the duration of the meeting, can only be done by finding the meeting in their current system, and edit the details of the meeting.
+This makes it tedious and time-consuming to extend meetings, as the organizer has to leave the room to find a computer and register the changes. 
+Thirdly, making arrangements other than reserving rooms can be time consuming and annoying. 
+It is sometimes necessary to bring IT equipment to meetings to showcase them for customers.
+This means that it is necessary to plan and coordinate where and when equipment is in use to ensure that the it is available for meetings. 
+Similarly, it is customary to provide refreshments and snacks during the meeting, which must also be arranged. 
+Currently, this is done by reaching out to the cafeteria via phone or email.
+This adds yet another task that needs to be solved to accomodate meetings. 
 
-To gather requirements, domain knowledge for this project we would first have to arrange a meeting with the stakeholder. 
-Before the initial meeting we had we had received a list of ideas that could alleviate the stakeholders problem.
-We were told that the system would be used for booking meeting rooms, and associated tasks. 
-This gave us a broad idea of the problem, but we did not know specifics, such as what devices it would have to run on, or communicate with.
-Due to not knowing the specifics about the problem, we could not create close-ended questions for a structured interview, as it would require further knowledge about the domain.
-Therefore we chose to perform a semi-structured interview as a part of our first meeting.
-A semi-structured focuses on open-ended questions which allows us to ask complementary questions to clarify answers. 
-The interview questions were based on initial ideas sent to us by the stakeholder. 
-This allowed us to explore the whole problem, while minimizing the risk of missing points that the stakeholders would deem important. \cite{InterviewsNHS}
+In summary, the current system used by the stakeholder is inefficient as it is unflexible and does not integrate with their other workflows. 
 
+%Understanding the problem and problem analysis
+%What issues are they facing --> usability and integration with their current system
 
-%We need a section that describes the user and the situation in much more detail.
-
-After conducting the interview, we refined the ideas into user stories in collaboration with the stakeholder. These user stories were prioritized further using MoSCoW analysis\cite{DEBbook}.
-These were sent to the stakeholder for feedback and to confirm mutual understanding.
-
+\section{Requirements}\label{sec:requirement_elicitation}
+Having gained an understanding of the stakeholders' problems and the domain in which they recide, we could refine the initial ideas provided to us at first contact with the stakeholder.
+We refined the ideas into user stories in collaboration with the stakeholder.%HOW????
+These user stories were prioritized further using MoSCoW analysis\cite{DEBbook}.
 A MoSCoW prioritization is a rough prioritization into four categories based on an agreement between stakeholders and the developers.
 Each category describes a prioritization level of particular user stories. The four categories are as follows: \textit{Must have}, \textit{Should have}, \textit{Could have}, \textit{Wont have}.
 
@@ -86,3 +92,7 @@ Each category describes a prioritization level of particular user stories. The f
 \item As a user, I want to be able to order catering, such as coffee, bread, and lunch, and send an email to the canteen, so that I can easily provide refreshments for my meeting attendees.
 \item As a user, I want to be able to order equipment, such as a projector or whiteboard, so that I can make sure that the meeting has the necessary tools to be successful.
 \end{enumerate}
+
+After performing the MoSCoW analysis and documenting the results, the derived user stories and their priority was sent to the stakeholder for feedback and to confirm mutual understanding.
+
+\subsection{Existing solutions}

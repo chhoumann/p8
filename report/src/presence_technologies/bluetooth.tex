@@ -35,3 +35,10 @@ This is because most use cases require LE Coded PHY, a feature of BLE that impro
 While BLE was known for its device communication capabilities, it is now widely used as a device positioning technology due to the increasing demand for accurate indoor location services.
 Since its release, BLE has evolved to include features enabling it to detect the presence, distance, and direction of nearby devices by leveraging the Received Signal Strength Indication (RSSI) of BLE.
 SIG themselves recommend using BLE for presence detection in indoor environments because of its low power consumption and high accuracy. \cite{BluetoothSIG}
+
+Using Bluetooth for presence detection raises some concerns with privacy, since it involves collecting and processing sensitive user data.
+It is possible for unauthorized third parties to intercept Bluetooth signals, potentially exposing personal information and compromising user anonymity.
+In addition, continuous tracking of individuals raises concerns regarding surveillance and the potential misuse of data by third parties.
+
+To mitigate these risks, it is essential to implement robust security measures, such as data encryption and anonymization.
+Developers should also provide transparent privacy policies that outline data collection, storage, and usage practices.

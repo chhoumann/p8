@@ -20,7 +20,7 @@ Since the stakeholder has already suggested ideas for a user interface design ba
 As we want to find a common denominator for the stakeholders' problems described in Section \ref{sec:understanding_the_problem} we need to understand how users interact with a product design resembling a potential solution.
 To this end, a hifi prototype is more suitable than a lofi prototype \cite{low-vs-high-fidelity-prototype}.
 
-\subsection{Developing a hifi prototype}
+\subsection{Developing prototypes}
 When designing a product multiple approaches can be taken.  
 UCD aims to increase effectiveness, accessibility, and sustainability, as well as increase the pleasure the user experiences when using the system\cite{user-centred-design}. 
 An alternative to UCD is LeanUX \cite{Lean_UX}.
@@ -28,21 +28,68 @@ Lean UX is also a user centered approach for UX development that is often used i
 The approach focusses on creating minimal viable products(MVPs) that can be iteratively released and tested with representative users.
 
 In this project, the stakeholder has suggested that we based our design on existing solutions.
-Due to the exploratory nature of this project we opt to use a user-centered approach for product development.
 Therefore, we endeavor towards a design strategy where we base the design on the current state-of-the-art systems for meeting-management and preferences of the stakeholder.
 
-To develop the prototype, the sketching tool Figma is used \cite{Figma}.
-Figma can be used to design both high- and low-fidelity prototypes, which enables the designer to easily create a prototype that allows the user to interact with the system.
-Figma contains a rich set of user interface components that can be used and modified when creating the prototype.
-When a user interacts with the design, by, for instance, clicking an object, the designer can enable a transition to a different view, thus simulating system behavior. 
-Based on the initial interviews described in Section \ref{sec:understanding_the_problem}, the prototype must be suitable for use on a simple monitor, such as a tablet.
-The prototype 
+To develop the prototypes, the sketching tool Figma is used \cite{Figma}.
+Figma can be used to design both high- and low-fidelity prototypes, which enables the designer to easily create a lofi prototype, and then later refine it such that users can interact with it.
+Figma contains a rich set of user interface components that can be used and modified when creating prototypes.
+When a user interacts with a hifi prototype, by, for instance, clicking a UI element, the designer can enable a transition to a different view, thus simulating system UI behavior.
+Based on the initial interviews described in Section \ref{sec:understanding_the_problem}, the prototypes must be suitable for use on a simple monitor, such as a tablet.
 
-We develop a prototype highlighting two situations for meeting rooms.
-Each situation depicts different states of a meeting room (occupied or available) which allows us to explore how users want to interact with the system in these different situations.
+During this project, both a lofi and hifi prototype has been developed.
+Each prototype shows a UI highlighting two situations for meeting rooms. 
+Each situation depicts different states of a meeting room (occupied or available) which allows us to explore how users want to interact with the system in these different situations. 
 
-Figure xx depicts the main view of a room is occupied.
-%State of the art of products
-%expert design and state of the art
-%Presenting our product
-\input{problem_analysis/hci/developing_prototypes.tex}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/lofi_end.png}
+        \caption{Tablet view for when a meeting room is occupied.}
+        \label{fig:lofi_prototype:a}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/lofi_schedule.png}
+        \caption{Tablet view for when a meeting room is available}
+        \label{fig:lofi_prototype:b}
+    \end{subfigure}
+    \caption{Two views of the low fidelity prototype, each enabling different actions based on the state of the meeting room.}
+    \label{fig:lofi_prototype}
+\end{figure}
+
+The development of a lofi prototype has been used as an internal exercise, independent from stakeholders, to explore initial design ideas based on existing systems.
+Figure \ref{fig:lofi_prototype} depicts two views from the prototype, each based on the current state of the meeting room.
+Depending on the state of the room, the background color as well as the actions available for the user changes.
+Figure \ref{fig:lofi_prototype:a} depicts a view shown when a meeting is occupied.
+Here, the main action available is to end the current meeting.
+Figure \ref{fig:lofi_prototype:b} depicts a view shown when a meeting room is available.
+From this view, the main action is to book the meeting room.
+
+Based on this prototype, multiple ideas for a hifi prototype were conceived.
+These ideas were filtered, refined, and turned into a single hifi prototype.
+Figure \ref{fig:hifi_prototype_interaction} depicts the view for the same situations shown in Figure \ref{fig:lofi_prototype:a} where a room is occupied.
+The hifi prototype enables user interaction with all elements that would be interactive in a final design.
+Each user interaction with an interactive element changes what is shown on the prototype. 
+This is shown in Figure \ref{fig:hifi_prototype_interaction}.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/occupied_main_hifi.pdf}
+        \caption{Tablet view depicting the design for when a meeting room is occupied.}
+        \label{fig:hifi_prototype:a}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/occupied_end_meeting.pdf}
+        \caption{Tablet view asking for confirmation when ending a meeting.}
+        \label{fig:hifi_prototype:b}
+    \end{subfigure}
+    \caption{Two views of the high fidelity prototype. When the user interacts with the 'End meeting' botton in Figure \ref{fig:hifi_prototype:a} the view is changed to what is depicted in Figure \ref{fig:hifi_prototype:b}}.
+    \label{fig:hifi_prototype_interaction}
+\end{figure}
+
+All views for the hifi prototype can be found in Appendix xxxx. 

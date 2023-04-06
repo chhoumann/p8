@@ -1,11 +1,13 @@
-\section{\label{sec:presence_intro}Room Occupancy Detection for Meeting Start and End Times}
+\chapter{\label{sec:presence_intro}Room Occupancy Detection for Meetings}
 
 To address the problem defined in section \ref{TODO-SECTION 2.a.i AND 2.b.iii}, we propose an occupancy detection system (presence system) to identify when a meeting starts, defined as participants entering a room, and when it ends, defined as all participants leaving the meeting room.
 This section examines various occupancy detection technologies, evaluates them, and identifies the optimal solution for the suggested system.
 This technology will serve as the basis for the rest of the system, which will be described in the following sections.
 
-Several technologies can be utilized for detecting room occupancy, including infrared (IR) sensors\cite{woodward-2021}\cite{dodierBuildingOccupancyDetection2006}\cite{OccupancySensorMotion}, ultrasonic sensors\cite{woodward-2021}\cite{dodierBuildingOccupancyDetection2006}\cite{OccupancySensorMotion}, microwave sensors\cite{woodward-2021}, computer vision\cite{co2sensor}\cite{longoAccurateOccupancyEstimation2019}\cite{OccupancySensorMotion}, Bluetooth and Wi-Fi\cite{teissedre-2019}, pressure sensors\cite{OccupancySensorMotion}, acoustic sensors\cite{OccupancySensorMotion}, and CO2 sensors\cite{co2sensor}\cite{longoAccurateOccupancyEstimation2019}\cite{jinSensingProxyOccupancy2015}.\cite{faragherLocationFingerprintingBluetooth2015}\todo{Insert all the types you find and cite here. Remove TODO when this section is done.}
+Several technologies can be utilized for detecting room occupancy, including infrared (IR) sensors\cite{woodward-2021}\cite{dodierBuildingOccupancyDetection2006}\cite{OccupancySensorMotion}, ultrasonic sensors\cite{woodward-2021}\cite{dodierBuildingOccupancyDetection2006}\cite{OccupancySensorMotion}, microwave sensors\cite{woodward-2021}, computer vision\cite{co2sensor}\cite{longoAccurateOccupancyEstimation2019}\cite{OccupancySensorMotion}, Bluetooth and Wi-Fi\cite{teissedre-2019,longoAccurateOccupancyEstimation2019}, pressure sensors\cite{OccupancySensorMotion}, acoustic sensors\cite{OccupancySensorMotion}, and CO2 sensors\cite{co2sensor}\cite{longoAccurateOccupancyEstimation2019}\cite{jinSensingProxyOccupancy2015}.\cite{faragherLocationFingerprintingBluetooth2015}\todo{Insert all the types you find and cite here. Remove TODO when this section is done.}
 Each technology has its strengths and weaknesses in terms of accuracy, cost, and performance.
+
+These technologies can be divided into various categories, but we will examine technologies in three main categories: \textbf{Environmental}, \textbf{video-based}, and \textbf{radio-based}.
 
 We have chosen accuracy, responsiveness, privacy, cost and environmental factors as the evaluation criteria for occupancy detection technologies because they cover what we believe are the key aspects necessary for the successful implementation of a system such as this.
 Accuracy and responsiveness ensure reliable detection and efficient space management, while privacy addresses user confidence and regulatory compliance.

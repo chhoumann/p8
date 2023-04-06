@@ -6,9 +6,9 @@ One of the primary methods for presence detection is the use of machine learning
 These techniques work by training a machine learning model, such as a convoluted neural network (CNN).
 The resulting model can then be used to analyze images and detect objects in them.
 For example, \citeauthor{FUERTES2022103473} used an omnidirectional camera to gather images of a room, and then trained a CNN to detect the presence of people in these images.
-The training is done through point-based annotation of the images, ...
-The technique is highly accurate but also efficient to deploy ...
-\cite{FUERTES2022103473}
+The training is done through point-based annotation of the images as opposed to the more common approach of using bounding box annotation.
+Essentially, images are annotated with points denoting the location of the person in the image as opposed to drawing a bounding box around the person.
+This approach is advantageous because it is faster to annotate images in this way, but it is also far more accurate at representing the position of a human on images taken with an omnidirectional camera, which are often distorted or skewed.\cite{FUERTES2022103473}
 
 Motion detection is another commonly used to detect the presence of people in a room, and is defined by \citeauthor{ANANDAN1988347} as "the task of detecting movement of image elements across the image plane".
 In other words, motion detection is a broad term that can refer to a variety of different methods.

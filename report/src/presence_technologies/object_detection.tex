@@ -1,0 +1,30 @@
+\section{Object based detection} \label{sec:object-based-detection}
+Cameras are a common technology used to detect the presence of humans in a room.
+There are many different approaches to how one might use a camera for presence detection.
+
+Motion detection is commonly used to detect the presence of people in a room, and is defined by \citeauthor{ANANDAN1988347} as "the task of detecting movement of image elements across the image plane".
+In other words, motion detection is a broad term that can refer to a variety of different methods.
+For example, motion detection can be achieved by comparing two images of the same scene, and detecting the differences between them\cite{granath_detecting_nodate}.
+
+Alternatively, one may also utilize passive infrared (PIR) sensors to detect motion.
+PIR sensors are able to detect motion by measuring the infrared radiation emitted by objects in the room.\cite{Deiana2014}
+
+Many other methods exist, and the choice of method will ultimately depend on the specific application and system requirements. 
+Regardless of the method, a number of key considerations apply when using cameras for presence detection, including the sensitivity of the devices to lighting, obstructions, movement, temperature, and detection range and area.
+For example, if the device is obstructed by some object, it may be unable to gather useful data.
+For cameras specifically, consider how it may not be able to get a clear image of a room if the lighting is too dark or too bright.
+Most current systems use also standard perspective cameras with a narrow field of view that can only detect people in a limited area in front of the camera\cite{FUERTES2022103473}.
+This, combined with positioning and orientation of the camera, can be detremental to the quality of the data.\cite{granath_detecting_nodate, tang_occupancy_2020}
+
+These limitations can increase the complexity of the system, as one would have to take these factors into account during system design and development, and when deciding which devices to use as well as where to place them.
+Some limitations can be overcome by using multiple sensors or cameras, but this futher increases the cost.\cite{FUERTES2022103473}
+
+Using cameras for presence detection also raises privacy concerns.
+Being under surveillance by a camera is problematic, as it can be seen as a violation of privacy.
+Consequently, applications employing cameras for presence detection must include a privacy policy that outlines how the data is collected, stored, and used, which all employees must also agree to.
+These requirements add another layer of complexity to the system, as the privacy policy must be implemented and enforced by the system and the system owner.
+Moreover, because of these privacy concerns, acceptance and subsequent use of the system may be limited.\cite{granath_detecting_nodate, tang_occupancy_2020, PrivacyPreservingSensor}
+
+
+cites: 
+\cite{FUERTES2022103473} (Classification using deep learning)

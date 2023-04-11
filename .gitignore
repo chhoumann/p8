@@ -2,3 +2,8 @@
 report/build/default/default.pdf
 report/src/_preamble.log
 report/build/default/default.thm
+report/src/_preamble-blx.bib
+report/src/_preamble.aux
+report/src/_preamble.fdb_latexmk
+report/src/_preamble.fls
+report/src/_preamble.out

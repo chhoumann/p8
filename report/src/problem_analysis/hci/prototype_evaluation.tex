@@ -1,3 +1,70 @@
-\subsection{Evaluating prototype usability}
-This will be a future section about usability evaluation techniques.
-    
+\section{Design evaluation}\label{sec:prototype_evaluation}
+Having designed a prototype for a system meant to satisfy the stakeholders' requirements formed by user stories (see Appendix \ref{appendix:user_stories}), we can evaluate whether this system constitutes a suitable solution to the problematic situations described in Section \ref{sec:understanding_the_problem}.
+Furthermore, we want to use the prototype to evaluate whether the system has a high degree of usability. 
+We do this to understand whether the system design is suitable for the stakeholders.
+
+When evaluating a prototype, multiple approaches can be taken.
+This section covers two types of usability testing and their strengths and shortcomings.
+When choosing which type of usability test to use, we consider its strengths in terms of whether resources for the test approach can be realistically allocated by all parties and whether the approach solves the problematic situations described in Section \ref{sec:understanding_the_problem}.
+
+Expert-based usability testing is often carried out as an inspection method \cite{NJ_InspectionMethods} by interface experts that have not participated in the creation of the design.
+This method utilizes the experts' knowledge of interface design to quickly assess and correct flaws in the design.
+Their lack of knowledge about the tasks to perform is used to discover flaws in the way they interact with the system \cite{researchmethodsinhumancomputerinteraction}.
+However, these types of tests are most useful when performed before a test involving users\cite{lazar2005web}. 
+This means that the test effort becomes larger, as both expert and user tests should be performed to optimize the number of found issues. \cite{researchmethodsinhumancomputerinteraction} 
+
+Many types of inspection methods can be used when performing expert-based usability testing.
+Consistency inspection involves establishing whether the design is consistent with existing designs \cite{NJ_InspectionMethods,wixon_consistencyInspections}.  
+Cognitive walkthroughs involve experts acting as if they were system users performing a series of tasks with the prototype \cite{Hollingsed_cognitive_walthrough}.
+
+A different approach to evaluation is user-based testing.
+User-based testing is often performed using a group of users representative of the overall population of users. \cite{researchmethodsinhumancomputerinteraction}.
+User-based testing is based on the idea that designers have preconceived opinions about how a system should be interacted with. 
+Therefore, the designers are likely to create designs that suit their view of how a design should be.
+However, this design does not necessarily align with how users imagine the system \cite{user-centred-design,researchmethodsinhumancomputerinteraction}.
+Two approaches can be used when conducting user-based testing. 
+Formative user-based testing is used early in the design phase to evaluate early designs. 
+The evaluation mainly focuses on finding design alternatives and often uses low-fidelity prototypes \cite{dumasAndFox_formative_usability_testing}.
+
+Contrary to formative testing, summative testing is performed late in the development of the design and often uses a hifi prototype.
+Here, the focus is to evaluate whether the design satisfies specific design goals. \cite{dumasAndFox_formative_usability_testing}
+In our case, the design goals would constitute whether the design solves the problems described in Section \ref{sec:understanding_the_problem}.
+
+
+Having examined two different approaches to evaluating the prototype, we can select between them.
+The selected approach must be suitable for establishing the design's strength in terms of solving the problematic situation. 
+The testing approach should also be carried out in a manner such that it does not exceed the resources allocated by the stakeholders. 
+As expert-based solutions rely on the testers having not taken part in the designing of the system, and as it does not aim to find out how well the users of the system can solve specific tasks, we rule this approach out.
+
+On the other hand, a summative user-based testing approach specifically focuses on whether establishing whether the design satisfies specific design goals and whether these goals can be completed by a user. 
+Therefore, we select summative user-based testing as a preferred approach to establishing if the design of the developed hifi prototype constitutes a suitable solution to one or more of the problematic situations. 
+
+\subsection{Test plan}\label{sec:prototype_test_plan}
+When designing usability tests several things need to be considered.
+First and foremost, a procedure establishing who should participate in the test and how to perform the test must be selected.
+\citeauthor{lazar2005web} \cite{lazar2005web,researchmethodsinhumancomputerinteraction} proposes an eight-step procedure for performing a usability test:
+\begin{itemize}
+\item Select representative users
+\item Select the setting
+\item Decide what tasks users should perform
+\item Decide what type of data to collect
+\item Before the test session (informed consent, etc.)
+\item During the test session
+\item Debriefing after the session
+\item Summarize results and suggest improvements
+\end{itemize}
+%valg af bruger(e) - antal, og hvorfor kun x antal?
+When selecting users representative of the overall population of Mariendal IT, we aim for a user group with mixed technical experience. 
+To this end, the stakeholders were contacted and a small group of system users of varying technical capabilities as well as a location to perform the evaluation were requested. 
+The user group provided consisted of two users with high technical capabilities within IT and a user only experienced with their current systems.
+The ideal number of users wanted when performing evaluation varies depending on the project size\cite{NielsenLandauer1993}. 
+Literature disagrees on the optimal number of participants but places it between five\cite{virzi_HowManySubjectsIsEnough} and 12~\cite{Hwang_PeopleRequiredForUsabilityEvaluation}.
+However, \citeauthor{NielsenLandauer1993}~\cite{NielsenLandauer1993} found that the best ratio in terms of cost-benefit seems to be 3.2 participants.  
+The test was to be carried out in a meeting room reserved by the stakeholders. 
+
+The tasks to be performed by the users were based on the user stories created with the stakeholders (see Appendix \ref{appendix:user_stories}).
+We choose to categorize the tasks into two categories: \textit{walkthrough tasks} and \textit{understandability tasks}.
+Walkthrough tasks are tasks meant to examine how the user interacts with the system, while understandability tasks are used to examine whether the user can gather information about the system from the user interface. 
+We partition the tasks into these categories, as we want to understand both how the user interacts with the system, but also if the interface communicates information to the user in a manner they understand.
+The walkthrough- and understandability tasks can be seen in Appendix \ref{appendix:usability_tasks}.
+

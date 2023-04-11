@@ -1,0 +1,17 @@
+\subsection{Wi-Fi} \label{sec:wi-fi}
+Wi-Fi is a wireless networking technology allowing devices to communicate with each other and access the Internet without the need for cable connections.
+It is based on the IEEE 802.11 standards and uses radio waves to transmit data between devices.
+Wi-Fi allows devices such as computers, smartphones, printers, and video cameras to connect to the Internet and share information with each other, creating a network.
+The term "Wi-Fi" is an industry term for a type of wireless local area network (LAN) protocol based on the IEEE 802.11 networking standard.\cite{WiFiAllianceDiscover,CiscoWhatIsWiFi}
+
+\subsubsection{Presence detection using Wi-Fi}
+Using Wi-Fi, it is possible to detect the presence of a person carrying a Wi-Fi enabled device in a room.
+This can be achieved by measuring the signal strength of the Wi-Fi signal received by the device.
+\citeauthor{longoAccurateOccupancyEstimation2019} presents a method to estimate the number of people in a room using Wi-Fi by capturing probe request frames from Wi-Fi enabled devices.
+By having Wi-Fi enabled devices broadcast probe request frames periodically, a sniffer device can capture these frames and count the number of unique MAC addresses observed. \cite{longoAccurateOccupancyEstimation2019}
+
+The results show that Wi-Fi was fairly accurate in estimating the number of people in a room, however doing so was found to be quite expensive.
+Furthermore, because of the high range of WiFi (50 to 150 m), sniffer devices are able to detect devices far outside the area of consideration.
+Consequently, one would have to rely fully on the Received Signal Strength indicator (RSSI) to determine whether a device is in the room or not.
+In addition, manufactures often transmit probe requests with randomized, bogus MAC addresses to prevent trivial tracking of devices, thus protecting the privacy of the user.
+This makes it difficult to determine whether a device is in the room or not, as the MAC address of the device is not always the same.\cite{longoAccurateOccupancyEstimation2019}

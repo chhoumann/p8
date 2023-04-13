@@ -1,23 +1,42 @@
 \section{Choice of technology}
-In this section, we will compare the technologies presented in sections \ref{sec:presence_env} to \ref{sec:presence_radio} and decide the most fitting for our use case. 
-The requirements for this choice can be seen in Listing \ref{lst:presence_eval_criteria}. \todo{The listing does not have a ref. I dont know what "Listing 3" is.}
+In this Section, we will compare the technologies presented in Sections \ref{sec:presence_env} to \ref{sec:presence_radio} and decide which technology best satisfies the criterias listed in Section \ref{lst:presence_eval_criteria}. \todo{The listing does not have a ref. I dont know what "Listing 3" is.}
 
-We considered environmental-based technologies, as they can accurately detect presence in a room using multiple environmental sources, such as C02 level, light, humidity and temperature.
-A drawback of environmental-based technologies, as mentioned in Section \ref{sec:presence_env}, is that they suffer from unpredictability when opening doors and windows. 
-Video-based object detection was considered. Section \ref{sec:presence_video} presents the technology, and details that it has high accuracy but also a high cost of implementation and maintenance, is sensitive to lighting conditions, and raises privacy concerns.
-Because we require that the technology that we choose is both low cost, accurate and ensures privacy, this excludes these technologies as candidates for the project.
+Environmental-based technologies can accurately detect the presence in a room using multiple environmental sources, such as $\text{CO}_{2}$ level, light, humidity and temperature.
+A drawback of environmental-based technologies is that they suffer from unpredictability.
+For instance, $\text{CO}_{2}$ levels change depending on whether or not windows are open.  \todo{source?}
+Thus, the accuracy of the technology can depend on external factors that the technology cannot control.
+Depending on external factors, changes to the environmental indicator used to detect presence might not be promptly detectable.
+The temperature rises when the room is occupied and falls when occupants leave, but this is not instantly measurable.  
+As this technology focuses solely on the measurements of environmental factors, the privacy of the users of the system is protected, as information about the users is not collected.
 
-The final technology in consideration was radio-based systems. In Section \ref{sec:presence_radio}, we elaborated on two radio technologies, namely WiFi and Bluetooth. 
-Section \ref{sec:presence_radio} presents two technologies using radio.
-As described, WiFi is able to detect the number of people in a room with high accuracy but requires delibration as to what approach is suitable due to its high range. 
-Furthermore, because WiFi uses MAC addresses to identify devices, this approach has concerns with reliability, as manufactureres often send out randomized MAC addresses to probe, making tracking more complex. 
-The use of MAC addresses also raises privacy concerns. 
-These privacy concerns excludes WiFi, as the use of MAC addresses increases the burden of safe use and storage of this data, which is outside the scope of this project
+Section \ref{sec:presence_video} presents video-based technologies.
+As most of the technologies are based on a live video feed, one can precisely determine whether a room is occupied responsively. 
+Consequently, this reliance on live video leads to privacy concerns.
+Many of these technologies are fully reliant on rooms being suitably lit.
+However, this can be counteracted using infrared technology in the camera, but this increases the cost of the technology substantially.   
 
-As mentioned in \ref{sec:presence_radio}, Bluetooth exists in two variants: Bluetooth Classic and Bluetooth Low Energy (BLE). Bluetooth Classic is sensitive to obstructions and therefore naturally excludes this as an option, based on reliability concerns. 
-BLE, on the contrary, has fewer limitations in regards to obstructions and therefore higher reliability and robustness.
-BLE also offers high accuracy at a low cost.
-However, BLE does have minor privacy concerns, as it is possible to intercept the signal and track the movement of devices.
-While this concern is relevant, the tracking of movement is a core part of the research goal, and therefore a justifiable trade-off when considering the overall benefits of using BLE for our use case.
+Section \ref{sec:presence_radio} presents two radio technologies. 
+WiFi can be used to identify individual devices that might be stationary or mobile by having them broadcast a signal containing the identity of the device, and track the strength of this signal.
+To ensure devices broadcast a signal with a non-changing identity,  management and re-configuration of the devices is required.
+The identity of these devices must be also stored responsibly to not raise privacy concerns.
+If multiple devices are carried by the same person it can be wrongfully interpreted as multiple persons close to each other. 
+However, as WiFi is widely used in office environments, its availability is high and the cost of instalment and management negligible.
+Bluetooth exists in two variants: Bluetooth Classic and Bluetooth Low Energy.
+Bluetooth Classic is sensitive to obstructions which raise concerns about reliability and accuracy due to environmental circumstances. 
+For instance, objects placed in the meeting room could disrupt the detection of devices and therefore make the technology unreliable.
+BLE, on the contrary, has fewer limitations concerning obstructions and is therefore less dependent on the physical configuration of the external environment. 
+Therefore, it has higher reliability.
+Similar to WiFi, multiple devices using either BLE or Bluetooth Classic can be carried by the same person, raising issues with accuracy.
+However, existing hardware for presence detection, such as BLE beacons, could be an affordable approach to increasing the accuracy of the technology.  
+Similar to WiFi, collected device information should be stored responsibly.
+Personal health devices \todo{kilde paa personal health device} can broadcast messages containing sensitive information.
+Any data that can be intercepted using Bluetooth should therefore be examined and discarded if this is the case.
 
-Therefore, based on the listed benefits and drawbacks of all the technologies, BLE is the best-fit technology for our project, and is the technology that we choose to base our research on.
+As environmental sensors are dependent on environmental indicators that cannot be controlled, the accuracy of a solution utilizing this technology might not be sufficient.
+Even though video technologies provide a high level of accuracy and are mostly independent of environmental factors, the privacy concerns and cost of instalment and maintenance are deemed too high.
+WiFi is already an integral part of any office environment, but relying on the reconfiguration of personal devices is not acceptable. 
+BLE supports many of the same use cases as WiFi but does not rely on the devices broadcasting their identity regularly.
+Additionally, existing technologies supporting accurate presence detection using BLE exist, making it cheap to configure and manage. 
+Therefore, BLE is a suitable technology to create a system to accurately examine whether a meeting room is being used.
+
+In the following Chapter, we examine in detail different approaches to presence detection using BLE.

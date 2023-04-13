@@ -1,0 +1,167 @@
+﻿@page "/"
+
+@using BlazorBLE.Services
+@using Plugin.BLE.Abstractions;
+@using Plugin.BLE.Abstractions.Contracts
+@using Plugin.BLE.Abstractions.EventArgs
+
+@inject BLEService BLEService
+
+<h1>Bluetooth gavl</h1>
+
+<p>What the gavl.</p>
+
+@if (BLEService.devices == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (isConnecting)
+{
+    <p><em>Connecting to device...</em></p>
+}
+else if (connectedToDevice != null)
+{
+    <p><em>Connected to device: @(GetDeviceDisplayName(connectedToDevice))</em></p>
+    <p>RSSI: @(connectedToDevice.Rssi)</p>
+    <br />
+    <p>txPower = @(txPower) dBm</p>
+    <div style="display: flex; flex-direction: row; align-items: center;">
+        <input type="range" min="-100" max="0" step="1" @bind="txPower" @bind:event="oninput" style="width: 100%" />
+    </div>
+    <br />
+    <p>N = @(n)</p>
+    <div style="display: flex; flex-direction: row; align-items: center;">
+        <input type="range" min="2" max="4" step="0.01" @bind="n" @bind:event="oninput" style="width: 100%" />
+    </div>
+    <br />
+    <p>Estimated distance: @(Math.Round(LogDistancePathLoss(connectedToDevice.Rssi), 2)) m</p>
+    <p>Average distance: @(Math.Round(AverageDistance(), 2)) m</p>
+    <button @onclick=ClearMeasurements>Clear measurements</button>
+}
+else 
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Id</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var device in BLEService.devices)
+            {
+                <tr @onclick="() => OnClickConnect(device)">
+                    <td>@(GetDeviceDisplayName(device))</td>
+                    <td>@device.Id</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    [Inject]
+    private IPromptService promptService { get; set; }
+
+    private bool isConnecting;
+
+    private double txPower = -50;
+    private double n = 3;
+
+    private List<double> measuredDistances = new List<double>();
+
+    private PeriodicTimer periodicTimer;
+
+    private IDevice connectedToDevice;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        BLEService.DevicesChanged += StateHasChanged;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await InvokeAsync(BLEService.BeginScan);
+    }
+
+    private void OnClickConnect(IDevice device)
+    {
+        promptService.ShowConfirmation("Connect to device", $"Would you like to connect to the device \"{GetDeviceDisplayName(device)}\"?", (accepted) =>
+        {
+            if (accepted)
+            {
+                isConnecting = true;
+                InvokeAsync(StateHasChanged);
+
+                BLEService.ConnectToDevice(device, (success, msg) =>
+                {
+                    if (success)
+                    {
+                        connectedToDevice = device;
+                        connectedToDevice.UpdateConnectionInterval(ConnectionInterval.High);
+                        promptService.ShowAlert("Connection succeeded", $"Successfully connected to the device \"{GetDeviceDisplayName(device)}\"!");
+                        InvokeAsync(UpdateRssiPeriodically);
+                    }
+                    else
+                    {
+                        promptService.ShowAlert("Connection failed", $"Could not connect to device: {msg}.");
+                    }
+
+                    isConnecting = false;
+                    InvokeAsync(StateHasChanged);
+                });
+            }
+        });
+    }
+
+    private async void UpdateRssiPeriodically()
+    {
+        if (periodicTimer != null)
+        {
+            periodicTimer.Dispose();
+        }
+
+        periodicTimer = new PeriodicTimer(TimeSpan.FromMilliseconds(500));
+
+        while (await periodicTimer.WaitForNextTickAsync())
+        {
+            await connectedToDevice.UpdateRssiAsync();
+            StateHasChanged();
+        }
+    }
+
+    private double LogDistancePathLoss(double rssi)
+    {
+        double exp = (txPower - rssi) / (10 * n);
+        double distance = Math.Pow(10, exp);
+
+        measuredDistances.Add(distance);
+
+        return distance;
+    }
+
+    private double AverageDistance()
+    {
+        if (measuredDistances.Count == 0) return 0;
+
+        double averageDistance = 0;
+
+        foreach (double measuredDistance in measuredDistances)
+        {
+            averageDistance += measuredDistance;
+        }
+
+        averageDistance /= measuredDistances.Count;
+
+        return averageDistance;
+    }
+
+    private void ClearMeasurements() => measuredDistances.Clear();
+
+    private static string GetDeviceDisplayName(IDevice device)
+    {
+        return string.IsNullOrEmpty(device.Name) ? "Unknown device" : device.Name;
+    }
+}

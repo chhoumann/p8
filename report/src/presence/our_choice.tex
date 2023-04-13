@@ -1,14 +1,14 @@
 \section{Choice of technology}
 In this section, we will compare the technologies presented in sections \ref{sec:presence_env} to \ref{sec:presence_radio} and decide the most fitting for our use case. 
-The requirements for this choice are written in listing \ref{lst:presence_eval_criteria}.
+The requirements for this choice can be seen in Listing \ref{lst:presence_eval_criteria}. \todo{The listing does not have a ref. I dont know what "Listing 3" is.}
 
-We considered environmental-based technologies, as they are great at detecting presence in a room and are able to use multiple environmental sources, such as C02 level, light, humidity and temperature. 
-They also maintain the privacy of the occupants in the room. 
-A drawback of environmental-based technologies, as mentioned in section \ref{sec:presence_env}, is that they suffer from unpredictability when opening doors and windows. 
-Similarly, we also considered video-based object detection, and in section \ref{sec:presence_video}, we elaborated on the technology, citing that it has high accuracy but also a high cost of implementation and maintainance, is sensitive to lighting conditions, and raises privacy concerns.
+We considered environmental-based technologies, as they can accurately detect presence in a room using multiple environmental sources, such as C02 level, light, humidity and temperature.
+A drawback of environmental-based technologies, as mentioned in Section \ref{sec:presence_env}, is that they suffer from unpredictability when opening doors and windows. 
+Video-based object detection was considered. Section \ref{sec:presence_video} presents the technology, and details that it has high accuracy but also a high cost of implementation and maintenance, is sensitive to lighting conditions, and raises privacy concerns.
 Because we require that the technology that we choose is both low cost, accurate and ensures privacy, this excludes these technologies as candidates for the project.
 
-The final technology in consideration was radio-based systems. In section \ref{sec:presence_radio}, we elaborated on two radio technologies, namely WiFi and Bluetooth. 
+The final technology in consideration was radio-based systems. In Section \ref{sec:presence_radio}, we elaborated on two radio technologies, namely WiFi and Bluetooth. 
+Section \ref{sec:presence_radio} presents two technologies using radio.
 As described, WiFi is able to detect the number of people in a room with high accuracy but requires delibration as to what approach is suitable due to its high range. 
 Furthermore, because WiFi uses MAC addresses to identify devices, this approach has concerns with reliability, as manufactureres often send out randomized MAC addresses to probe, making tracking more complex. 
 The use of MAC addresses also raises privacy concerns. 

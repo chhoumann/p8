@@ -3,8 +3,18 @@ using Plugin.BLE.Abstractions;
 
 namespace BlazorBLE.Data
 {
-    internal class KBeaconData
+    internal sealed class KBeaconData
     {
+        /* Example of KBeacon advertising packet:
+         * 4C-00-02-15-77-77-77-2E-6B-6B-6D-63-6E-2E-63-6F-6D-00-00-01-00-03-39-2B-C5
+         * where,
+         * Company ID: 4C-00
+         * UUID:       02-15-77-77-77-2E-6B-6B-6D-63-6E-2E-63-6F-6D-00-00-01
+         * Minor:      39-2B
+         * Major:      00-03
+         * TxPower:    C5
+         */
+
         private const int ByteCount = 25;
 
         public Guid Uuid { get; }

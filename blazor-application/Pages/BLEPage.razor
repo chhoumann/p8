@@ -5,13 +5,13 @@
 @using Plugin.BLE.Abstractions.Contracts
 @using Plugin.BLE.Abstractions.EventArgs
 
-@inject BLEService BLEService
+@inject BLEScannerService BLEService
 
 <h1>Bluetooth gavl</h1>
 
 <p>What the gavl.</p>
 
-@if (BLEService.devices == null)
+@if (BLEService.Devices == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -49,7 +49,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var device in BLEService.devices)
+            @foreach (IDevice device in BLEService.Devices)
             {
                 <tr @onclick="() => OnClickConnect(device)">
                     <td>@(GetDeviceDisplayName(device))</td>

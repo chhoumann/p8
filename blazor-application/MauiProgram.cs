@@ -22,7 +22,7 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
 
-        builder.Services.AddSingleton<BLEService>();
+        builder.Services.AddSingleton<BLEScannerService>();
         builder.Services.AddSingleton<IPromptService, PromptService>();
 
         return builder.Build();

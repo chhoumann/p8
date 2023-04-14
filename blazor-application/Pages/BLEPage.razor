@@ -88,29 +88,28 @@ else
     {
         promptService.ShowConfirmation("Connect to device", $"Would you like to connect to the device \"{GetDeviceDisplayName(device)}\"?", (accepted) =>
         {
-            if (accepted)
+            if (!accepted) return;
+            
+            isConnecting = true;
+            InvokeAsync(StateHasChanged);
+
+            BLEService.ConnectToDevice(device, (success, msg) =>
             {
-                isConnecting = true;
-                InvokeAsync(StateHasChanged);
-
-                BLEService.ConnectToDevice(device, (success, msg) =>
+                if (success)
                 {
-                    if (success)
-                    {
-                        connectedToDevice = device;
-                        connectedToDevice.UpdateConnectionInterval(ConnectionInterval.High);
-                        promptService.ShowAlert("Connection succeeded", $"Successfully connected to the device \"{GetDeviceDisplayName(device)}\"!");
-                        InvokeAsync(UpdateRssiPeriodically);
-                    }
-                    else
-                    {
-                        promptService.ShowAlert("Connection failed", $"Could not connect to device: {msg}.");
-                    }
+                    connectedToDevice = device;
+                    connectedToDevice.UpdateConnectionInterval(ConnectionInterval.High);
+                    promptService.ShowAlert("Connection succeeded", $"Successfully connected to the device \"{GetDeviceDisplayName(device)}\"!");
+                    InvokeAsync(UpdateRssiPeriodically);
+                }
+                else
+                {
+                    promptService.ShowAlert("Connection failed", $"Could not connect to device: {msg}.");
+                }
 
-                    isConnecting = false;
-                    InvokeAsync(StateHasChanged);
-                });
-            }
+                isConnecting = false;
+                InvokeAsync(StateHasChanged);
+            });
         });
     }
 

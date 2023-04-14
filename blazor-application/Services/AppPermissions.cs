@@ -2,6 +2,12 @@
 
 public static class AppPermissions
 {
+    /// <summary>
+    /// Checks if the required permissions for the application have been granted by the user, and requests them if not.
+    /// </summary>
+    /// <returns>
+    /// Returns true if the required permissions were granted by the user, and false if not.
+    /// </returns>
     public static async Task<bool> RequestPermissions()
     {
         if (!await RequestLocationPermission()) return false;

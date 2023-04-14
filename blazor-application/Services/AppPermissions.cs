@@ -1,6 +1,6 @@
 ﻿namespace BlazorBLE.Services;
 
-internal static class AppPermissions
+public static class AppPermissions
 {
     public static async Task<bool> RequestPermissions()
     {
@@ -12,13 +12,15 @@ internal static class AppPermissions
 
     private static async Task<bool> RequestLocationPermission()
     {
-        PermissionStatus locationStatus = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+        PermissionStatus permissionStatus = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
 
-        await Console.Out.WriteLineAsync($"Location permission status: {locationStatus}.");
+        await Console.Out.WriteLineAsync($"Location permission status: {permissionStatus}.");
 
-        if (locationStatus != PermissionStatus.Granted)
+        if (permissionStatus != PermissionStatus.Granted)
         {
-            PermissionStatus permissionStatus = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+            permissionStatus = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+
+            await Console.Out.WriteLineAsync($"Location permission status after requesting: {permissionStatus}.");
 
             if (permissionStatus != PermissionStatus.Granted)
             {
@@ -39,17 +41,17 @@ internal static class AppPermissions
 
         if (!hasBluetoothPermissions)
         {
-            bool gotPermission = await RequestBluetoothAccess();
+            hasBluetoothPermissions = await RequestBluetoothAccess();
 
-            if (!gotPermission)
+            if (!hasBluetoothPermissions)
             {
                 await Console.Out.WriteLineAsync("Bluetooth permissions not granted.");
 
-                return true;
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 
     private static async Task<bool> CheckBluetoothStatus()

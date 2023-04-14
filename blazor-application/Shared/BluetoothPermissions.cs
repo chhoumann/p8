@@ -1,4 +1,4 @@
-﻿namespace BlazorBLE;
+﻿namespace BlazorBLE.Shared;
 
 /// <summary>
 /// IMPORTANT: Put this file in root of Application

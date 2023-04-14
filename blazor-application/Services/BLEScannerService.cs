@@ -14,9 +14,12 @@ public sealed class BLEScannerService
 
     private readonly List<IDevice> devices = new();
     private readonly IAdapter adapter;
+    private readonly IPromptService promptService;
 
-    public BLEScannerService()
+    public BLEScannerService(IPromptService promptService)
     {
+        this.promptService = promptService;
+
         adapter = CrossBluetoothLE.Current.Adapter;
         adapter.ScanMode = ScanMode.LowLatency;
         adapter.DeviceDiscovered += Adapter_DeviceDiscovered;
@@ -44,7 +47,11 @@ public sealed class BLEScannerService
 
     public async void BeginScan()
     {
-        if (!await AppPermissions.RequestPermissions()) return;
+        if (!await AppPermissions.RequestPermissions()) 
+        {
+            promptService.ShowAlert("Error", "Permissions not granted - cannot run scan.");
+            return; 
+        }
 
         await adapter.StartScanningForDevicesAsync();
     }

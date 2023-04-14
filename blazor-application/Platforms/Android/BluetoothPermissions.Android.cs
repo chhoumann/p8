@@ -1,6 +1,4 @@
 ﻿// IMPORTANT: Put this file in `Platforms/Android/` directory.
-using Microsoft.Maui.ApplicationModel;
-using System.Collections.Generic;
 
 /// <summary>
 ///		MAUI Bluetooth Permission Decleration (for Android).
@@ -10,10 +8,10 @@ using System.Collections.Generic;
 /// </remarks>
 public partial class BluetoothPermissions : Permissions.BasePlatformPermission
 {
-    private readonly bool _scan;
-    private readonly bool _advertise;
-    private readonly bool _connect;
-    private readonly bool _bluetoothLocation;
+    private readonly bool scan;
+    private readonly bool advertise;
+    private readonly bool connect;
+    private readonly bool bluetoothLocation;
 
     public BluetoothPermissions()
         : this(true, false, true, false)
@@ -35,39 +33,46 @@ public partial class BluetoothPermissions : Permissions.BasePlatformPermission
     /// </remarks>
     public BluetoothPermissions(bool scan = true, bool advertise = true, bool connect = true, bool bluetoothLocation = true)
     {
-        _scan = scan;
-        _advertise = advertise;
-        _connect = connect;
-        _bluetoothLocation = bluetoothLocation;
+        this.scan = scan;
+        this.advertise = advertise;
+        this.connect = connect;
+        this.bluetoothLocation = bluetoothLocation;
     }
 
-    private (string androidPermission, bool isRuntime)[] _requiredPermissions;
+    private (string androidPermission, bool isRuntime)[] requiredPermissions;
 
     public override (string androidPermission, bool isRuntime)[] RequiredPermissions
     {
         get
         {
-            if (_requiredPermissions != null)
-                return _requiredPermissions;
+            if (requiredPermissions != null) return requiredPermissions;
 
-            var result = new List<(string androidPermission, bool isRuntime)>();
+            List<(string androidPermission, bool isRuntime)> result = new();
 
-            var sdk = (int)Android.OS.Build.VERSION.SdkInt;
+            int sdk = (int)Android.OS.Build.VERSION.SdkInt;
+
             if (sdk >= 31)
             {
                 // If your app targets Android 12 (API level 31) or higher, declare the following permissions in your app's manifest file:
 
-                if (_scan)
+                if (scan)
+                {
                     result.Add((global::Android.Manifest.Permission.BluetoothScan, true));
-
-                if (_advertise)
+                }
+                if (advertise)
+                {
                     result.Add((global::Android.Manifest.Permission.BluetoothAdvertise, true));
+                }
 
-                if (_connect)
+                if (connect)
+                {
                     result.Add((global::Android.Manifest.Permission.BluetoothConnect, true));
+                }
 
-                if (_bluetoothLocation)
+                if (bluetoothLocation)
+                {
                     result.Add((global::Android.Manifest.Permission.AccessFineLocation, true));
+                }
             }
             else
             {
@@ -86,7 +91,7 @@ public partial class BluetoothPermissions : Permissions.BasePlatformPermission
                     result.Add((global::Android.Manifest.Permission.AccessCoarseLocation, true));
                 }
 
-                if (_scan || _connect || _advertise)
+                if (scan || connect || advertise)
                 {
                     result.Add((global::Android.Manifest.Permission.BluetoothAdmin, true));
 
@@ -98,9 +103,10 @@ public partial class BluetoothPermissions : Permissions.BasePlatformPermission
                     }
                 }
             }
-            _requiredPermissions = result.ToArray();
 
-            return _requiredPermissions;
+            requiredPermissions = result.ToArray();
+
+            return requiredPermissions;
         }
     }
 }

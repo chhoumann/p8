@@ -5,7 +5,7 @@ using Plugin.BLE.Abstractions.Extensions;
 
 namespace BlazorBLE.Services;
 
-internal static class BLEDevicePrinter
+public static class BLEDevicePrinter
 {
     public static async Task PrintDeviceAdvertisementRecordsAndServices(this IDevice device)
     {

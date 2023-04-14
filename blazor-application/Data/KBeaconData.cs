@@ -3,7 +3,7 @@ using Plugin.BLE.Abstractions;
 
 namespace BlazorBLE.Data;
 
-internal sealed class KBeaconData
+public sealed class KBeaconData
 {
     /* Example of KBeacon advertising packet:
      * 4C-00-02-15-77-77-77-2E-6B-6B-6D-63-6E-2E-63-6F-6D-00-00-01-00-03-39-2B-C5

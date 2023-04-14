@@ -1,6 +1,6 @@
 ﻿namespace BlazorBLE.Services
 {
-    internal sealed class PromptService : IPromptService
+    public sealed class PromptService : IPromptService
     {
         // ----- async calls (use with "await" - MUST BE ON DISPATCHER THREAD) -----
 

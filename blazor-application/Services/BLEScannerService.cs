@@ -21,7 +21,7 @@ public sealed class BLEScannerService
         this.promptService = promptService;
 
         adapter = CrossBluetoothLE.Current.Adapter;
-        adapter.ScanTimeout = int.MaxValue;
+        adapter.ScanTimeout = Timeout.Infinite;
         adapter.ScanMode = ScanMode.LowLatency;
         adapter.DeviceDiscovered += Adapter_DeviceDiscovered;
     }
@@ -37,6 +37,7 @@ public sealed class BLEScannerService
         IDevice device = args.Device;
 
         if (!device.IsProximityBeacon()) return;
+        if (devices.Contains(device)) return;
 
         Console.WriteLine($"Discovered proximity beacon: {device.Id} {device.Name}");
 

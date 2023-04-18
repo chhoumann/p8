@@ -1,0 +1,11 @@
+\section{Lateration}
+Lateration is a technique using multiple, immuvable reference points to estimate the distance to an object\cite{presence_ble_review}.
+We will refer to this object as the \textit{receiver}   
+When using bluetooth, the reference points are BLE beacons and the receiver some bluetooth device. 
+The beacons periodically broadcast a signal adverticing their existence. 
+The adverticement and its content is collected by the receiver, which uses it to calculate distance estimations to each beacon. 
+By analysing the distance estimations, the position of the receiver is determined.
+Various versions of the techniques exists.
+\citeauthor{presence_ble_review}~\cite{presence_ble_review} examines five techniques each using different combinations of adverticement content to establish a distance measure, and present current methods for handling loss of signal.
+
+Trilateration is a form of lateration using three beacons to establish the 

@@ -1,4 +1,5 @@
 using BlazorBLE.Data;
+using Newtonsoft.Json;
 using Plugin.BLE.Abstractions.Contracts;
 
 namespace BlazorBLE.Services;
@@ -50,6 +51,14 @@ public sealed class RssiDataCollector
         beaconRssis[device.Id] = device.Rssi;
     }
 
+    public void WriteToFile(string fileName)
+    {
+        string jsonString = JsonConvert.SerializeObject(dataMeasurements);
+        string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), fileName);
+
+        File.WriteAllText(filePath, jsonString);
+    }
+    
     private async Task CollectRssiData()
     {
         while (await periodicTimer.WaitForNextTickAsync())

@@ -70,30 +70,4 @@ public sealed class KBeaconData
     {
         return $"Uuid = {Uuid}, Company ID = {CompanyId}, Major = {Major}, Minor = {Minor}, TxPower = {TxPower}";
     }
-
-    public static bool IsProximityBeacon(IDevice device)
-    {
-        foreach (AdvertisementRecord record in device.AdvertisementRecords)
-        {
-            if (record.Type == AdvertisementRecordType.ManufacturerSpecificData)
-            {
-                return IsProximityBeacon(record.Data);
-            }
-        }
-
-        return false;
-    }
-
-    public static bool IsProximityBeacon(byte[] data)
-    {
-        if (data.Length < 4)
-        {
-            throw new ArgumentException($"Expected 4 bytes or more, got {data.Length} bytes.");
-        }
-
-        bool isCompanyApple = data[0] == 0x4C && data[1] == 0x00;
-        bool isProximityBeacon = data[2] == 0x02 && data[3] == 0x15;
-
-        return isCompanyApple && isProximityBeacon;
-    }
 }

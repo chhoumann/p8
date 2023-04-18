@@ -1,40 +1,18 @@
 ﻿@page "/"
 
 @using BlazorBLE.Services
-@using Plugin.BLE.Abstractions;
+@using BlazorBLE.Extensions
+@using Plugin.BLE.Abstractions
 @using Plugin.BLE.Abstractions.Contracts
 @using Plugin.BLE.Abstractions.EventArgs
 
-@inject BLEScannerService BLEService
+@inject BLEScannerService BLEScannerService
 
 <h1>Bluetooth Low Energy iBeacons</h1>
 
-@if (BLEService.Devices == null)
+@if (BLEScannerService.Devices == null || rssiDataCollector == null)
 {
     <p><em>Loading...</em></p>
-}
-else if (isConnecting)
-{
-    <p><em>Connecting to device...</em></p>
-}
-else if (connectedToDevice != null)
-{
-    <p><em>Connected to device: @(GetDeviceDisplayName(connectedToDevice))</em></p>
-    <p>RSSI: @(connectedToDevice.Rssi)</p>
-    <br />
-    <p>txPower = @(txPower) dBm</p>
-    <div style="display: flex; flex-direction: row; align-items: center;">
-        <input type="range" min="-100" max="0" step="1" @bind="txPower" @bind:event="oninput" style="width: 100%" />
-    </div>
-    <br />
-    <p>N = @(n)</p>
-    <div style="display: flex; flex-direction: row; align-items: center;">
-        <input type="range" min="2" max="4" step="0.01" @bind="n" @bind:event="oninput" style="width: 100%" />
-    </div>
-    <br />
-    <p>Estimated distance: @(Math.Round(LogDistancePathLoss(connectedToDevice.Rssi), 2)) m</p>
-    <p>Average distance: @(Math.Round(AverageDistance(), 2)) m</p>
-    <button @onclick=ClearMeasurements>Clear measurements</button>
 }
 else 
 {
@@ -47,118 +25,70 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (IDevice device in BLEService.Devices)
+            @foreach (IDevice device in BLEScannerService.Devices)
             {
-                <tr @onclick="() => OnClickConnect(device)">
-                    <td>@(GetDeviceDisplayName(device))</td>
-                    <td>@device.Id</td>
+                <tr>
+                    <td>@(device.GetDeviceDisplayName())</td>
+                    <td>
+                        <input type="checkbox" @onchange="(e) => OnDeviceSelectionChanged(e, device)" />
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
+    <div style="display:flex; width:100%; justify-content:center;">
+        <button @onclick=ToggleMeasuring>@(!rssiDataCollector.IsMeasuring ? "Start measuring" : "Stop measuring")</button>
+    </div>
 }
 
 @code {
     [Inject]
     private IPromptService promptService { get; set; }
 
-    private bool isConnecting;
-
-    private double txPower = -50;
-    private double n = 3;
-
-    private List<double> measuredDistances = new List<double>();
-
-    private PeriodicTimer periodicTimer;
-
-    private IDevice connectedToDevice;
+    private List<IDevice> selectedDevices = new();
+    private RssiDataCollector rssiDataCollector = new();
+    private BLEAdvertisementScanner advertisementScanner = new();
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        BLEService.DevicesChanged += StateHasChanged;
+        BLEScannerService.DevicesChanged += StateHasChanged;
+        advertisementScanner.BeaconAdvertised += OnBeaconAdvertised;
     }
 
     protected override async Task OnInitializedAsync()
     {
-        await InvokeAsync(BLEService.BeginScan);
+        await InvokeAsync(BLEScannerService.BeginScan);
     }
 
-    private void OnClickConnect(IDevice device)
+    private void OnDeviceSelectionChanged(ChangeEventArgs e, IDevice device)
     {
-        promptService.ShowConfirmation("Connect to device", $"Would you like to connect to the device \"{GetDeviceDisplayName(device)}\"?", (accepted) =>
+        bool isChecked = (bool)e.Value;
+
+        if (isChecked && !selectedDevices.Contains(device))
         {
-            if (!accepted) return;
-            
-            isConnecting = true;
-            InvokeAsync(StateHasChanged);
-
-            BLEService.ConnectToDevice(device, (success, msg) =>
-            {
-                if (success)
-                {
-                    connectedToDevice = device;
-                    connectedToDevice.UpdateConnectionInterval(ConnectionInterval.High);
-                    promptService.ShowAlert("Connection succeeded", $"Successfully connected to the device \"{GetDeviceDisplayName(device)}\"!");
-                    InvokeAsync(UpdateRssiPeriodically);
-                }
-                else
-                {
-                    promptService.ShowAlert("Connection failed", $"Could not connect to device: {msg}.");
-                }
-
-                isConnecting = false;
-                InvokeAsync(StateHasChanged);
-            });
-        });
-    }
-
-    private async void UpdateRssiPeriodically()
-    {
-        if (periodicTimer != null)
-        {
-            periodicTimer.Dispose();
+            selectedDevices.Add(device);
         }
-
-        periodicTimer = new PeriodicTimer(TimeSpan.FromMilliseconds(500));
-
-        while (await periodicTimer.WaitForNextTickAsync())
+        else if (!isChecked && selectedDevices.Contains(device))
         {
-            await connectedToDevice.UpdateRssiAsync();
-            StateHasChanged();
+            selectedDevices.Remove(device);
         }
     }
 
-    private double LogDistancePathLoss(double rssi)
+    private void OnBeaconAdvertised(IDevice device)
     {
-        double exp = (txPower - rssi) / (10 * n);
-        double distance = Math.Pow(10, exp);
-
-        measuredDistances.Add(distance);
-
-        return distance;
+        rssiDataCollector.UpdateBeaconRssi(device);
     }
 
-    private double AverageDistance()
+    private void ToggleMeasuring()
     {
-        if (measuredDistances.Count == 0) return 0;
-
-        double averageDistance = 0;
-
-        foreach (double measuredDistance in measuredDistances)
+        if (!rssiDataCollector.IsMeasuring)
         {
-            averageDistance += measuredDistance;
+            rssiDataCollector.StartMeasuring(selectedDevices, TimeSpan.FromMilliseconds(500));
         }
-
-        averageDistance /= measuredDistances.Count;
-
-        return averageDistance;
-    }
-
-    private void ClearMeasurements() => measuredDistances.Clear();
-
-    private static string GetDeviceDisplayName(IDevice device)
-    {
-        return string.IsNullOrEmpty(device.Name) ? "Unknown device" : device.Name;
+        else
+        {
+            rssiDataCollector.StopMeasuring();
+        }
     }
 }

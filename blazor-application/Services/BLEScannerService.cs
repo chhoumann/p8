@@ -1,4 +1,4 @@
-using BlazorBLE.Data;
+using BlazorBLE.Extensions;
 using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
@@ -21,6 +21,7 @@ public sealed class BLEScannerService
         this.promptService = promptService;
 
         adapter = CrossBluetoothLE.Current.Adapter;
+        adapter.ScanTimeout = int.MaxValue;
         adapter.ScanMode = ScanMode.LowLatency;
         adapter.DeviceDiscovered += Adapter_DeviceDiscovered;
     }
@@ -35,7 +36,7 @@ public sealed class BLEScannerService
     {
         IDevice device = args.Device;
 
-        if (!KBeaconData.IsProximityBeacon(device)) return;
+        if (!device.IsProximityBeacon()) return;
 
         Console.WriteLine($"Discovered proximity beacon: {device.Id} {device.Name}");
 
@@ -73,7 +74,7 @@ public sealed class BLEScannerService
                 await adapter.ConnectToDeviceAsync(device);
                 await Console.Out.WriteLineAsync("BLEService: Connected to device.");
 
-                onComplete(true, null);
+                onComplete?.Invoke(true, null);
             }
             catch (DeviceConnectionException ex)
             {

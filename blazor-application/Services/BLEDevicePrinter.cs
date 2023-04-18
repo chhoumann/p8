@@ -1,4 +1,5 @@
 ﻿using BlazorBLE.Data;
+using BlazorBLE.Extensions;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Extensions;
@@ -36,7 +37,7 @@ public static class BLEDevicePrinter
             await Console.Out.WriteLineAsync($"Advertisement ToString(): {advertisement}");
             await Console.Out.WriteLineAsync($"Byte array as a string: {System.Text.Encoding.Default.GetString(advertisement.Data)}");
 
-            if (advertisement.Type.HasFlag(AdvertisementRecordType.ManufacturerSpecificData) && KBeaconData.IsProximityBeacon(advertisement.Data))
+            if (advertisement.Type.HasFlag(AdvertisementRecordType.ManufacturerSpecificData) && device.IsProximityBeacon())
             {
                 await Console.Out.WriteLineAsync($"BeaconData: {new KBeaconData(advertisement.Data)}");
             }

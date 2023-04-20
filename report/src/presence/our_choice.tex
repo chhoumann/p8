@@ -30,16 +30,22 @@ However, existing hardware for presence detection, such as BLE beacons, could be
 Similar to WiFi, collected device information should be stored responsibly.
 Personal health devices can broadcast messages containing sensitive information.
 
-Table xxx summarizes the characteristic the covered technologies in terms of the choosen categories seen in Table \ref(tab:evaluation_criteria).
+Table \ref{lst:evaluated_technologies} summarizes the characteristic the covered technologies in terms of the choosen categories seen in Table \ref{lst:presence_eval_criteria}.
 \begin{table}[]
-    \begin{tabular}{llllll}
-    Technology/Metrics & Accuracy & Precision & Cost & Privacy & Environment robustness \\
-    Bluetooth          & x        & x         & x    & x       & x                      \\
-    Wifi               & x        & x         & -    & x       & x                      \\
-    CO2 sensors        & -        & -         & x    & x       & -                      \\
-    Camera (regular)   & x        & x         & x    & -       & -                      \\
-    Camera (infrared)  & x        & x         & -    & x       & x                     
-    \end{tabular}
+    \centering
+    \begin{center}
+        \begin{tabular}{|l|l|l|l|l|p{30mm}|}
+            \hline
+            Technology/Metrics & Accuracy & Precision & Cost & Privacy & Environmental robustness \\ \hline
+            Bluetooth          & x        & x         & x    & x       & x                      \\ \hline
+            Wifi               & x        & x         & -    & x       & x                      \\ \hline
+            CO2 sensors        & -        & -         & x    & x       & -                      \\ \hline
+            Camera (regular)   & x        & x         & x    & -       & -                      \\ \hline
+            Camera (infrared)  & x        & x         & -    & x       & x                      \\ \hline
+        \end{tabular}
+    \end{center}
+    \caption{Summerized capabilities of the technologies using the metrics from Table \ref{lst:presence_eval_criteria}}
+    \label{lst:evaluated_technologies}
 \end{table}
 
 

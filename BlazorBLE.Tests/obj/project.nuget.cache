@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "dgSpecHash": "fMimFZhyfQ5n0K0cXk6dJg+2HlYNza57zY+nXO2J48gvyZzSHZ+wfgVX/xXAWIgnbcNXW17sjjhIVpNIs2Wa4w==",
+  "success": false,
+  "projectFilePath": "C:\\Users\\Ivik Hostrup\\Documents\\GitHub\\p8\\BlazorBLE.Tests\\BlazorBLE.Tests.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project BlazorBLE is not compatible with net7.0 (.NETCoreApp,Version=v7.0). Project BlazorBLE supports:\r\n  - net7.0-android33.0 (.NETCoreApp,Version=v7.0)\r\n  - net7.0-ios16.1 (.NETCoreApp,Version=v7.0)\r\n  - net7.0-maccatalyst16.1 (.NETCoreApp,Version=v7.0)\r\n  - net7.0-windows10.0.19041 (.NETCoreApp,Version=v7.0)",
+      "libraryId": "BlazorBLE",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    }
+  ]
+}

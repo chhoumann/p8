@@ -30,7 +30,17 @@ However, existing hardware for presence detection, such as BLE beacons, could be
 Similar to WiFi, collected device information should be stored responsibly.
 Personal health devices can broadcast messages containing sensitive information.
 
-Table xxx summarizes the characteristic the covered technologies in terms of the choosen categories seen in .
+Table xxx summarizes the characteristic the covered technologies in terms of the choosen categories seen in Table \ref(tab:evaluation_criteria).
+\begin{table}[]
+    \begin{tabular}{llllll}
+    Technology/Metrics & Accuracy & Precision & Cost & Privacy & Environment robustness \\
+    Bluetooth          & x        & x         & x    & x       & x                      \\
+    Wifi               & x        & x         & -    & x       & x                      \\
+    CO2 sensors        & -        & -         & x    & x       & -                      \\
+    Camera (regular)   & x        & x         & x    & -       & -                      \\
+    Camera (infrared)  & x        & x         & -    & x       & x                     
+    \end{tabular}
+\end{table}
 
 
 

@@ -41,11 +41,11 @@ public static class MauiProgram
         var file = Path.Combine(FileSystem.AppDataDirectory, "BlazorBLELogs.log");
 
         Log.Logger = new LoggerConfiguration()
-        .MinimumLevel.Verbose()
-        .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-        .Enrich.FromLogContext()
-        .WriteTo.File(file, flushToDiskInterval: flushInterval, encoding: System.Text.Encoding.UTF8, rollingInterval: RollingInterval.Day, retainedFileCountLimit: 22)
-        .CreateLogger();
+            .MinimumLevel.Verbose()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+            .Enrich.FromLogContext()
+            .WriteTo.File(file, flushToDiskInterval: flushInterval, encoding: System.Text.Encoding.UTF8, rollingInterval: RollingInterval.Day, retainedFileCountLimit: 22)
+            .CreateLogger();
     }
 
 }

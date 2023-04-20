@@ -90,7 +90,7 @@ else
         else
         {
             rssiDataCollector.StopMeasuring();
-            rssiDataCollector.WriteToFile("test_data.json");
+            rssiDataCollector.Measurements.WriteToJson("test_data.json");
         }
     }
 }

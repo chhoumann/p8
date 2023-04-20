@@ -1,4 +1,6 @@
-﻿namespace BlazorBLE.Services;
+﻿using BlazorBLE.Shared;
+
+namespace BlazorBLE.Services;
 
 public static class AppPermissions
 {

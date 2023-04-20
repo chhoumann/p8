@@ -39,7 +39,8 @@ public sealed class BLEScannerService
         if (devices.Contains(device)) return;
 
         devices.Add(device);
-        devices.Sort((deviceA, deviceB) => deviceB.Rssi - deviceA.Rssi);
+        // devices.Sort((deviceA, deviceB) => deviceB.Rssi - deviceA.Rssi);
+        devices.Sort((deviceA, deviceB) => deviceB.Name.CompareTo(deviceA.Name));
 
         DevicesChanged?.Invoke();
     }

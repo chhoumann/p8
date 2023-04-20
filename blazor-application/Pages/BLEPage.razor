@@ -37,12 +37,30 @@ else
             }
         </tbody>
     </table>
+
     <div style="display:flex; width:100%; justify-content:center;">
-        <p>Status: @(isInsideRoom ? "Inside room" : "Outside room")</p>
+        <div>Status: @(isInsideRoom ? "Inside room" : "Outside room")</div>
     </div>
+
+    <div style="display:flex; width:100%; justify-content:center;">
+        <div>Averages: @(GetAverages())</div>
+    </div>
+
     <div style="display:flex; width:100%; justify-content:center;">
         <button @onclick=ToggleMeasuring>@(!rssiDataCollector.IsMeasuring ? "Start measuring" : "Stop measuring")</button>
         <button disabled=@(rssiDataCollector.IsMeasuring ? false : true) @onclick=ToggleDataCollecting>@(!rssiDataCollector.IsCollecting ? "Start collecting data" : "Stop collecting data")</button>
+    </div>
+
+    <div>
+        <div>Environmental Factor = @(environmentalFactor)</div>
+        <div style="display: flex; flex-direction: row; align-items: center;">
+            <input type="range" min="2" max="4" step="0.01" @bind="environmentalFactor" @bind:event="oninput" style="width: 100%" />
+        </div>
+
+        <div>Distance Threshold = @(distanceThreshold) m</div>
+        <div style="display: flex; flex-direction: row; align-items: center;">
+            <input type="range" min="1" max="10" step="0.01" @bind="distanceThreshold" @bind:event="oninput" style="width: 100%" />
+        </div>
     </div>
 }
 
@@ -56,6 +74,11 @@ else
     private RssiDataHandler rssiDataHandler = new();
 
     private bool isInsideRoom;
+
+    private int txPower;    
+
+    private double environmentalFactor = 2;
+    private double distanceThreshold = 2;
 
     protected override void OnInitialized()
     {
@@ -79,6 +102,7 @@ else
         if (isChecked && !selectedDevices.Contains(device))
         {
             selectedDevices.Add(device);
+            txPower = device.GetBeaconData().TxPower;
         }
         else if (!isChecked && selectedDevices.Contains(device))
         {
@@ -89,7 +113,7 @@ else
     private void OnBeaconRssisUpdated()
     {
         int[] latestMeasurement = rssiDataCollector.GetLatestMeasurement();
-        isInsideRoom = rssiDataHandler.IsInsideRoom(latestMeasurement);
+        isInsideRoom = rssiDataHandler.IsInsideRoom(latestMeasurement, txPower, environmentalFactor, distanceThreshold);
 
         StateHasChanged();
     }
@@ -122,5 +146,12 @@ else
             rssiDataCollector.StopCollectingRssiData();
             rssiDataCollector.Measurements.WriteToJson("test_data.json");
         }
+    }
+
+    private string GetAverages()
+    {
+        if (rssiDataHandler.Averages == null) return string.Empty;
+
+        return string.Join(", ", rssiDataHandler.Averages.Select(d => d.ToString("0.##")));
     }
 }

@@ -1,3 +1,4 @@
+using BlazorBLE.Data;
 using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
 
@@ -21,6 +22,19 @@ public static class IDeviceExtensions
         }
 
         return false;
+    }
+
+    public static KBeaconData GetBeaconData(this IDevice device)
+    {
+        foreach (AdvertisementRecord record in device.AdvertisementRecords)
+        {
+            if (record.Type == AdvertisementRecordType.ManufacturerSpecificData)
+            {
+                return new KBeaconData(record.Data);
+            }
+        }
+
+        return null;
     }
 
     private static bool IsProximityBeacon(this byte[] data)

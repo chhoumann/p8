@@ -15,7 +15,7 @@ public sealed class RssiDataCollector
     private PeriodicTimer periodicTimer;
     private Guid[] beaconGuids;
     private Dictionary<Guid, int> beaconRssis;
-    private Task dataCollectionJob;
+    private CancellationTokenSource cts;
 
     public void StartMeasuring(IReadOnlyList<IDevice> beacons, TimeSpan interval)
     {
@@ -51,24 +51,27 @@ public sealed class RssiDataCollector
 
     public void CollectRssiData()
     {
-        if (!IsMeasuring || !IsCollecting) return;
-        
-        dataCollectionJob = Task.Run(async () =>
+        if (!IsMeasuring)
+        if (IsCollecting) return;
+
+        cts = new CancellationTokenSource();
+
+        Task.Run(async () =>
         {
-            while (await periodicTimer.WaitForNextTickAsync())
+            while (await periodicTimer.WaitForNextTickAsync() && IsCollecting)
             {
                 Measurements.Add(GetLatestMeasurement());
             }
-        });
+        }, cts.Token);
         
         IsCollecting = true;
     }
 
     public void StopCollectingRssiData()
     {
-        if (IsCollecting) return;
-        
-        dataCollectionJob.Dispose();
+        if (!IsCollecting) return;
+
+        cts.Cancel();
         IsCollecting = false;
     }
 

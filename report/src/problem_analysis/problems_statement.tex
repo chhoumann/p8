@@ -3,10 +3,15 @@ In Section \ref{sec:understanding_the_problem} it was established that the stake
 To resolve these issues, the stakeholders proposed a system defined by several user stories detailed in Appendix \ref{appendix:user_stories}. 
 To examine whether such a system would solve the stakeholders' issues, a hifi prototype was developed using Figma\cite{Figma} by following methods from user-centred design.
 The prototype was tested using an approach to summative usability testing defined by \citeauthor{lazar2005web}~\cite{lazar2005web}. 
-The result of this test was that, while many issues regarding user usability could be resolved by a system based on the prototype, some remain. 
-One issue remaining is that meeting rooms might still be unused, as the system relies on users manually registering that meetings have concluded early.
-To alleviate these issues, a technology that can automatically identify when a room is unused could be deployed. This leads to the following problem statement:
+The result of this test was that, while many issues regarding usability could be resolved by a system based on the prototype, some still remain. 
+One issue remaining is that meeting rooms might still be unused due to reliance on user interactions for ending the meeting early.
+It was concluded that a solution to Mariendal ITs problems should provide functionality for minimizing reliance on user interaction.
+To alleviate such issues, a technology that can automatically identify when a room is unused could be deployed. 
+Techniques detecting whether people or objects are within specific boundaries is also known as \textit{presence detection}.
+Further exploring approaches for presence detection could be used to develop a method for automatically ending meetings when participants leave the room.
+This leads us to the following problem statement:
 \begin{problem_statement}
-    Is it possible to locate a person accurately enough to determine whether they are occupying a meeting room?
+    How can presence detection be used to detect whether a meeting is ongoing or ended?
+    Can presence detection be used to determine whether a meeting is onging or ended accurately enough for Mariendal ITs purposes.  
 \end{problem_statement}
 

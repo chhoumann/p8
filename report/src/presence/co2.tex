@@ -1,0 +1,14 @@
+\section{Presence detection using $\text{CO}_{2}$ }\label{sec:presence_env}
+$\text{CO}_{2}$ is falls under the category of an \textit{environmental system}. 
+These system measure physical attributes of an environment, and reacts according to these measurements.
+These systems can be used to infer occupancy of rooms by detecting changes in environmental parameters caused by human presence.
+$\text{CO}_{2}$ sensors does this by measuring the level of $\text{CO}_{2}$ in the atmosphere within the room \cite{longoAccurateOccupancyEstimation2019, gruberCO2SensorsOccupancy2014}.
+
+\citeauthor{longoAccurateOccupancyEstimation2019}\cite{longoAccurateOccupancyEstimation2019} summarizes a number of methods for occupancy detection using $\text{CO}_{2}$. 
+The results shows accuracy of $\text{CO}_{2}$ measurements for occupancy detection is between 50\% and 99\%, depending on task and amount of occupants to estimate.
+%Is it easier to detect many occupants?
+
+For $\text{CO}_{2}$ and other environmental systems, the accuracy of the prediction of whether a room is occupied or not, is vulnerable to even small changes to the physical environment in which the system resides.\cite{gruberCO2SensorsOccupancy2014,longoAccurateOccupancyEstimation2019}
+Particularly, the ventilation flow rate of the room affects its $\text{CO}_{2}$ concentration. Opening doors or windows will thus have an effect on the accuracy of the approach.
+Since changes in $\text{CO}_{2}$ levels of the room are not immediatedly noticable, a system using this to detect occupancy will not be quickly detect a change in occupation.
+This can be handled by analysing the gradient of increase in $\text{CO}_{2}$ levels\cite{gradient_co2}.

@@ -7,7 +7,7 @@ public sealed class RssiDataCollector
 {
     public event Action BeaconRssisUpdated;
 
-    public RssiDataMeasurements Measurements { get; private set; }
+    public RssiDataSet Set { get; private set; }
 
     public bool IsMeasuring { get; private set; }
     public bool IsCollecting { get; private set; }
@@ -21,7 +21,7 @@ public sealed class RssiDataCollector
     {
         if (IsMeasuring) return;
 
-        Measurements = new RssiDataMeasurements(beacons.Count);
+        Set = new RssiDataSet(beacons.Count);
         periodicTimer = new PeriodicTimer(interval);
         beaconRssis = new Dictionary<Guid, int>();
         beaconGuids = new Guid[beacons.Count];
@@ -51,7 +51,7 @@ public sealed class RssiDataCollector
 
     public void CollectRssiData()
     {
-        if (!IsMeasuring)
+        if (!IsMeasuring) return;
         if (IsCollecting) return;
 
         cts = new CancellationTokenSource();
@@ -60,7 +60,7 @@ public sealed class RssiDataCollector
         {
             while (await periodicTimer.WaitForNextTickAsync() && IsCollecting)
             {
-                Measurements.Add(GetLatestMeasurement());
+                Set.Add(GetLatestMeasurement());
             }
         }, cts.Token);
         

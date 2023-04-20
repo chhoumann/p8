@@ -3,23 +3,23 @@ using Newtonsoft.Json;
 
 namespace BlazorBLE.Data;
 
-public sealed class RssiDataMeasurements
+public sealed class RssiDataSet
 {
     public int NumBeacons { get; }
 
     public List<int[]> RssiDataPoints { get; private set; }
 
-    public RssiDataMeasurements(int numBeacons)
+    public RssiDataSet(int numBeacons)
     {
         NumBeacons = numBeacons;
         RssiDataPoints = new List<int[]>();
     }
 
-    public static RssiDataMeasurements ReadFromJson(string fileName)
+    public static RssiDataSet ReadFromJson(string fileName)
     {
         string jsonString = File.ReadAllText(GetPath(fileName));
         
-        return JsonConvert.DeserializeObject<RssiDataMeasurements>(jsonString);
+        return JsonConvert.DeserializeObject<RssiDataSet>(jsonString);
     }
 
     public void WriteToJson(string fileName)

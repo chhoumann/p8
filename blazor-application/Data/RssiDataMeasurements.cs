@@ -6,7 +6,7 @@ public sealed class RssiDataMeasurements
 {
     public int NumBeacons { get; }
 
-    public List<int[]> RssiDataPoints { get; }
+    public List<int[]> RssiDataPoints { get; private set; }
 
     public RssiDataMeasurements(int numBeacons)
     {
@@ -14,9 +14,9 @@ public sealed class RssiDataMeasurements
         RssiDataPoints = new List<int[]>();
     }
 
-    public static RssiDataMeasurements ReadFromJson(string jsonFilePath)
+    public static RssiDataMeasurements ReadFromJson(string fileName)
     {
-        string jsonString = File.ReadAllText(jsonFilePath);
+        string jsonString = File.ReadAllText(GetPath(fileName));
         
         return JsonConvert.DeserializeObject<RssiDataMeasurements>(jsonString);
     }
@@ -24,9 +24,8 @@ public sealed class RssiDataMeasurements
     public void WriteToJson(string fileName)
     {
         string jsonString = JsonConvert.SerializeObject(this);
-        string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), fileName);
         
-        File.WriteAllText(filePath, jsonString);
+        File.WriteAllText(GetPath(fileName), jsonString);
     }
 
     public void Add(int[] measurement)
@@ -37,5 +36,16 @@ public sealed class RssiDataMeasurements
         }
 
         RssiDataPoints.Add(measurement);
+    }
+
+    public void RemoveDuplicates()
+    {
+        RssiDataPoints = RssiDataPoints.GroupBy(c => string.Join(",", c))
+            .Select(c => c.First().ToArray()).ToList();
+    }
+    
+    private static string GetPath(string fileName)
+    {
+        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), fileName);
     }
 }

@@ -5,13 +5,17 @@ namespace BlazorBLE.Services;
 
 public sealed class RssiDataCollector
 {
+    public event Action BeaconRssisUpdated;
+
     public RssiDataMeasurements Measurements { get; private set; }
-    
+
     public bool IsMeasuring { get; private set; }
+    public bool IsCollecting { get; private set; }
 
     private PeriodicTimer periodicTimer;
     private Guid[] beaconGuids;
     private Dictionary<Guid, int> beaconRssis;
+    private Task dataCollectionJob;
 
     public void StartMeasuring(IReadOnlyList<IDevice> beacons, TimeSpan interval)
     {
@@ -30,17 +34,42 @@ public sealed class RssiDataCollector
             beaconGuids[i] = beacon.Id;
         }
 
-        Task.Run(CollectRssiData);
-
         IsMeasuring = true;
     }
-
     public void StopMeasuring()
     {
         if (!IsMeasuring) return;
 
         periodicTimer.Dispose();
         IsMeasuring = false;
+        
+        if (IsCollecting)
+        {
+            StopCollectingRssiData();
+        }
+    }
+
+    public void CollectRssiData()
+    {
+        if (!IsMeasuring || !IsCollecting) return;
+        
+        dataCollectionJob = Task.Run(async () =>
+        {
+            while (await periodicTimer.WaitForNextTickAsync())
+            {
+                Measurements.Add(GetLatestMeasurement());
+            }
+        });
+        
+        IsCollecting = true;
+    }
+
+    public void StopCollectingRssiData()
+    {
+        if (IsCollecting) return;
+        
+        dataCollectionJob.Dispose();
+        IsCollecting = false;
     }
 
     public void UpdateBeaconRssi(IDevice device)
@@ -49,20 +78,19 @@ public sealed class RssiDataCollector
         if (!beaconRssis.ContainsKey(device.Id)) return;
 
         beaconRssis[device.Id] = device.Rssi;
+
+        BeaconRssisUpdated?.Invoke();
     }
 
-    private async Task CollectRssiData()
+    public int[] GetLatestMeasurement()
     {
-        while (await periodicTimer.WaitForNextTickAsync())
-        {
-            int[] rssiMeasurement = new int[beaconGuids.Length];
+        int[] rssiMeasurement = new int[beaconGuids.Length];
 
-            for (int i = 0; i < beaconGuids.Length; i++)
-            {
-                rssiMeasurement[i] = beaconRssis[beaconGuids[i]];
-            }
-            
-            Measurements.Add(rssiMeasurement);
+        for (int i = 0; i < beaconGuids.Length; i++)
+        {
+            rssiMeasurement[i] = beaconRssis[beaconGuids[i]];
         }
+
+        return rssiMeasurement;
     }
 }

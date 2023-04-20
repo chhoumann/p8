@@ -38,7 +38,11 @@ else
         </tbody>
     </table>
     <div style="display:flex; width:100%; justify-content:center;">
+        <p>Status: @(isInsideRoom ? "Inside room" : "Outside room")</p>
+    </div>
+    <div style="display:flex; width:100%; justify-content:center;">
         <button @onclick=ToggleMeasuring>@(!rssiDataCollector.IsMeasuring ? "Start measuring" : "Stop measuring")</button>
+        <button disabled=@(rssiDataCollector.IsMeasuring ? false : true) @onclick=ToggleDataCollecting>@(!rssiDataCollector.IsCollecting ? "Start collecting data" : "Stop collecting data")</button>
     </div>
 }
 
@@ -49,12 +53,18 @@ else
     private List<IDevice> selectedDevices = new();
     private RssiDataCollector rssiDataCollector = new();
     private BLEAdvertisementScanner advertisementScanner = new();
+    private RssiDataHandler rssiDataHandler = new();
+
+    private bool isInsideRoom;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         BLEScannerService.DevicesChanged += StateHasChanged;
         advertisementScanner.BeaconAdvertised += OnBeaconAdvertised;
+        rssiDataCollector.BeaconRssisUpdated += OnBeaconRssisUpdated;
+
+        rssiDataHandler.LoadData("test_data.json");
     }
 
     protected override async Task OnInitializedAsync()
@@ -76,6 +86,14 @@ else
         }
     }
 
+    private void OnBeaconRssisUpdated()
+    {
+        int[] latestMeasurement = rssiDataCollector.GetLatestMeasurement();
+        isInsideRoom = rssiDataHandler.IsInsideRoom(latestMeasurement);
+
+        StateHasChanged();
+    }
+
     private void OnBeaconAdvertised(IDevice device)
     {
         rssiDataCollector.UpdateBeaconRssi(device);
@@ -90,6 +108,18 @@ else
         else
         {
             rssiDataCollector.StopMeasuring();
+        }
+    }
+
+    private void ToggleDataCollecting()
+    {
+        if (!rssiDataCollector.IsCollecting)
+        {
+            rssiDataCollector.CollectRssiData();
+        }
+        else
+        {
+            rssiDataCollector.StopCollectingRssiData();
             rssiDataCollector.Measurements.WriteToJson("test_data.json");
         }
     }

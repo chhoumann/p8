@@ -1,4 +1,4 @@
-\subsection{Bluetooth} \label{sec:bluetooth}
+\section{Bluetooth} \label{sec:bluetooth}
 Another possible radio technology for presence detection is Bluetooth.
 Bluetooth is a common technology used in many devices such as smartphones, tablets, and laptops.
 Because it is a standardized technology, all devices that support Bluetooth can communicate with each other\cite{BluetoothOverview}.\cite{BluetoothSIG}
@@ -13,7 +13,7 @@ They differ in terms of power consumption, range, and data transfer rate.\cite{B
   \label{fig:classic_vs_LE}
 \end{figure}
 
-\subsubsection{Bluetooth Classic} \label{sec:bluetooth_classic}
+\subsection{Bluetooth Classic} \label{sec:bluetooth_classic}
 The Bluetooth Classic radio is the original version of the Bluetooth technology introduced in 1999 for point-to-point device communication.
 It is used for data transfer between devices but is primarily used for wireless audio streaming across devices because of its high data transfer rate.
 According to the Bluetooth Special Interest Group (SIG), the data transfer rate of Bluetooth Classic is 3 Mb/s.\cite{BluetoothSIG}\cite{BluetoothOverview}
@@ -22,7 +22,7 @@ Wireless devices such as headphones, speakers, and car stereos often use Bluetoo
 However, the relatively high power consumption of Bluetooth Classic makes it unsuitable for presence detection using battery-powered devices.
 Furthermore, it is quite sensitive to obstructions, making it less suitable for presence detection compared to Bluetooth Low Energy.\cite{BluetoothOverview}\cite{BluetoothAudioStreaming}
 
-\subsubsection{Bluetooth Low Energy} \label{sec:bluetooth_low_energy}
+\subsection{Bluetooth Low Energy} \label{sec:bluetooth_low_energy}
 Bluetooth Low Energy (BLE) is a newer version of the Bluetooth technology introduced in 2010 designed for low power consumption.
 In contrast to Bluetooth Classic, the data transfer rate of BLE is much lower.
 This makes it more usable in battery-powered devices such as smartphones, smartwatches, fitness trackers and bluetooth beacons.\cite{BLE_Regulatory_Aspects_Document}
@@ -32,11 +32,14 @@ In practice however, is often limited to between 125 kb/s - 500 kb/s.
 This is because most use cases require LE Coded PHY, a feature of BLE that improves the range and robustness of the wireless communication at the cost of a lower data transfer rate.\cite{BluetoothOverview}\cite{BLE_Regulatory_Aspects_Document}
 
 While BLE was known for its device communication capabilities, it is now widely used as a device positioning technology due to the increasing demand for accurate indoor location services.
-Since its release, BLE has evolved to include features enabling it to detect the presence, distance, and direction of nearby devices by leveraging the Received Signal Strength Indication (RSSI) of BLE.
+Similar to Wi-fi, BLE can be used to detect the presence, distance, and direction of nearby devices by leveraging the Received Signal Strength Indication (RSSI) of the BLE device.
 SIG themselves recommend using BLE for presence detection in indoor environments because of its low power consumption and high accuracy.\cite{BluetoothOverview}\cite{BLE_Regulatory_Aspects_Document}
+Bluetooth beacons provides the opportunity to easily set up a system of broadcasting devices.
+By having a mobile device measure the RSSI of the beacons an approximate location can be calculated.
+Several approaches like lateration\cite{rssi_indoor_pos,presence_ble_review} and fingerprinting\cite{taking_localization_to_the_wild} relies on this concept.  
 
 Using Bluetooth for presence detection raises some concerns with privacy, since it involves collecting and processing sensitive user data.
 It is possible for unauthorized third parties to intercept Bluetooth signals, potentially exposing personal information and compromising user anonymity.
 In addition, continuous tracking of individuals raises concerns regarding surveillance and the potential misuse of data by third parties. 
 To mitigate these risks, it is essential to implement robust security measures, such as data encryption and anonymization.
-Developers should also provide transparent privacy policies that outline data collection, storage, and usage practices.\cite{BluetoothPrivacy}\cite{BLE_Security}
+Developers should also provide transparent privacy policies that outline data collection, storage, and usage practices.\cite{BluetoothPrivacy,BLE_Security}

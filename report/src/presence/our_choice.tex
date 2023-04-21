@@ -1,5 +1,5 @@
 \section{Choice of technology}
-In this Section, we will compare the technologies presented in Sections \ref{sec:presence_env} to \ref{sec:presence_radio}, and decide which technology best satisfies the criterias listed in Section \ref{lst:presence_eval_criteria}. \todo{The listing does not have a ref. I dont know what "Listing 3" is.}
+In this Section, we will compare the technologies presented in Sections \ref{sec:presence_env} to \ref{sec:bluetooth}, and decide which technology best satisfies the criterias listed in Section \ref{lst:presence_eval_criteria}. \todo{The listing does not have a ref. I dont know what "Listing 3" is.}
 
 In section \ref{sec:presence_env}, Environmental-based technologies was described. These technologies can accurately detect the presence in a room using multiple environmental sources, such as $\text{CO}_{2}$ level, light, humidity and temperature.
 A drawback of environmental-based technologies is that they suffer from unpredictability.
@@ -8,13 +8,13 @@ Thus, the accuracy of the technology can depend on external factors that the tec
 Depending on the external factors, changes to the environmental indicator used to detect presence might not be promptly detectable.
 As this technology focuses solely on the measurements of environmental factors, the privacy of the users of the system is protected, as information about the users is not collected.
 
-Section \ref{sec:presence_video} presents video-based technologies.
+Section \ref{sec:video-based-detection} presents video-based technologies.
 As most of the technologies are based on a live video feed, one can precisely determine whether a room is occupied responsively. 
 Consequently, this reliance on live video leads to privacy concerns.
 Many of these technologies are fully reliant on rooms being suitably lit.
 However, this can be counteracted using infrared technology in the camera, but this increases the cost of the technology.   
 
-Section \ref{sec:presence_radio} presents two radio technologies. 
+Section \ref{sec:wi-fi} and Section \ref{sec:bluetooth} presents two radio technologies. 
 WiFi can be used to identify individual devices that might be stationary or mobile by having them broadcast a signal containing the identity of the device, and track the strength of this signal.
 To ensure devices broadcast a signal with a non-changing identity, management and re-configuration of the devices is required.
 The identity of these devices must be also stored responsibly to not raise privacy concerns.
@@ -30,7 +30,8 @@ However, existing hardware for presence detection, such as BLE beacons, could be
 Similar to WiFi, collected device information should be stored responsibly.
 Personal health devices can broadcast messages containing sensitive information.
 
-Table \ref{lst:evaluated_technologies} summarizes the characteristic of the covered technologies in terms of the choosen metrics seen in Table \ref{lst:presence_eval_criteria}.
+\todo{fix table}
+Table \ref{lst:evaluated_technologies} summarizes the characteristic of the covered technologies in terms of the chosen metrics seen in Table \ref{lst:presence_eval_criteria}.
 \begin{table}[H]
     \centering
     \begin{center}

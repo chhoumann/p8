@@ -1,0 +1,18 @@
+\subsection{Video and image recognizion} \label{sec:video-based-detection}\
+Methods for object recognition rely on feeding a system with one or more images \cite{huttenlocher1987object, computational_strategies_for_object_recog}, and analysing these images to detect whether a specific object is present on the image.
+Several technologies can be utilized to obtain these images, but one of the most common is camera technologies\cite{FUERTES2022103473}. 
+Approaches to object recognition often utilize machine learning to create models that establish whether or not some image contains a specific object\cite{huttenlocher1987object}, and can utilize several computational strategies to obtain the results\cite{computational_strategies_for_object_recog}. 
+Several approaches using machine learning can be utilized. 
+\citeauthor{object_recognision_survey} \cite{object_recognision_survey} describes several methods, their accuracy, and under which conditions the methods to work well. 
+However, the quality of the image or video data in object recognition can effect the results drastically.
+\citeauthor{vid_qual_affects} \cite{vid_qual_affects} details how approaches using deep neural networks cannot reliably recognize objects if trained on data of higher quality. 
+Thus, systems using this approach rely on using cameras that supply the system with images of similar quality to that which the system was trained on.
+This also means that the approach is substandard when deployed in an environment with too much or too little light, as this can affect image quality.  
+The nature of using cameras also raises some concerns with privacy, due to the approach relying on video information. 
+Consequently, applications employing cameras for presence detection must include a privacy policy that outlines how the data is collected, stored, and used, which all meeting attendants must agree to.
+These requirements add another layer of complexity to the system, as the privacy policy must be implemented and enforced by the system and the system owner.
+The system must also keep up with changes to the regulations dictating these policies.
+Because of these privacy concerns, acceptance and subsequent use of the system may be limited.\cite{granath_detecting_nodate, tang_occupancy_2020, privacyPreservingSensor}.
+Anonymity could be partially preserved by using infrared cameras, as the video feed from such cameras does not supply the same degree of details that can be used to identify individuals. 
+This would also eliminate the need for adequate lighting where the system is deployed.  
+However, using infrared cameras will raise the price of the system significantly. 

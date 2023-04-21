@@ -1,17 +1,26 @@
-\subsection{Video-based detection} \label{sec:video-based-detection}
-Cameras are a common technology used to detect the presence of humans in a room.
-There are many different approaches to how one might use a camera for presence detection.\cite{FUERTES2022103473}
+\subsection{Object recognizion} \label{sec:video-based-detection}\
+Methods for object recognition rely on feeding a system with one or more images \cite{huttenlocher1987object, computational_strategies_for_object_recog}, and analysing these images to detect whether an object is present on the image.
+Several technologies can be utilized to obtain these images, but one of the most common is camera technologies\cite{FUERTES2022103473}. 
+Approaches to object recognition often utilize machine learning to create models that establish whether or not some image contains a specific object\cite{huttenlocher1987object}, and can utilize several computational strategies to obtain the results\cite{computational_strategies_for_object_recog}. 
+Several approaches using machine learning can be utilized. 
+\citeauthor{object_recognision_survey} \cite{object_recognision_survey} describes several methods, their accuracy, and under which conditions the methods to work well. 
+However, the quality of the image or video data in object recognition can effect the results drastically.
+\citeauthor{vid_qual_affects} \cite{vid_qual_affects} details how approaches using deep neural networks cannot reliably recognize objects if trained on data of higher quality. 
+Thus, systems using this approach rely on using cameras that supply the system with images of similar quality to that which the system was trained on.
+This also means that the approach is substandard when deployed in an environment with too much or too little light, as this can affect image quality.  
+The nature of using cameras also raises some concerns with privacy, due to the approach relying on video information. 
+Consequently, applications employing cameras for presence detection must include a privacy policy that outlines how the data is collected, stored, and used, which all meeting attendants must agree to.
+These requirements add another layer of complexity to the system, as the privacy policy must be implemented and enforced by the system and the system owner.
+The system must also keep up with changes to the regulations dictating these policies.
+Because of these privacy concerns, acceptance and subsequent use of the system may be limited.\cite{granath_detecting_nodate, tang_occupancy_2020, privacyPreservingSensor}.
+Anonymity could be partially preserved by using infrared cameras, as the video feed from such cameras does not supply the same degree of details that can be used to identify individuals. 
+This would also eliminate the need for adequate lighting where the system is deployed.  
+However, using infrared cameras will raise the price of the system significantly. 
 
-One of the primary methods for presence detection is the use of machine learning techniques.
-These techniques work by training a machine learning model, such as a Convolutional Neural Network (CNN).
-The resulting model can then be used to analyze images and detect objects in them.
-For example, \citeauthor{FUERTES2022103473}\cite{FUERTES2022103473} used an omnidirectional camera to gather images of a room, and then trained a CNN to detect the presence of people in these images.
-The training is done through point-based annotation of the images as opposed to the more common approach of using bounding box annotation.
-Essentially, images are annotated with points denoting the location of the person in the image as opposed to drawing a bounding box around the person.
-This approach is advantageous because it is faster to annotate images in this way, but it is also far more accurate at representing the position of a human on images taken with an omnidirectional camera, which are often distorted or skewed.\cite{FUERTES2022103473}
-
-Motion detection is another commonly used to detect the presence of people in a room, and is defined by \citeauthor{ANANDAN1988347}\cite{ANANDAN1988347} as "\textit{the task of detecting movement of image elements across the image plane}".
-In other words, motion detection is a broad term that can refer to a variety of different methods.
+\subsection{Motion detection}
+Another image-based approach to detecting whether a room is being used is motion detection.
+\citeauthor{ANANDAN1988347}\cite{ANANDAN1988347} defines motion detectoin as "\textit{the task of detecting movement of image elements across the image plane}".
+Thus, motion detection is a broad term that can refer to a variety of different methods for detecting any object's movement. 
 For example, motion detection can be achieved by comparing two images of the same scene, and detecting the differences between them\cite{granath_detecting_nodate}.
 
 Alternatively, one may also utilize passive infrared (PIR) sensors to detect motion.

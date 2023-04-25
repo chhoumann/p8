@@ -37,12 +37,9 @@ public static class IDeviceExtensions
         return null;
     }
 
-    private static bool IsProximityBeacon(this byte[] data)
+    private static bool IsProximityBeacon(this IReadOnlyList<byte> data)
     {
-        if (data.Length < 4)
-        {
-            throw new ArgumentException($"Expected 4 bytes or more, got {data.Length} bytes.");
-        }
+        if (data.Count < 4) return false;
 
         bool isCompanyApple = data[0] == 0x4C && data[1] == 0x00;
         bool isProximityBeacon = data[2] == 0x02 && data[3] == 0x15;

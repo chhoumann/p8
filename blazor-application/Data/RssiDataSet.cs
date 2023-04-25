@@ -1,15 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text;
+using Newtonsoft.Json;
 using Plugin.BLE.Abstractions.Contracts;
 
 namespace BlazorBLE.Data;
 
 public sealed class RssiDataSet
 {
-    public int NumBeacons { get; }
+    public int NumBeacons { get; set; }
 
-    private Guid[] BeaconIds { get; }
+    public Guid[] BeaconIds { get; set; }
     
     public List<int[]> RssiDataPoints { get; set; }
+    
+    [JsonConstructor]
+    public RssiDataSet() { }
     
     public RssiDataSet(IReadOnlyList<IDevice> beacons)
     {
@@ -26,7 +30,7 @@ public sealed class RssiDataSet
     public static RssiDataSet ReadFromJson(string fileName)
     {
         string jsonString = File.ReadAllText(GetPath(fileName));
-        
+
         return JsonConvert.DeserializeObject<RssiDataSet>(jsonString);
     }
 
@@ -61,6 +65,14 @@ public sealed class RssiDataSet
     {
         RssiDataPoints = RssiDataPoints.GroupBy(c => string.Join(",", c))
                     .Select(c => c.First().ToArray()).ToList();
+    }
+    
+    public override string ToString()
+    {
+        return new StringBuilder()
+            .AppendLine($"Number of beacons: {NumBeacons}")
+            .AppendLine($"Number of data points: {RssiDataPoints?.Count ?? 0}")
+            .ToString();
     }
 
     private static string GetPath(string fileName)

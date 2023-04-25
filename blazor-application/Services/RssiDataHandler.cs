@@ -8,12 +8,24 @@ public sealed class RssiDataHandler
 
     public void LoadData(string jsonFileName)
     {
-        dataSet = RssiDataSet.ReadFromJson(jsonFileName);
-        dataSet.RemoveDuplicates();
+        try
+        {
+            dataSet = RssiDataSet.ReadFromJson(jsonFileName);
+            dataSet.RemoveDuplicates();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
     }
     
     public bool IsInsideRoom(BeaconRssiMeasurement[] beaconMeasurements, double distanceThreshold)
     {
+        if (dataSet == null)
+        {
+            return false;
+        }
+        
         if (beaconMeasurements.Length != dataSet.NumBeacons)
         {
             return false;

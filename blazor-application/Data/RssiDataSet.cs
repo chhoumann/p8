@@ -1,5 +1,4 @@
-﻿using BlazorBLE.Services;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace BlazorBLE.Data;
 
@@ -43,18 +42,6 @@ public sealed class RssiDataSet
     {
         RssiDataPoints = RssiDataPoints.GroupBy(c => string.Join(",", c))
             .Select(c => c.First().ToArray()).ToList();
-    }
-
-    public List<double[]> ToMeters(int txPower, double n)
-    {
-        List<double[]> dataPointsInMeters = new();
-        
-        foreach (int[] measurement in RssiDataPoints)
-        {
-            dataPointsInMeters.Add(BLEMath.ToMeters(measurement, txPower, n));
-        }
-        
-        return dataPointsInMeters;
     }
 
     private static string GetPath(string fileName)

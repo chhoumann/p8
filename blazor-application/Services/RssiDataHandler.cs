@@ -4,15 +4,11 @@ namespace BlazorBLE.Services
 {
     public sealed class RssiDataHandler
     {
-        public double[] Averages { get; private set; }
+        public int[] Averages { get; private set; }
 
-        private readonly ShiftList<double[]> latestMeasurements = new(10);
+        private readonly ShiftList<int[]> latestMeasurements = new(10);
         
         private RssiDataSet dataSet;
-
-        private List<double[]> measurementsInMeters = new();
-
-        private bool isConverted;
 
         public void LoadData(string jsonFileName)
         {
@@ -20,14 +16,8 @@ namespace BlazorBLE.Services
             dataSet.RemoveDuplicates();
         }
         
-        public bool IsInsideRoom(int[] measurement, int txPower, double environmentalFactor, double distanceThreshold)
+        public bool IsInsideRoom(int[] measurement, double distanceThreshold)
         {
-            if (!isConverted)
-            {
-                measurementsInMeters = dataSet.ToMeters(txPower, environmentalFactor);
-                isConverted = true;
-            }
-            
             if (measurement.Length != dataSet.NumBeacons)
             {
                 return false;
@@ -35,21 +25,12 @@ namespace BlazorBLE.Services
 
             bool isInsideRoom = false;
 
-            double lowestDistance = double.MaxValue;
-            double[] measurementInMeters = BLEMath.ToMeters(measurement, txPower, environmentalFactor);
-
-            latestMeasurements.Add(measurementInMeters);
-            
+            latestMeasurements.Add(measurement);
             Averages = CalculateAverages(latestMeasurements);
             
-            foreach (double[] distance in measurementsInMeters)
+            foreach (int[] distance in dataSet.RssiDataPoints)
             {
                 double dist = GetDistance(distance, Averages);
-
-                if (dist < lowestDistance)
-                {
-                    lowestDistance = dist;
-                }
 
                 if (dist < distanceThreshold)
                 {
@@ -57,7 +38,6 @@ namespace BlazorBLE.Services
                 }
             }
 
-            Console.WriteLine($"Lowest distance = {lowestDistance} meters");
             Console.WriteLine($"Inside room = {isInsideRoom}");
             
             // write the averages array to the console
@@ -72,7 +52,7 @@ namespace BlazorBLE.Services
             return isInsideRoom;
         }
 
-        private static double GetDistance(IReadOnlyList<double> vector1, IReadOnlyList<double> vector2)
+        private static double GetDistance(IReadOnlyList<int> vector1, IReadOnlyList<int> vector2)
         {
             double distanceSquared = 0;
 
@@ -85,9 +65,9 @@ namespace BlazorBLE.Services
             return Math.Sqrt(distanceSquared);
         }
 
-        private static double[] CalculateAverages(ShiftList<double[]> list)
+        private static int[] CalculateAverages(ShiftList<int[]> list)
         {
-            double[] averages = new double[list.List[0].Length];
+            int[] averages = new int[list.List[0].Length];
             
             for (int i = 0; i < list.List.Count; i++)
             {

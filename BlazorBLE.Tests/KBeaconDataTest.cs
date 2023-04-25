@@ -26,7 +26,7 @@ namespace BlazorBLE.Tests
         }
 
         [Theory]
-        //[InlineData(null)] Should check for not null in KBeaconData
+        [InlineData(null)]
         [InlineData(new byte[] { })]
         [InlineData(new byte[] { 0x01, 0x02, 0x03 })]
         public void KBeaconData_InvalidData_ThrowsArgumentException(byte[] generatedData)

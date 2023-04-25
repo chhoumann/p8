@@ -14,9 +14,7 @@ namespace BlazorBLE.Tests
         [Fact]
         public void TestConstructor_testData_LittleEndian()
         {
-            
             KBeaconData kBeaconData = new KBeaconData(testData);
-
             
             Assert.Equal(expectedUuid, kBeaconData.Uuid);
             Assert.Equal(expectedCompanyId, kBeaconData.CompanyId);
@@ -37,9 +35,7 @@ namespace BlazorBLE.Tests
         [Fact]
         public void TestConstructor_testData_BigEndian()
         {
-            
             KBeaconData kBeaconData = new KBeaconData(testData, false);
-
             
             Assert.Equal(expectedUuid, kBeaconData.Uuid);
             Assert.Equal(expectedCompanyId, kBeaconData.CompanyId);

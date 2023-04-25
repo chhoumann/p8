@@ -31,9 +31,9 @@ public sealed class BLEScannerService
         adapter.StopScanningForDevicesAsync();
     }
 
-    private void Adapter_DeviceDiscovered(object sender, DeviceEventArgs args)
+    private void Adapter_DeviceDiscovered(object sender, DeviceEventArgs e)
     {
-        IDevice device = args.Device;
+        IDevice device = e.Device;
 
         if (!device.IsProximityBeacon()) return;
         if (devices.Contains(device)) return;

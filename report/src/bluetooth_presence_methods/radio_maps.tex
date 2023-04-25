@@ -1,13 +1,13 @@
 \section{Fingerprinting}
-Fingerprinting is a technique utilizing the measured power of received bluetooth signal to accomodate the physical layout of the room in which the system is deployed. 
-Setting up a system utilizing fingerprinting requires two phases: a phase where the layout of the room is analysed to accomodate impact of physical obstacles in the room, and a phase where the unknown position of a bluetooth receiver is inferred \cite{presence_ble_review, taking_localization_to_the_wild}. Often, this map used to create machine-learning models \cite{taking_localization_to_the_wild}.
+Fingerprinting is a technique utilizing the measured power of the received Bluetooth signal to accommodate the physical layout of the room in which the system is deployed. 
+Setting up a system utilizing fingerprinting requires two phases: a phase where the layout of the room is analysed to accommodate the impact of physical obstacles in the room, and a phase where the unknown position of a Bluetooth receiver is inferred \cite{presence_ble_review, taking_localization_to_the_wild}. Often, this map is used to create machine-learning models \cite{taking_localization_to_the_wild}.
 
-\citeauthor{taking_localization_to_the_wild} \cite{taking_localization_to_the_wild} presents results for a fingerprinting approach using random forrest regression.
-They show how varying measured RSSI accross devices can be mitigated by using RSSI difference between pairs of beacons.
-They conclude that maps created by the measuring device in the first phase can reused to create maps for other types of devices without significant loss of accuracy. 
+\citeauthor{taking_localization_to_the_wild} \cite{taking_localization_to_the_wild} presents results for a fingerprinting approach using random forest regression.
+They show how varying measured RSSI across devices can be mitigated by using RSSI differences between pairs of beacons.
+They conclude that maps created by the measuring device in the first phase can be reused to create maps for other types of devices without significant loss of accuracy. 
 \citeauthor{presence_ble_review}\cite{presence_ble_review} presents several ways to use the map to create models for fingerprinting, but does not evaluate them.
-\citeauthor{improving_indoor_localization} \cite{improving_indoor_localization} choose to use a K-nearest neighbor directly on the observed data, and compute the average  location between the selected k neighbors and the actual positione. 
-Their experiments is performed in area of $52x43$ meters using 17 BLE beacons.
+\citeauthor{improving_indoor_localization} \cite{improving_indoor_localization} choose to use a K-nearest neighbour directly on the observed data and compute the average location between the selected k neighbours and the actual position. 
+Their experiments are performed in an area of 52x43 meters using 17 BLE beacons.
 The experiment yields accurate results, although with a few drastic outliers. 
 They conclude that the number of beacons greatly affects the accuracy of the approach. 
 

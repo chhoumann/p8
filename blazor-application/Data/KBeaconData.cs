@@ -27,15 +27,18 @@ public sealed class KBeaconData
     /// Wrapper class for the KBeacon advertising packet.
     /// </summary>
     /// <param name="data">The advertising packet for the Proximity beacon.</param>
-    /// <exception cref="ArgumentException"></exception>
-    public KBeaconData(byte[] data)
+    public KBeaconData(byte[] data) : this(data, BitConverter.IsLittleEndian) { }
+
+    /// <inheritdoc cref="KBeaconData(byte[])"/>
+    /// <param name="isLittleEndian">Indicates whether the byte order is little-endian.</param>
+    public KBeaconData(byte[] data, bool isLittleEndian)
     {
         if (data.Length != ByteCount)
         {
             throw new ArgumentException($"Number of bytes was {data.Length}, expected {ByteCount}.");
         }
 
-        if (BitConverter.IsLittleEndian)
+        if (isLittleEndian)
         {
             CompanyId = data.Take(2).ToArray();
             Uuid = new Guid(

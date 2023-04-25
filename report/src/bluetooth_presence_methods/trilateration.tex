@@ -1,1 +1,24 @@
 \section{Lateration}
+Lateration is a technique using multiple, immovable reference points to estimate the distance to an object\cite{presence_ble_review}.
+We will refer to this object as the \textit{receiver}.
+When using Bluetooth, the reference points are often BLE beacons and the receiver some other Bluetooth-capable device. 
+The beacons periodically broadcast an advertisement, notifying about their existence.\cite{apple2023ibeacon} 
+The advertisement and its content are collected by the receiver, which uses it to calculate distance estimations to each beacon. 
+The content of the advertisement often contains information about the beacon device. 
+For one of the more common protocols, the information includes the transmission power of the device\cite{apple2023ibeacon}.
+
+By analysing the distance estimations between the beacons and the receiver, the position of the receiver is estimated.
+Various techniques exists to determine this position.
+\citeauthor{presence_ble_review}~\cite{presence_ble_review} examines five techniques, each using different combinations of advertisement content, to establish a distance measure, and present current methods for handling the loss of signal during the analysis.
+
+Trilateration is a form of lateration using the transmission of one or more beacons to calculate a \textit{path loss}.
+Path loss defines the amount of signal power lost as the signal is sent across a distance of $d$ meters.
+As the transmission power of the beacons are known, the loss per distance $L(d)$ can be subtracted from the transmission power $p_0$ to find the distance~\cite{taking_localization_to_the_wild}:
+\begin{equation}
+    f(d) = p_0 - L(d)
+\end{equation}
+The path loss is affected by background signal noise and the air in the atmosphere.
+This can be defined as $L(d) = 10n log_{10}(d)+C$, where $C$ represents signal loss and background noise, and $n$ is a loss factor. \cite{taking_localization_to_the_wild}
+Various models using different variants of constants $C$ and $n$ exist\cite{path_loss_models}.
+Due to the many possible environmental circumstances in which the beacons and receiver may reside, the accuracy of the approach may be flawed\cite{presence_ble_review}. 
+Multiple mathematical models of the path loss formula exist \cite{rssi_indoor_pos,positioning_alg_rssi, RSSI_ZigBee_distance}, making it trivial to implement this approach for location approximations.

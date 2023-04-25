@@ -14,7 +14,7 @@ public class KBeaconDataTest
     [Fact]
     public void TestConstructor_testData_LittleEndian()
     {
-        KBeaconData kBeaconData = new KBeaconData(testData);
+        KBeaconData kBeaconData = new KBeaconData(testData, true);
             
         Assert.Equal(expectedUuid, kBeaconData.Uuid);
         Assert.Equal(expectedCompanyId, kBeaconData.CompanyId);

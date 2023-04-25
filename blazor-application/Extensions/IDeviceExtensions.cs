@@ -1,3 +1,4 @@
+using BlazorBLE.Data;
 using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
 
@@ -23,12 +24,22 @@ public static class IDeviceExtensions
         return false;
     }
 
-    private static bool IsProximityBeacon(this byte[] data)
+    public static KBeaconData GetBeaconData(this IDevice device)
     {
-        if (data.Length < 4)
+        foreach (AdvertisementRecord record in device.AdvertisementRecords)
         {
-            throw new ArgumentException($"Expected 4 bytes or more, got {data.Length} bytes.");
+            if (record.Type == AdvertisementRecordType.ManufacturerSpecificData)
+            {
+                return new KBeaconData(record.Data);
+            }
         }
+
+        return null;
+    }
+
+    private static bool IsProximityBeacon(this IReadOnlyList<byte> data)
+    {
+        if (data.Count < 4) return false;
 
         bool isCompanyApple = data[0] == 0x4C && data[1] == 0x00;
         bool isProximityBeacon = data[2] == 0x02 && data[3] == 0x15;

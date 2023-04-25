@@ -1,18 +1,20 @@
 \section{Choice of technology}
-In this Section, we will compare the technologies presented in Sections \ref{sec:presence_env} to \ref{sec:bluetooth}, and decide which technology best satisfies the criterias listed in Section \ref{lst:presence_eval_criteria}. \todo{The listing does not have a ref. I dont know what "Listing 3" is.}
+In this Section, we will compare the technologies presented in Sections \ref{sec:presence_env} to \ref{sec:bluetooth}, and decide which technology best satisfies the criterias listed in Table \ref{lst:presence_eval_criteria}. 
 
-In section \ref{sec:presence_env}, Environmental-based technologies was described. These technologies can accurately detect the presence in a room using multiple environmental sources, such as $\text{CO}_{2}$ level, light, humidity and temperature.
-A drawback of environmental-based technologies is that they suffer from unpredictability.
-For instance, $\text{CO}_{2}$ levels change depending on whether or not windows are open.
-Thus, the accuracy of the technology can depend on external factors that the technology cannot control.
+Section \ref{sec:presence_env}, presents $\text{CO}_{2}$ sensoring as an occupation detection technology. The technology can accurately detect the presence in a room using by measuring $\text{CO}_{2}$ levels.
+The technology sufffer from unpredictability due to it being dependent on the environmental context of the system.
+For instance, $\text{CO}_{2}$ levels change depending on whether or not windows are open, how many participants are attending the meeting, and how long the meeting is.
+Thus, the accuracy of the technology depends on external factors that the technology cannot control.
 Depending on the external factors, changes to the environmental indicator used to detect presence might not be promptly detectable.
 As this technology focuses solely on the measurements of environmental factors, the privacy of the users of the system is protected, as information about the users is not collected.
 
 Section \ref{sec:video-based-detection} presents video-based technologies.
-As most of the technologies are based on a live video feed, one can precisely determine whether a room is occupied responsively. 
-Consequently, this reliance on live video leads to privacy concerns.
-Many of these technologies are fully reliant on rooms being suitably lit.
-However, this can be counteracted using infrared technology in the camera, but this increases the cost of the technology.   
+As most of the technologies are based on a live video feed, one can accurately determine the position of occupants within the room with high level of precision. 
+However, this reliance on live video leads to privacy concerns.
+Many of these technologies requires that the environment in which they are deployed to be suitable.
+If the shape of the room is not rectangular multiple cameras might be necessary to fully cover angles of the room, to ensure that occupants do not go unnoticed. 
+Similarly, the meeting room can be inadequately lit, decreasing the accuracy of the detection.
+If this not the case, infrared technology can be utilized to counteract the inadequate environment but this increases the cost of the technology.   
 
 Section \ref{sec:wi-fi} and Section \ref{sec:bluetooth} presents two radio technologies. 
 WiFi can be used to identify individual devices that might be stationary or mobile by having them broadcast a signal containing the identity of the device, and track the strength of this signal.
@@ -41,7 +43,6 @@ Table \ref{lst:evaluated_technologies} summarizes the characteristic of the cove
             Bluetooth          & x        & x         & x    & x       & -                      \\ \hline
             Wifi               & x        & x         & -    & x       & -                      \\ \hline
             CO2 sensors        & Not applicable        & Not applicable         & x    & x       & -                      \\ \hline
-            Motion detection   & Not applicable        & Not applicable         & x    & x       & x                      \\ \hline
             Camera (regular)   & x        & x         & x    & -       & -                      \\ \hline
             Camera (infrared)  & x        & x         & -    & x       & x                      \\ \hline
         \end{tabular}
@@ -55,11 +56,11 @@ Table \ref{lst:evaluated_technologies} summarizes the characteristic of the cove
 
 
 
-As environmental sensors are dependent on environmental indicators that cannot be controlled, the accuracy of a solution utilizing this technology might not be sufficient.
-Even though video technologies provide a high level of accuracy and are mostly independent of environmental factors, the privacy concerns and cost of installment and maintenance are deemed too high.
-WiFi is already an integral part of any office environment, but relying on the reconfiguration of personal devices is not accept    cable. 
-BLE supports many of the same use cases as WiFi, but does not rely on the devices broadcasting their identity regularly.
+As $\text{CO}_{2}$ sensors are dependent on environmental indicators that cannot be controlled, the accuracy of a solution utilizing this technology might not be sufficient.
+Even though video technologies provide a high level of accuracy and are mostly independent of environmental factors, such as air circulation radio wave fluctuations, the privacy concerns, cost of installment and maintenance are deemed too high.
+WiFi is already an integral part of any office environment. 
+A system analysing broadcasted identity of devices is not acceptable, as the cost of reconfiguring personal devices is too high and might not be possible.  
+BLE supports many of the same use cases as WiFi, but does not rely on the devices broadcasting their identity regularly, but instead require the device to collect information broadcasted by the system.
 Additionally, existing technologies supporting accurate presence detection using BLE exist, making it cheap to configure and manage. 
-Therefore, BLE is a suitable technology to create a system to accurately examine whether a meeting room is being used.
-
+Therefore, BLE is a suitable technology to create a system to accurately examine whether a meeting room is being occupied.
 In the following chapter, we examine in detail different approaches to presence detection using BLE.

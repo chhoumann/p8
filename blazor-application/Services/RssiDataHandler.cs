@@ -8,7 +8,7 @@ namespace BlazorBLE.Services
 
         private readonly ShiftList<double[]> latestMeasurements = new(10);
         
-        private RssiDataSet set;
+        private RssiDataSet dataSet;
 
         private List<double[]> measurementsInMeters = new();
 
@@ -16,19 +16,19 @@ namespace BlazorBLE.Services
 
         public void LoadData(string jsonFileName)
         {
-            set = RssiDataSet.ReadFromJson(jsonFileName);
-            set.RemoveDuplicates();
+            dataSet = RssiDataSet.ReadFromJson(jsonFileName);
+            dataSet.RemoveDuplicates();
         }
         
         public bool IsInsideRoom(int[] measurement, int txPower, double environmentalFactor, double distanceThreshold)
         {
             if (!isConverted)
             {
-                measurementsInMeters = set.ToMeters(txPower, environmentalFactor);
+                measurementsInMeters = dataSet.ToMeters(txPower, environmentalFactor);
                 isConverted = true;
             }
             
-            if (measurement.Length != set.NumBeacons)
+            if (measurement.Length != dataSet.NumBeacons)
             {
                 return false;
             }

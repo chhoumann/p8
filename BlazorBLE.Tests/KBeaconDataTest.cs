@@ -23,15 +23,6 @@ public class KBeaconDataTest
         Assert.Equal(expectedTxPower, kBeaconData.TxPower);
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData(new byte[] { })]
-    [InlineData(new byte[] { 0x01, 0x02, 0x03 })]
-    public void KBeaconData_IntestData_ThrowsArgumentException(byte[] generatedData)
-    {
-        Assert.Throws<ArgumentException>(() => new KBeaconData(generatedData));
-    }
-
     [Fact]
     public void TestConstructor_testData_BigEndian()
     {
@@ -43,6 +34,16 @@ public class KBeaconDataTest
         Assert.Equal(expectedMinor, kBeaconData.Minor);
         Assert.Equal(expectedTxPower, kBeaconData.TxPower);
     }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData(new byte[] { })]
+    [InlineData(new byte[] { 0x01, 0x02, 0x03 })]
+    public void KBeaconData_InvalidTestData_ThrowsArgumentException(byte[] generatedData)
+    {
+        Assert.Throws<ArgumentException>(() => new KBeaconData(generatedData));
+    }
+
 
     [Fact]
     public void KBeaconData_testData_CompanyId_LittleEndian_Equals_BigEndian()

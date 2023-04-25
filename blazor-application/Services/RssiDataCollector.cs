@@ -7,6 +7,8 @@ public sealed class RssiDataCollector
 {
     public event Action BeaconRssisUpdated;
 
+    public ClassLabel CurrentLabel { get; set; }
+    
     public RssiDataSet DataSet { get; private set; }
 
     public bool IsMeasuring { get; private set; }
@@ -36,6 +38,7 @@ public sealed class RssiDataCollector
 
         IsMeasuring = true;
     }
+    
     public void StopMeasuring()
     {
         if (!IsMeasuring) return;
@@ -94,7 +97,7 @@ public sealed class RssiDataCollector
             Guid guid = beaconGuids[i];
             int rssi = beaconRssis[guid];
             
-            measurements[i] = new BeaconRssiMeasurement(guid, rssi);
+            measurements[i] = new BeaconRssiMeasurement(guid, rssi, CurrentLabel);
         }
         
         return measurements;

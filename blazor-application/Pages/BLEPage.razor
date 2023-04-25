@@ -29,27 +29,37 @@ else
                 <tr>
                     <td>@(device.GetDeviceDisplayName())</td>
                     <td>
-                        <input type="checkbox" @onchange="(e) => OnDeviceSelectionChanged(e, device)" />
+                        <input type="checkbox" @onchange="e => OnDeviceSelectionChanged(e, device)" />
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-
+    <br/>
     <div style="display:flex; width:100%; justify-content:center;">
         <div>Status: @(isInsideRoom ? "Inside room" : "Outside room")</div>
     </div>
-
+    <br/>
     <div style="display:flex; width:100%; justify-content:center;">
         <button @onclick=ToggleMeasuring>@(!rssiDataCollector.IsMeasuring ? "Start measuring" : "Stop measuring")</button>
-        <button disabled=@(rssiDataCollector.IsMeasuring ? false : true) @onclick=ToggleDataCollecting>@(!rssiDataCollector.IsCollecting ? "Start collecting data" : "Stop collecting data")</button>
+        <button disabled=@(!rssiDataCollector.IsMeasuring) @onclick=ToggleDataCollecting>@(!rssiDataCollector.IsCollecting ? "Start collecting data" : "Stop collecting data")</button>
     </div>
-
+    <br/>
     <div>
         <div>Distance Threshold = @(distanceThreshold) dBm</div>
         <div style="display: flex; flex-direction: row; align-items: center;">
             <input type="range" min="1" max="100" step="1" @bind="distanceThreshold" @bind:event="oninput" style="width: 100%" />
         </div>
+    </div>
+    <br/>
+    <div>Label</div>
+    <div style="display: flex; flex-direction: row; align-items: center;">
+        <select @bind="rssiDataCollector.CurrentLabel" @bind:event="oninput" style="width: 100%">
+            @foreach (ClassLabel label in Enum.GetValues(typeof(ClassLabel)))
+            {
+                <option value="@label">@label</option>
+            }
+        </select>
     </div>
 }
 
@@ -65,7 +75,7 @@ else
     private bool isInsideRoom;
 
     private int distanceThreshold = 10;
-
+    
     protected override void OnInitialized()
     {
         base.OnInitialized();

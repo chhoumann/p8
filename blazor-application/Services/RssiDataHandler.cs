@@ -30,20 +30,58 @@ public sealed class RssiDataHandler
         {
             return false;
         }
-        
+
+        double[] distances = new double[dataSet.RssiDataPoints.Count];
         int[] rssis = beaconMeasurements.Select(m => m.Rssi).ToArray();
 
-        foreach (int[] dataPoint in dataSet.RssiDataPoints)
+        for (int i = 0; i < dataSet.RssiDataPoints.Count; i++)
         {
-            double dist = GetDistance(dataPoint, rssis);
-            
-            if (dist < distanceThreshold)
+            DataPoint[] dataPoint = dataSet.RssiDataPoints[i];
+            int[] dataPointRssi = dataPoint.Select(d => d.Rssi).ToArray();
+            double distance = GetDistance(dataPointRssi, rssis);
+
+            distances[i] = distance;
+
+            if (distance < distanceThreshold)
             {
                 return true;
             }
         }
 
+        GetKNearestNeighbors(distances);
+
         return false;
+    }
+
+    private static double[] GetKNearestNeighbors(IReadOnlyList<double> distances, int k = 5)
+    {
+        double[] kSmallestDistances = new double[k];
+
+        for (int i = 0; i < k; i++)
+        {
+            kSmallestDistances[i] = double.MaxValue;
+        }
+
+        for (int i = 0; i < distances.Count; i++)
+        {
+            double distance = distances[i];
+
+            for (int j = 0; j < k; j++)
+            {
+                if (distance < kSmallestDistances[j])
+                {
+                    for (int l = k - 1; l > j; l--)
+                    {
+                        kSmallestDistances[l] = kSmallestDistances[l - 1];
+                    }
+
+                    kSmallestDistances[j] = distance;
+                    break;
+                }
+            }
+        }
+        
+        return kSmallestDistances;
     }
 
     private static double GetDistance(IReadOnlyList<int> vector1, IReadOnlyList<int> vector2)

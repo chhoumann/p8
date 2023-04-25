@@ -63,7 +63,7 @@ public sealed class KBeaconData
             Minor = BitConverter.ToUInt16(data.Skip(22).Take(2).Reverse().ToArray());
         }
 
-        TxPower = (sbyte)data[data.Length - 1];
+        TxPower = (sbyte)data[^1];
     }
 
     public override string ToString()

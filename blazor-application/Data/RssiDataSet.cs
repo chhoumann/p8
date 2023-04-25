@@ -10,7 +10,7 @@ public sealed class RssiDataSet
 
     public Guid[] BeaconIds { get; set; }
     
-    public List<int[]> RssiDataPoints { get; set; }
+    public List<DataPoint[]> RssiDataPoints { get; set; }
     
     [JsonConstructor]
     public RssiDataSet() { }
@@ -48,7 +48,7 @@ public sealed class RssiDataSet
             throw new ArgumentException("Measurement must have the same number of elements as the number of beacons.");
         }
 
-        RssiDataPoints.Add(new int[NumBeacons]);
+        RssiDataPoints.Add(new DataPoint[NumBeacons]);
         
         for (int i = 0; i < measurement.Length; i++)
         {
@@ -56,7 +56,7 @@ public sealed class RssiDataSet
             
             if (BeaconIds[i] == beaconId)
             {
-                RssiDataPoints[^1][i] = measurement[i].Rssi;
+                RssiDataPoints[^1][i] = new DataPoint(measurement[i].Rssi, measurement[i].Label);
             }
         }
     }

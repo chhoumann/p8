@@ -5,9 +5,10 @@ namespace BlazorBLE.Services;
 
 public sealed class RssiDataCollector
 {
+    public RssiDataMeasurements Measurements { get; private set; }
+    
     public bool IsMeasuring { get; private set; }
 
-    private RssiDataMeasurements dataMeasurements;
     private PeriodicTimer periodicTimer;
     private Guid[] beaconGuids;
     private Dictionary<Guid, int> beaconRssis;
@@ -16,7 +17,7 @@ public sealed class RssiDataCollector
     {
         if (IsMeasuring) return;
 
-        dataMeasurements = new RssiDataMeasurements(beacons.Count);
+        Measurements = new RssiDataMeasurements(beacons.Count);
         periodicTimer = new PeriodicTimer(interval);
         beaconRssis = new Dictionary<Guid, int>();
         beaconGuids = new Guid[beacons.Count];
@@ -61,7 +62,7 @@ public sealed class RssiDataCollector
                 rssiMeasurement[i] = beaconRssis[beaconGuids[i]];
             }
             
-            dataMeasurements.Add(rssiMeasurement);
+            Measurements.Add(rssiMeasurement);
         }
     }
 }

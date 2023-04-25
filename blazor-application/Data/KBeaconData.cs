@@ -1,7 +1,4 @@
-﻿using Plugin.BLE.Abstractions.Contracts;
-using Plugin.BLE.Abstractions;
-
-namespace BlazorBLE.Data;
+﻿namespace BlazorBLE.Data;
 
 public sealed class KBeaconData
 {

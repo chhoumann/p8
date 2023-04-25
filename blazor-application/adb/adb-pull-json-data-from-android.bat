@@ -1,0 +1,1 @@
+"C:\Program Files (x86)\Android\android-sdk\platform-tools\adb.exe" shell "run-as com.companyname.BlazorBLE cat /data/user/0/com.companyname.BlazorBLE/files/test_data.json" > .\test_data.json

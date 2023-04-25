@@ -1,5 +1,6 @@
 ﻿@page "/"
 
+@using BlazorBLE.Data;
 @using BlazorBLE.Services
 @using BlazorBLE.Extensions
 @using Plugin.BLE.Abstractions
@@ -89,6 +90,7 @@ else
         else
         {
             rssiDataCollector.StopMeasuring();
+            rssiDataCollector.Measurements.WriteToJson("test_data.json");
         }
     }
 }

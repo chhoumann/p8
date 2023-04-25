@@ -63,7 +63,7 @@ public sealed class RssiDataCollector
         {
             while (await periodicTimer.WaitForNextTickAsync() && IsCollecting)
             {
-                DataSet.Add(GetLatestDataPoint());
+                DataSet.Add(GetLatestDataPoint(), CurrentLabel);
             }
         }, cts.Token);
         
@@ -97,7 +97,7 @@ public sealed class RssiDataCollector
             Guid guid = beaconGuids[i];
             int rssi = beaconRssis[guid];
             
-            measurements[i] = new BeaconRssiMeasurement(guid, rssi, CurrentLabel);
+            measurements[i] = new BeaconRssiMeasurement(guid, rssi);
         }
         
         return measurements;

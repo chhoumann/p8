@@ -1,13 +1,13 @@
 namespace BlazorBLE.Data;
 
-public readonly struct DataPoint
+public struct DataPoint
 {
-    public readonly int Rssi;
     public readonly ClassLabel Label;
-    
-    public DataPoint(int rssi, ClassLabel label)
+    public readonly int[] Rssis;
+
+    public DataPoint(ClassLabel label, int[] rssis)
     {
-        Rssi = rssi;
         Label = label;
+        Rssis = rssis;
     }
 }

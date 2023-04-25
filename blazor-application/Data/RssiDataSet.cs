@@ -10,7 +10,7 @@ public sealed class RssiDataSet
 
     public Guid[] BeaconIds { get; set; }
     
-    public List<DataPoint[]> RssiDataPoints { get; set; }
+    public List<DataPoint> RssiDataPoints { get; set; }
     
     [JsonConstructor]
     public RssiDataSet() { }
@@ -41,30 +41,36 @@ public sealed class RssiDataSet
         File.WriteAllText(GetPath(fileName), jsonString);
     }
 
-    public void Add(BeaconRssiMeasurement[] measurement)
+    public void Add(BeaconRssiMeasurement[] measurements, ClassLabel label)
     {
-        if (measurement.Length != NumBeacons)
+        if (measurements.Length != NumBeacons)
         {
             throw new ArgumentException("Measurement must have the same number of elements as the number of beacons.");
         }
 
-        RssiDataPoints.Add(new DataPoint[NumBeacons]);
-        
-        for (int i = 0; i < measurement.Length; i++)
+        int[] rssis = new int[measurements.Length];
+
+        for (int i = 0; i < BeaconIds.Length; i++)
         {
-            Guid beaconId = measurement[i].BeaconId;
+            Guid beaconId = BeaconIds[i];
             
-            if (BeaconIds[i] == beaconId)
+            for (int j = 0; j < measurements.Length; j++)
             {
-                RssiDataPoints[^1][i] = new DataPoint(measurement[i].Rssi, measurement[i].Label);
+                if (measurements[j].BeaconId == beaconId)
+                {
+                    rssis[i] = measurements[j].Rssi;
+                    break;
+                }
             }
         }
+        
+        RssiDataPoints.Add(new DataPoint(label, rssis));
     }
 
     public void RemoveDuplicates()
     {
-        RssiDataPoints = RssiDataPoints.GroupBy(c => string.Join(",", c))
-                    .Select(c => c.First().ToArray()).ToList();
+        // RssiDataPoints = RssiDataPoints.GroupBy(c => string.Join(",", c))
+        //             .Select(c => c.First().ToArray()).ToList();
     }
     
     public override string ToString()

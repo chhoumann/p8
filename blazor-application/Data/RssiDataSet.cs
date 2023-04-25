@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Plugin.BLE.Abstractions.Contracts;
 
 namespace BlazorBLE.Data;
 
@@ -6,12 +7,20 @@ public sealed class RssiDataSet
 {
     public int NumBeacons { get; }
 
-    public List<int[]> RssiDataPoints { get; private set; }
-
-    public RssiDataSet(int numBeacons)
+    private Guid[] BeaconIds { get; }
+    
+    public List<int[]> RssiDataPoints { get; set; }
+    
+    public RssiDataSet(IReadOnlyList<IDevice> beacons)
     {
-        NumBeacons = numBeacons;
-        RssiDataPoints = new List<int[]>();
+        NumBeacons = beacons.Count;
+        RssiDataPoints = new();
+        BeaconIds = new Guid[NumBeacons];
+        
+        for (int i = 0; i < NumBeacons; i++)
+        {
+            BeaconIds[i] = beacons[i].Id;
+        }
     }
 
     public static RssiDataSet ReadFromJson(string fileName)
@@ -28,20 +37,30 @@ public sealed class RssiDataSet
         File.WriteAllText(GetPath(fileName), jsonString);
     }
 
-    public void Add(int[] measurement)
+    public void Add(BeaconRssiMeasurement[] measurement)
     {
         if (measurement.Length != NumBeacons)
         {
-            throw new ArgumentException($"Size of measurement ({measurement.Length}) must be equal to the number of beacons ({NumBeacons}).");
+            throw new ArgumentException("Measurement must have the same number of elements as the number of beacons.");
         }
 
-        RssiDataPoints.Add(measurement);
+        RssiDataPoints.Add(new int[NumBeacons]);
+        
+        for (int i = 0; i < measurement.Length; i++)
+        {
+            Guid beaconId = measurement[i].BeaconId;
+            
+            if (BeaconIds[i] == beaconId)
+            {
+                RssiDataPoints[^1][i] = measurement[i].Rssi;
+            }
+        }
     }
 
     public void RemoveDuplicates()
     {
         RssiDataPoints = RssiDataPoints.GroupBy(c => string.Join(",", c))
-            .Select(c => c.First().ToArray()).ToList();
+                    .Select(c => c.First().ToArray()).ToList();
     }
 
     private static string GetPath(string fileName)

@@ -1,11 +1,9 @@
 ﻿@page "/"
 
-@using BlazorBLE.Data;
 @using BlazorBLE.Services
 @using BlazorBLE.Extensions
-@using Plugin.BLE.Abstractions
 @using Plugin.BLE.Abstractions.Contracts
-@using Plugin.BLE.Abstractions.EventArgs
+@using BlazorBLE.Data
 
 @inject BLEScannerService BLEScannerService
 
@@ -43,23 +41,14 @@ else
     </div>
 
     <div style="display:flex; width:100%; justify-content:center;">
-        <div>Averages: @(GetAverages())</div>
-    </div>
-
-    <div style="display:flex; width:100%; justify-content:center;">
         <button @onclick=ToggleMeasuring>@(!rssiDataCollector.IsMeasuring ? "Start measuring" : "Stop measuring")</button>
         <button disabled=@(rssiDataCollector.IsMeasuring ? false : true) @onclick=ToggleDataCollecting>@(!rssiDataCollector.IsCollecting ? "Start collecting data" : "Stop collecting data")</button>
     </div>
 
     <div>
-        <div>Environmental Factor = @(environmentalFactor)</div>
+        <div>Distance Threshold = @(distanceThreshold) dBm</div>
         <div style="display: flex; flex-direction: row; align-items: center;">
-            <input type="range" min="2" max="4" step="0.01" @bind="environmentalFactor" @bind:event="oninput" style="width: 100%" />
-        </div>
-
-        <div>Distance Threshold = @(distanceThreshold) m</div>
-        <div style="display: flex; flex-direction: row; align-items: center;">
-            <input type="range" min="1" max="10" step="0.01" @bind="distanceThreshold" @bind:event="oninput" style="width: 100%" />
+            <input type="range" min="1" max="100" step="1" @bind="distanceThreshold" @bind:event="oninput" style="width: 100%" />
         </div>
     </div>
 }
@@ -68,17 +57,14 @@ else
     [Inject]
     private IPromptService promptService { get; set; }
 
-    private List<IDevice> selectedDevices = new();
-    private RssiDataCollector rssiDataCollector = new();
-    private BLEAdvertisementScanner advertisementScanner = new();
-    private RssiDataHandler rssiDataHandler = new();
+    private readonly List<IDevice> selectedDevices = new();
+    private readonly RssiDataCollector rssiDataCollector = new();
+    private readonly BLEAdvertisementScanner advertisementScanner = new();
+    private readonly  RssiDataHandler rssiDataHandler = new();
 
     private bool isInsideRoom;
 
-    private int txPower;    
-
-    private double environmentalFactor = 2;
-    private double distanceThreshold = 2;
+    private int distanceThreshold = 10;
 
     protected override void OnInitialized()
     {
@@ -102,7 +88,6 @@ else
         if (isChecked && !selectedDevices.Contains(device))
         {
             selectedDevices.Add(device);
-            txPower = device.GetBeaconData().TxPower;
         }
         else if (!isChecked && selectedDevices.Contains(device))
         {
@@ -112,7 +97,7 @@ else
 
     private void OnBeaconRssisUpdated()
     {
-        int[] latestMeasurement = rssiDataCollector.GetLatestMeasurement();
+        BeaconRssiMeasurement[] latestMeasurement = rssiDataCollector.GetLatestDataPoint();
         isInsideRoom = rssiDataHandler.IsInsideRoom(latestMeasurement, distanceThreshold);
 
         StateHasChanged();
@@ -144,14 +129,7 @@ else
         else
         {
             rssiDataCollector.StopCollectingRssiData();
-            rssiDataCollector.Measurements.WriteToJson("test_data.json");
+            rssiDataCollector.DataSet.WriteToJson("test_data.json");
         }
-    }
-
-    private string GetAverages()
-    {
-        if (rssiDataHandler.Averages == null) return string.Empty;
-
-        return string.Join(", ", rssiDataHandler.Averages.Select(d => d.ToString("0.##")));
     }
 }

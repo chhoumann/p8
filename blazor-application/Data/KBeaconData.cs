@@ -1,7 +1,4 @@
-﻿using Plugin.BLE.Abstractions.Contracts;
-using Plugin.BLE.Abstractions;
-
-namespace BlazorBLE.Data;
+﻿namespace BlazorBLE.Data;
 
 public sealed class KBeaconData
 {
@@ -30,15 +27,18 @@ public sealed class KBeaconData
     /// Wrapper class for the KBeacon advertising packet.
     /// </summary>
     /// <param name="data">The advertising packet for the Proximity beacon.</param>
-    /// <exception cref="ArgumentException"></exception>
-    public KBeaconData(byte[] data)
+    public KBeaconData(byte[] data) : this(data, BitConverter.IsLittleEndian) { }
+
+    /// <inheritdoc cref="KBeaconData(byte[])"/>
+    /// <param name="isLittleEndian">Indicates whether the byte order is little-endian.</param>
+    public KBeaconData(byte[] data, bool isLittleEndian)
     {
         if (data.Length != ByteCount)
         {
             throw new ArgumentException($"Number of bytes was {data.Length}, expected {ByteCount}.");
         }
 
-        if (BitConverter.IsLittleEndian)
+        if (isLittleEndian)
         {
             CompanyId = data.Take(2).ToArray();
             Uuid = new Guid(
@@ -69,31 +69,5 @@ public sealed class KBeaconData
     public override string ToString()
     {
         return $"Uuid = {Uuid}, Company ID = {CompanyId}, Major = {Major}, Minor = {Minor}, TxPower = {TxPower}";
-    }
-
-    public static bool IsProximityBeacon(IDevice device)
-    {
-        foreach (AdvertisementRecord record in device.AdvertisementRecords)
-        {
-            if (record.Type == AdvertisementRecordType.ManufacturerSpecificData)
-            {
-                return IsProximityBeacon(record.Data);
-            }
-        }
-
-        return false;
-    }
-
-    public static bool IsProximityBeacon(byte[] data)
-    {
-        if (data.Length < 4)
-        {
-            throw new ArgumentException($"Expected 4 bytes or more, got {data.Length} bytes.");
-        }
-
-        bool isCompanyApple = data[0] == 0x4C && data[1] == 0x00;
-        bool isProximityBeacon = data[2] == 0x02 && data[3] == 0x15;
-
-        return isCompanyApple && isProximityBeacon;
     }
 }

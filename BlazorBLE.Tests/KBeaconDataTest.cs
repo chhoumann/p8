@@ -15,7 +15,7 @@ namespace BlazorBLE.Tests
         public void TestConstructor_ValidData_LittleEndian()
         {
             // Act
-            var kBeaconData = new KBeaconData(validData);
+            KBeaconData kBeaconData = new KBeaconData(validData);
 
             // Assert
             Assert.Equal(expectedUuid, kBeaconData.Uuid);
@@ -38,7 +38,7 @@ namespace BlazorBLE.Tests
         public void TestConstructor_ValidData_BigEndian()
         {
             // Act
-            var kBeaconData = new KBeaconData(validData, false);
+            KBeaconData kBeaconData = new KBeaconData(validData, false);
 
             // Assert
             Assert.Equal(expectedUuid, kBeaconData.Uuid);
@@ -51,8 +51,8 @@ namespace BlazorBLE.Tests
         [Fact]
         public void KBeaconData_ValidData_CompanyId_LittleEndian_Equals_BigEndian()
         {
-            var littleEndianKBeaconData = new KBeaconData(validData, true);
-            var bigEndianKBeaconData = new KBeaconData(validData, false);
+            KBeaconData littleEndianKBeaconData = new KBeaconData(validData, true);
+            KBeaconData bigEndianKBeaconData = new KBeaconData(validData, false);
 
             Assert.Equal(littleEndianKBeaconData.CompanyId, bigEndianKBeaconData.CompanyId);
         }

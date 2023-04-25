@@ -65,21 +65,21 @@ namespace BlazorBLE.Services
             return Math.Sqrt(distanceSquared);
         }
 
-        private static int[] CalculateAverages(ShiftList<int[]> list)
+        private static int[] CalculateAverages(IList<int[]> list)
         {
-            int[] averages = new int[list.List[0].Length];
+            int[] averages = new int[list[0].Length];
             
-            for (int i = 0; i < list.List.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
-                for (int j = 0; j < list.List[i].Length; j++)
+                for (int j = 0; j < list[i].Length; j++)
                 {
-                    averages[j] += list.List[i][j];
+                    averages[j] += list[i][j];
                 }
             }
             
             for (int i = 0; i < averages.Length; i++)
             {
-                averages[i] /= list.List.Count;
+                averages[i] /= list.Count;
             }
             
             return averages;

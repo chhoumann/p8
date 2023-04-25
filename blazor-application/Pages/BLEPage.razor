@@ -1,11 +1,9 @@
 ﻿@page "/"
 
-@using BlazorBLE.Data;
 @using BlazorBLE.Services
 @using BlazorBLE.Extensions
-@using Plugin.BLE.Abstractions
 @using Plugin.BLE.Abstractions.Contracts
-@using Plugin.BLE.Abstractions.EventArgs
+@using BlazorBLE.Data
 
 @inject BLEScannerService BLEScannerService
 
@@ -37,8 +35,21 @@ else
             }
         </tbody>
     </table>
+
+    <div style="display:flex; width:100%; justify-content:center;">
+        <div>Status: @(isInsideRoom ? "Inside room" : "Outside room")</div>
+    </div>
+
     <div style="display:flex; width:100%; justify-content:center;">
         <button @onclick=ToggleMeasuring>@(!rssiDataCollector.IsMeasuring ? "Start measuring" : "Stop measuring")</button>
+        <button disabled=@(rssiDataCollector.IsMeasuring ? false : true) @onclick=ToggleDataCollecting>@(!rssiDataCollector.IsCollecting ? "Start collecting data" : "Stop collecting data")</button>
+    </div>
+
+    <div>
+        <div>Distance Threshold = @(distanceThreshold) dBm</div>
+        <div style="display: flex; flex-direction: row; align-items: center;">
+            <input type="range" min="1" max="100" step="1" @bind="distanceThreshold" @bind:event="oninput" style="width: 100%" />
+        </div>
     </div>
 }
 
@@ -46,15 +57,23 @@ else
     [Inject]
     private IPromptService promptService { get; set; }
 
-    private List<IDevice> selectedDevices = new();
-    private RssiDataCollector rssiDataCollector = new();
-    private BLEAdvertisementScanner advertisementScanner = new();
+    private readonly List<IDevice> selectedDevices = new();
+    private readonly RssiDataCollector rssiDataCollector = new();
+    private readonly BLEAdvertisementScanner advertisementScanner = new();
+    private readonly  RssiDataHandler rssiDataHandler = new();
+
+    private bool isInsideRoom;
+
+    private int distanceThreshold = 10;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         BLEScannerService.DevicesChanged += StateHasChanged;
         advertisementScanner.BeaconAdvertised += OnBeaconAdvertised;
+        rssiDataCollector.BeaconRssisUpdated += OnBeaconRssisUpdated;
+
+        rssiDataHandler.LoadData("test_data.json");
     }
 
     protected override async Task OnInitializedAsync()
@@ -76,6 +95,14 @@ else
         }
     }
 
+    private void OnBeaconRssisUpdated()
+    {
+        BeaconRssiMeasurement[] latestMeasurement = rssiDataCollector.GetLatestDataPoint();
+        isInsideRoom = rssiDataHandler.IsInsideRoom(latestMeasurement, distanceThreshold);
+
+        StateHasChanged();
+    }
+
     private void OnBeaconAdvertised(IDevice device)
     {
         rssiDataCollector.UpdateBeaconRssi(device);
@@ -90,7 +117,19 @@ else
         else
         {
             rssiDataCollector.StopMeasuring();
-            rssiDataCollector.Measurements.WriteToJson("test_data.json");
+        }
+    }
+
+    private void ToggleDataCollecting()
+    {
+        if (!rssiDataCollector.IsCollecting)
+        {
+            rssiDataCollector.CollectRssiData();
+        }
+        else
+        {
+            rssiDataCollector.StopCollectingRssiData();
+            rssiDataCollector.DataSet.WriteToJson("test_data.json");
         }
     }
 }

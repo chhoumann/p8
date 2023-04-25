@@ -5,19 +5,23 @@ namespace BlazorBLE.Services;
 
 public sealed class RssiDataCollector
 {
-    public RssiDataMeasurements Measurements { get; private set; }
-    
+    public event Action BeaconRssisUpdated;
+
+    public RssiDataSet DataSet { get; private set; }
+
     public bool IsMeasuring { get; private set; }
+    public bool IsCollecting { get; private set; }
 
     private PeriodicTimer periodicTimer;
     private Guid[] beaconGuids;
     private Dictionary<Guid, int> beaconRssis;
+    private CancellationTokenSource cts;
 
     public void StartMeasuring(IReadOnlyList<IDevice> beacons, TimeSpan interval)
     {
         if (IsMeasuring) return;
 
-        Measurements = new RssiDataMeasurements(beacons.Count);
+        DataSet = new RssiDataSet(beacons);
         periodicTimer = new PeriodicTimer(interval);
         beaconRssis = new Dictionary<Guid, int>();
         beaconGuids = new Guid[beacons.Count];
@@ -30,17 +34,45 @@ public sealed class RssiDataCollector
             beaconGuids[i] = beacon.Id;
         }
 
-        Task.Run(CollectRssiData);
-
         IsMeasuring = true;
     }
-
     public void StopMeasuring()
     {
         if (!IsMeasuring) return;
 
         periodicTimer.Dispose();
         IsMeasuring = false;
+        
+        if (IsCollecting)
+        {
+            StopCollectingRssiData();
+        }
+    }
+
+    public void CollectRssiData()
+    {
+        if (!IsMeasuring) return;
+        if (IsCollecting) return;
+
+        cts = new CancellationTokenSource();
+
+        Task.Run(async () =>
+        {
+            while (await periodicTimer.WaitForNextTickAsync() && IsCollecting)
+            {
+                DataSet.Add(GetLatestDataPoint());
+            }
+        }, cts.Token);
+        
+        IsCollecting = true;
+    }
+
+    public void StopCollectingRssiData()
+    {
+        if (!IsCollecting) return;
+
+        cts.Cancel();
+        IsCollecting = false;
     }
 
     public void UpdateBeaconRssi(IDevice device)
@@ -49,20 +81,22 @@ public sealed class RssiDataCollector
         if (!beaconRssis.ContainsKey(device.Id)) return;
 
         beaconRssis[device.Id] = device.Rssi;
+
+        BeaconRssisUpdated?.Invoke();
     }
 
-    private async Task CollectRssiData()
+    public BeaconRssiMeasurement[] GetLatestDataPoint()
     {
-        while (await periodicTimer.WaitForNextTickAsync())
+        BeaconRssiMeasurement[] measurements = new BeaconRssiMeasurement[beaconGuids.Length];
+        
+        for (int i = 0; i < measurements.Length; i++)
         {
-            int[] rssiMeasurement = new int[beaconGuids.Length];
-
-            for (int i = 0; i < beaconGuids.Length; i++)
-            {
-                rssiMeasurement[i] = beaconRssis[beaconGuids[i]];
-            }
+            Guid guid = beaconGuids[i];
+            int rssi = beaconRssis[guid];
             
-            Measurements.Add(rssiMeasurement);
+            measurements[i] = new BeaconRssiMeasurement(guid, rssi);
         }
+        
+        return measurements;
     }
 }

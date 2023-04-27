@@ -41,8 +41,8 @@ else
     </div>
     <br/>
     <div style="display:flex; width:100%; justify-content:center;">
-        <button @onclick=ToggleMeasuring>@(!rssiDataCollector.IsMeasuring ? "Start measuring" : "Stop measuring")</button>
-        <button disabled=@(!rssiDataCollector.IsMeasuring) @onclick=ToggleDataCollecting>@(!rssiDataCollector.IsCollecting ? "Start collecting data" : "Stop collecting data")</button>
+        <button @onclick=ToggleListening>@(!rssiDataCollector.IsListening ? "Listen" : "Stop listening")</button>
+        <button disabled=@(!rssiDataCollector.IsListening) @onclick=ToggleDataCollecting>@(!rssiDataCollector.IsCollecting ? "Start collecting data" : "Stop collecting data")</button>
     </div>
     <br/>
     <div>
@@ -118,15 +118,15 @@ else
         rssiDataCollector.UpdateBeaconRssi(device);
     }
 
-    private void ToggleMeasuring()
+    private void ToggleListening()
     {
-        if (!rssiDataCollector.IsMeasuring)
+        if (!rssiDataCollector.IsListening)
         {
-            rssiDataCollector.StartMeasuring(selectedDevices, TimeSpan.FromMilliseconds(500));
+            rssiDataCollector.Listen(selectedDevices, TimeSpan.FromMilliseconds(500));
         }
         else
         {
-            rssiDataCollector.StopMeasuring();
+            rssiDataCollector.StopListening();
         }
     }
 

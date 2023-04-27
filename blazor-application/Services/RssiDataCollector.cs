@@ -11,7 +11,7 @@ public sealed class RssiDataCollector
     
     public RssiDataSet DataSet { get; private set; }
 
-    public bool IsMeasuring { get; private set; }
+    public bool IsListening { get; private set; }
     public bool IsCollecting { get; private set; }
 
     private PeriodicTimer periodicTimer;
@@ -19,9 +19,9 @@ public sealed class RssiDataCollector
     private Dictionary<Guid, int> beaconRssis;
     private CancellationTokenSource cts;
 
-    public void StartMeasuring(IReadOnlyList<IDevice> beacons, TimeSpan interval)
+    public void Listen(IReadOnlyList<IDevice> beacons, TimeSpan interval)
     {
-        if (IsMeasuring) return;
+        if (IsListening) return;
 
         DataSet = new RssiDataSet(beacons);
         periodicTimer = new PeriodicTimer(interval);
@@ -36,15 +36,15 @@ public sealed class RssiDataCollector
             beaconGuids[i] = beacon.Id;
         }
 
-        IsMeasuring = true;
+        IsListening = true;
     }
     
-    public void StopMeasuring()
+    public void StopListening()
     {
-        if (!IsMeasuring) return;
+        if (!IsListening) return;
 
         periodicTimer.Dispose();
-        IsMeasuring = false;
+        IsListening = false;
         
         if (IsCollecting)
         {
@@ -54,7 +54,7 @@ public sealed class RssiDataCollector
 
     public void CollectRssiData()
     {
-        if (!IsMeasuring) return;
+        if (!IsListening) return;
         if (IsCollecting) return;
 
         cts = new CancellationTokenSource();
@@ -80,7 +80,7 @@ public sealed class RssiDataCollector
 
     public void UpdateBeaconRssi(IDevice device)
     {
-        if (!IsMeasuring) return;
+        if (!IsListening) return;
         if (!beaconRssis.ContainsKey(device.Id)) return;
 
         beaconRssis[device.Id] = device.Rssi;

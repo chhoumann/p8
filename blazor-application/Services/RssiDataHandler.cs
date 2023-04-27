@@ -31,18 +31,19 @@ public sealed class RssiDataHandler
             return false;
         }
 
-        const int k = 5;
-
-        // double[] distances = new double[dataSet.RssiDataPoints.Count];
-        Dictionary<DataPoint, double> distances = new(dataSet.RssiDataPoints.Count);
+        int[] rssis = beaconMeasurements.Select(measurement => measurement.Rssi).ToArray(); 
 
         for (int i = 0; i < dataSet.RssiDataPoints.Count; i++)
         {
-            var dataPoint = dataSet.RssiDataPoints[i];
-            
-        }
+            DataPoint dataPoint = dataSet.RssiDataPoints[i];
 
-        // GetKNearestNeighbors(distances, k);
+            double distance = DataPoint.Distance(dataPoint, rssis);
+            
+            if (distance < distanceThreshold)
+            {
+                return true;
+            }
+        }
 
         return false;
     }
@@ -76,18 +77,5 @@ public sealed class RssiDataHandler
         }
         
         return kSmallestDistances;
-    }
-
-    private static double GetDistance(IReadOnlyList<int> vector1, IReadOnlyList<int> vector2)
-    {
-        double distanceSquared = 0;
-
-        for (int i = 0; i < vector1.Count; i++)
-        {
-            double difference = vector1[i] - vector2[i];
-            distanceSquared += difference * difference;
-        }
-
-        return Math.Sqrt(distanceSquared);
     }
 }

@@ -62,9 +62,17 @@ public sealed class RssiDataCollector
         
         Task.Run(async () =>
         {
+            RssiLowVarianceSample sample = new(beaconGuids);
+            
             while (await periodicTimer.WaitForNextTickAsync() && IsCollecting)
             {
-                DataSet.Add(GetLatestMeasurement(), CurrentLabel);
+                sample.Add(GetLatestMeasurement());
+                
+                if (sample.IsStable(5))
+                {
+                    DataSet.Add(sample.CalculateAverageMeasurement(), CurrentLabel);
+                    StopCollectingRssiData();
+                }
             }
         }, cts.Token);
         

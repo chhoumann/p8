@@ -41,14 +41,14 @@ public sealed class RssiDataSet
         File.WriteAllText(GetPath(fileName), jsonString);
     }
 
-    public void Add(BeaconRssiMeasurement measurement, ClassLabel label)
+    public void Add(BeaconRssiMeasurement<double> measurement, ClassLabel label)
     {
         if (measurement.Count != NumBeacons)
         {
             throw new ArgumentException("Measurement must have the same number of elements as the number of beacons.");
         }
 
-        int[] rssis = new int[measurement.Count];
+        double[] rssis = new double[measurement.Count];
 
         for (int i = 0; i < BeaconIds.Length; i++)
         {

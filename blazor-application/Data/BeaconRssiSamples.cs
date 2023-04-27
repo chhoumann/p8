@@ -1,6 +1,6 @@
 namespace BlazorBLE.Data;
 
-public sealed class BeaconSamples
+public sealed class BeaconRssiSamples
 {
     private readonly List<int> rssis = new();
     

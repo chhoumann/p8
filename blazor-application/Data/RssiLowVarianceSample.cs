@@ -4,7 +4,7 @@ public sealed class RssiLowVarianceSample
 {
     private int BeaconCount => beaconGuids.Length;
     
-    private readonly Dictionary<Guid, BeaconSamples> samples = new();
+    private readonly Dictionary<Guid, BeaconRssiSamples> samples = new();
 
     private readonly Guid[] beaconGuids;
 
@@ -17,11 +17,11 @@ public sealed class RssiLowVarianceSample
         
         foreach (Guid beaconGuid in beaconGuids)
         {
-            samples.Add(beaconGuid, new BeaconSamples());
+            samples.Add(beaconGuid, new BeaconRssiSamples());
         }
     }
 
-    public void Add(BeaconRssiMeasurement measurement)
+    public void Add(BeaconRssiMeasurement<int> measurement)
     {
         for (int i = 0; i < measurement.BeaconIds.Length; i++)
         {
@@ -41,7 +41,7 @@ public sealed class RssiLowVarianceSample
 
         int stableCount = 0;
         
-        foreach (BeaconSamples beaconSamples in samples.Values)
+        foreach (BeaconRssiSamples beaconSamples in samples.Values)
         {
             if (beaconSamples.IsStable(threshold))
             {
@@ -52,7 +52,7 @@ public sealed class RssiLowVarianceSample
         return stableCount == BeaconCount;
     }
 
-    public BeaconRssiMeasurement CalculateAverageMeasurement()
+    public BeaconRssiMeasurement<double> CalculateAverageMeasurement()
     {
         double[] averages = new double[BeaconCount];
         
@@ -61,10 +61,7 @@ public sealed class RssiLowVarianceSample
             Guid beaconGuid = beaconGuids[i];
             averages[i] = samples[beaconGuid].Average();
         }
-        
-        // temporary, I hope hope hope
-        int[] roundedAverages = averages.Select(average => (int) Math.Round(average)).ToArray();
 
-        return new BeaconRssiMeasurement(beaconGuids, roundedAverages);
+        return new BeaconRssiMeasurement<double>(beaconGuids, averages);
     }
 }

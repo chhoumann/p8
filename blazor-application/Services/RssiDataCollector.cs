@@ -99,9 +99,9 @@ public sealed class RssiDataCollector
         BeaconRssisUpdated?.Invoke();
     }
 
-    public BeaconRssiMeasurement GetLatestMeasurement()
+    public BeaconRssiMeasurement<int> GetLatestMeasurement()
     {
-        BeaconRssiMeasurement measurement = new(beaconGuids.Length);
+        BeaconRssiMeasurement<int> measurement = new(beaconGuids.Length);
         
         for (int i = 0; i < measurement.Count; i++)
         {

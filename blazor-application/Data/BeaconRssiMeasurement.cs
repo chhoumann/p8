@@ -1,9 +1,9 @@
 namespace BlazorBLE.Data;
 
-public sealed class BeaconRssiMeasurement
+public sealed class BeaconRssiMeasurement<T>
 {
     public Guid[] BeaconIds { get; }
-    public int[] Rssis { get; }
+    public T[] Rssis { get; }
 
     public int Count { get; }
 
@@ -13,10 +13,10 @@ public sealed class BeaconRssiMeasurement
     {
         Count = count;
         BeaconIds = new Guid[count];
-        Rssis = new int[count];
+        Rssis = new T[count];
     }
     
-    public BeaconRssiMeasurement(Guid[] beaconIds, int[] rssis)
+    public BeaconRssiMeasurement(Guid[] beaconIds, T[] rssis)
     {
         if (beaconIds.Length != rssis.Length)
         {
@@ -28,7 +28,7 @@ public sealed class BeaconRssiMeasurement
         Count = beaconIds.Length;
     }
     
-    public void Add(Guid beaconId, int rssi)
+    public void Add(Guid beaconId, T rssi)
     {
         BeaconIds[index] = beaconId;
         Rssis[index] = rssi;

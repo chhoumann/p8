@@ -7,6 +7,8 @@ public sealed class RssiDataCollector
 {
     public event Action BeaconRssisUpdated;
 
+    public ClassLabel CurrentLabel { get; set; }
+    
     public RssiDataSet DataSet { get; private set; }
 
     public bool IsMeasuring { get; private set; }
@@ -36,6 +38,7 @@ public sealed class RssiDataCollector
 
         IsMeasuring = true;
     }
+    
     public void StopMeasuring()
     {
         if (!IsMeasuring) return;
@@ -60,7 +63,7 @@ public sealed class RssiDataCollector
         {
             while (await periodicTimer.WaitForNextTickAsync() && IsCollecting)
             {
-                DataSet.Add(GetLatestDataPoint());
+                DataSet.Add(GetLatestMeasurement(), CurrentLabel);
             }
         }, cts.Token);
         
@@ -85,18 +88,18 @@ public sealed class RssiDataCollector
         BeaconRssisUpdated?.Invoke();
     }
 
-    public BeaconRssiMeasurement[] GetLatestDataPoint()
+    public BeaconRssiMeasurement GetLatestMeasurement()
     {
-        BeaconRssiMeasurement[] measurements = new BeaconRssiMeasurement[beaconGuids.Length];
+        BeaconRssiMeasurement measurement = new(beaconGuids.Length);
         
-        for (int i = 0; i < measurements.Length; i++)
+        for (int i = 0; i < measurement.Count; i++)
         {
             Guid guid = beaconGuids[i];
             int rssi = beaconRssis[guid];
             
-            measurements[i] = new BeaconRssiMeasurement(guid, rssi);
+            measurement.Add(guid, rssi);
         }
         
-        return measurements;
+        return measurement;
     }
 }

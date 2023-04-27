@@ -19,25 +19,25 @@ public sealed class RssiDataHandler
         }
     }
     
-    public bool IsInsideRoom(BeaconRssiMeasurement[] beaconMeasurements, double distanceThreshold)
+    public bool IsInsideRoom(BeaconRssiMeasurement beaconMeasurements, double distanceThreshold)
     {
         if (dataSet == null)
         {
             return false;
         }
         
-        if (beaconMeasurements.Length != dataSet.NumBeacons)
+        if (beaconMeasurements.Count != dataSet.NumBeacons)
         {
             return false;
         }
-        
-        int[] rssis = beaconMeasurements.Select(m => m.Rssi).ToArray();
 
-        foreach (int[] dataPoint in dataSet.RssiDataPoints)
+        for (int i = 0; i < dataSet.RssiDataPoints.Count; i++)
         {
-            double dist = GetDistance(dataPoint, rssis);
+            DataPoint dataPoint = dataSet.RssiDataPoints[i];
+
+            double distance = DataPoint.Distance(dataPoint, beaconMeasurements.Rssis);
             
-            if (dist < distanceThreshold)
+            if (distance < distanceThreshold)
             {
                 return true;
             }
@@ -46,16 +46,34 @@ public sealed class RssiDataHandler
         return false;
     }
 
-    private static double GetDistance(IReadOnlyList<int> vector1, IReadOnlyList<int> vector2)
+    private static double[] GetKNearestNeighbors(IReadOnlyList<double> distances, int k = 5)
     {
-        double distanceSquared = 0;
+        double[] kSmallestDistances = new double[k];
 
-        for (int i = 0; i < vector1.Count; i++)
+        for (int i = 0; i < k; i++)
         {
-            double difference = vector1[i] - vector2[i];
-            distanceSquared += difference * difference;
+            kSmallestDistances[i] = double.MaxValue;
         }
 
-        return Math.Sqrt(distanceSquared);
+        for (int i = 0; i < distances.Count; i++)
+        {
+            double distance = distances[i];
+
+            for (int j = 0; j < k; j++)
+            {
+                if (distance < kSmallestDistances[j])
+                {
+                    for (int n = k - 1; n > j; n--)
+                    {
+                        kSmallestDistances[n] = kSmallestDistances[n - 1];
+                    }
+
+                    kSmallestDistances[j] = distance;
+                    break;
+                }
+            }
+        }
+        
+        return kSmallestDistances;
     }
 }

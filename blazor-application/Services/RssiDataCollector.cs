@@ -86,6 +86,8 @@ public sealed class RssiDataCollector
         cts.Cancel();
         IsCollecting = false;
         
+        DataSet.WriteToJson("test_data.json");
+        
         new SoundEffect("StopCollectingData.mp3").Play();
     }
 

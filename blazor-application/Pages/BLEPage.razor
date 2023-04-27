@@ -45,10 +45,13 @@ else
     <br/>
     <div style="width:100%; text-align:center;">
         <div style="display:block; margin-bottom: 10px;">
-            <button @onclick=ToggleListening>@(!rssiDataCollector.IsListening ? "Listen" : "Stop listening")</button>
+            <button 
+                disabled=@(selectedDevices.Count == 0)
+                @onclick=ToggleListening>@(!rssiDataCollector.IsListening ? "Listen" : "Stop listening")
+            </button>
         </div>
         <div style="display:block;">
-            <button disabled=@(!rssiDataCollector.IsListening) @onclick=ToggleDataCollecting>@(!rssiDataCollector.IsCollecting ? "Start collecting data" : "Stop collecting data")</button>
+            <button disabled=@(!rssiDataCollector.IsListening) @onclick=OnClickCollectData>@(!rssiDataCollector.IsCollecting && !delayedActionExecutor.IsRunning ? "Start collecting data" : "Stop collecting data")</button>
         </div>
     </div>
     <br/>
@@ -77,12 +80,14 @@ else
     private readonly List<IDevice> selectedDevices = new();
     private readonly RssiDataCollector rssiDataCollector = new();
     private readonly BLEAdvertisementScanner advertisementScanner = new();
-    private readonly  RssiDataHandler rssiDataHandler = new();
+    private readonly RssiDataHandler rssiDataHandler = new();
+
+    private DelayedActionExecutor delayedActionExecutor;
 
     private bool isInsideRoom;
 
     private int distanceThreshold = 10;
-    
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -90,6 +95,8 @@ else
         advertisementScanner.BeaconAdvertised += OnBeaconAdvertised;
         rssiDataCollector.BeaconRssisUpdated += OnBeaconRssisUpdated;
 
+        delayedActionExecutor = new DelayedActionExecutor(5000, StartDataCollecting);
+        
         rssiDataHandler.LoadData("test_data.json");
     }
 
@@ -137,18 +144,40 @@ else
         }
     }
 
-    private void ToggleDataCollecting()
+    private void OnClickCollectData()
     {
-        if (!rssiDataCollector.IsCollecting)
+        if (rssiDataCollector.IsCollecting)
         {
-            rssiDataCollector.CollectRssiData();
+            StopDataCollecting();
+        }
+        else if (delayedActionExecutor.IsRunning)
+        {
+            Console.WriteLine("Stopping delayed action executor");
+            delayedActionExecutor.Stop();
         }
         else
         {
-            rssiDataCollector.StopCollectingRssiData();
-            rssiDataCollector.DataSet.WriteToJson("test_data.json");
+            Console.WriteLine("Starting delayed action executor");
+            delayedActionExecutor.Start();
         }
+    }
+    
+    private void StartDataCollecting()
+    {
+        if (rssiDataCollector.IsCollecting) return;
         
+        Console.WriteLine("Starting data collecting");
+        rssiDataCollector.CollectRssiData();
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void StopDataCollecting()
+    {
+        if (!rssiDataCollector.IsCollecting) return;
+            
+        Console.WriteLine("Stopping data collecting");
+        
+        rssiDataCollector.StopCollectingRssiData();
         InvokeAsync(StateHasChanged);
     }
 }

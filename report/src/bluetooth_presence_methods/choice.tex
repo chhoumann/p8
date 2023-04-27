@@ -1,3 +1,18 @@
 \section{Choice of technique}
-%What is good, what is not good technically. 
-%Put this also into context of adapting to Mariendal IT maybe? 
+When picking a technique for determining whether a room is occupied, we consider several criteria.
+The technique must not compromise the technology criteria presented in Table \ref{lst:presence_eval_criteria}.
+Additionally, a system used for presence detection does no have to estimate the exact position of objects.
+It only needs to be accurate enough for the system to classify the object as present or not present.
+Therefore, the chosen technique should be able to support classification of object positions.  
+For this purpose, lateration techniques could utilize a distance measure, and classify everything with an estimated distance smaller than some threshold as being present.
+Variations of Equation \ref{distance_equation} could be examined to determine which approach is best for the system.
+However, lateration approaches relies on a non-noisy environment, as they rely directly on the measured RSSI values.
+
+Fingerprinting techniques could use the grid measurements, established in the first phase of the approach, described in Section \ref{sec:fingerprinting}, with additional labels for each cell, determining whether the cell is present or not present.
+This would create a set of labelled data, where the labels of the k-nearest neighbours could be used to determine whether an object is present. 
+
+Between the two approaches, the fingerprinting approach can easily be configured with beacons to increase accuracy.
+Edge cases for this approach can be analyzed and handled by setting some threshold for when a \textit{present} label is considered correct. 
+This threshold could be found experimentally or determined from existing research. 
+For instance, \citeauthor{ble_kneares_neural}~\cite{ble_kneares_neural} showed that a kNN approach had high number of measurements determined within a 3 meters precision. 
+This precision could be used as a threshold to determine to modify which neighbours to consider.    

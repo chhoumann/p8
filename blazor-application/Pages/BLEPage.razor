@@ -17,36 +17,39 @@ else
 {
     <table class="table">
         <thead>
-            <tr>
-                <th>Name</th>
-                <th>Id</th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>Name</th>
+            <th>Id</th>
+            <th></th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (IDevice device in BLEScannerService.Devices)
-            {
-                <tr>
-                    <td>@(device.GetDeviceDisplayName())</td>
-                    <td>
-                        <input 
-                            type="checkbox"
-                            @onchange="e => OnDeviceSelectionChanged(e, device)"
-                            checked="@selectedDevices.Contains(device)"
-                        />
-                    </td>
-                </tr>
-            }
+        @foreach (IDevice device in BLEScannerService.Devices)
+        {
+            <tr>
+                <td>@(device.GetDeviceDisplayName())</td>
+                <td>
+                    <input 
+                        type="checkbox"
+                        @onchange="e => OnDeviceSelectionChanged(e, device)"
+                        checked="@selectedDevices.Contains(device)"
+                    />
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
-    <br/>
     <div style="display:flex; width:100%; justify-content:center;">
         <div>Status: @(isInsideRoom ? "Inside room" : "Outside room")</div>
     </div>
     <br/>
-    <div style="display:flex; width:100%; justify-content:center;">
-        <button @onclick=ToggleListening>@(!rssiDataCollector.IsListening ? "Listen" : "Stop listening")</button>
-        <button disabled=@(!rssiDataCollector.IsListening) @onclick=ToggleDataCollecting>@(!rssiDataCollector.IsCollecting ? "Start collecting data" : "Stop collecting data")</button>
+    <div style="width:100%; text-align:center;">
+        <div style="display:block; margin-bottom: 10px;">
+            <button @onclick=ToggleListening>@(!rssiDataCollector.IsListening ? "Listen" : "Stop listening")</button>
+        </div>
+        <div style="display:block;">
+            <button disabled=@(!rssiDataCollector.IsListening) @onclick=ToggleDataCollecting>@(!rssiDataCollector.IsCollecting ? "Start collecting data" : "Stop collecting data")</button>
+        </div>
     </div>
     <br/>
     <div>

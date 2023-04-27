@@ -29,7 +29,11 @@ else
                 <tr>
                     <td>@(device.GetDeviceDisplayName())</td>
                     <td>
-                        <input type="checkbox" @onchange="e => OnDeviceSelectionChanged(e, device)" />
+                        <input 
+                            type="checkbox"
+                            @onchange="e => OnDeviceSelectionChanged(e, device)"
+                            checked="@selectedDevices.Contains(device)"
+                        />
                     </td>
                 </tr>
             }

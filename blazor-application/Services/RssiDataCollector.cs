@@ -1,6 +1,5 @@
 using BlazorBLE.Data;
 using Plugin.BLE.Abstractions.Contracts;
-using Plugin.Maui.Audio;
 
 namespace BlazorBLE.Services;
 

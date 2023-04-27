@@ -10,7 +10,7 @@ public sealed class RssiDataSet
 
     public Guid[] BeaconIds { get; set; }
     
-    public List<DataPoint> RssiDataPoints { get; set; }
+    public List<DataPoint<double>> RssiDataPoints { get; set; }
     
     [JsonConstructor]
     public RssiDataSet() { }
@@ -64,7 +64,7 @@ public sealed class RssiDataSet
             }
         }
         
-        RssiDataPoints.Add(new DataPoint(label, rssis));
+        RssiDataPoints.Add(new DataPoint<double>(label, rssis));
     }
 
     public void RemoveDuplicates()

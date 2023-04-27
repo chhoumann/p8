@@ -19,25 +19,23 @@ public sealed class RssiDataHandler
         }
     }
     
-    public bool IsInsideRoom(BeaconRssiMeasurement[] beaconMeasurements, double distanceThreshold)
+    public bool IsInsideRoom(BeaconRssiMeasurement beaconMeasurements, double distanceThreshold)
     {
         if (dataSet == null)
         {
             return false;
         }
         
-        if (beaconMeasurements.Length != dataSet.NumBeacons)
+        if (beaconMeasurements.Count != dataSet.NumBeacons)
         {
             return false;
         }
-
-        int[] rssis = beaconMeasurements.Select(measurement => measurement.Rssi).ToArray(); 
 
         for (int i = 0; i < dataSet.RssiDataPoints.Count; i++)
         {
             DataPoint dataPoint = dataSet.RssiDataPoints[i];
 
-            double distance = DataPoint.Distance(dataPoint, rssis);
+            double distance = DataPoint.Distance(dataPoint, beaconMeasurements.Rssis);
             
             if (distance < distanceThreshold)
             {

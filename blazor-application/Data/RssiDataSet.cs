@@ -41,24 +41,24 @@ public sealed class RssiDataSet
         File.WriteAllText(GetPath(fileName), jsonString);
     }
 
-    public void Add(BeaconRssiMeasurement[] measurements, ClassLabel label)
+    public void Add(BeaconRssiMeasurement measurement, ClassLabel label)
     {
-        if (measurements.Length != NumBeacons)
+        if (measurement.Count != NumBeacons)
         {
             throw new ArgumentException("Measurement must have the same number of elements as the number of beacons.");
         }
 
-        int[] rssis = new int[measurements.Length];
+        int[] rssis = new int[measurement.Count];
 
         for (int i = 0; i < BeaconIds.Length; i++)
         {
             Guid beaconId = BeaconIds[i];
             
-            for (int j = 0; j < measurements.Length; j++)
+            for (int j = 0; j < measurement.Count; j++)
             {
-                if (measurements[j].BeaconId == beaconId)
+                if (measurement.BeaconIds[j] == beaconId)
                 {
-                    rssis[i] = measurements[j].Rssi;
+                    rssis[i] = measurement.Rssis[j];
                     break;
                 }
             }
@@ -69,8 +69,9 @@ public sealed class RssiDataSet
 
     public void RemoveDuplicates()
     {
-        // RssiDataPoints = RssiDataPoints.GroupBy(c => string.Join(",", c))
-        //             .Select(c => c.First().ToArray()).ToList();
+        RssiDataPoints = RssiDataPoints
+            .GroupBy(dp => string.Join(",", dp.Rssis), (_, group) => group.First())
+            .ToList();
     }
     
     public override string ToString()

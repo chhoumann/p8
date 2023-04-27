@@ -1,13 +1,25 @@
 namespace BlazorBLE.Data;
 
-public readonly struct BeaconRssiMeasurement
+public struct BeaconRssiMeasurement
 {
-    public readonly Guid BeaconId;
-    public readonly int Rssi;
+    public readonly Guid[] BeaconIds;
+    public readonly int[] Rssis;
 
-    public BeaconRssiMeasurement(Guid beaconId, int rssi)
+    public readonly int Count;
+
+    private int index;
+
+    public BeaconRssiMeasurement(int count)
     {
-        BeaconId = beaconId;
-        Rssi = rssi;
+        Count = count;
+        BeaconIds = new Guid[count];
+        Rssis = new int[count];
+    }
+    
+    public void Add(Guid beaconId, int rssi)
+    {
+        BeaconIds[index] = beaconId;
+        Rssis[index] = rssi;
+        index++;
     }
 }

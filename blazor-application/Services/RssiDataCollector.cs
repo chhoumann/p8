@@ -88,18 +88,18 @@ public sealed class RssiDataCollector
         BeaconRssisUpdated?.Invoke();
     }
 
-    public BeaconRssiMeasurement[] GetLatestMeasurement()
+    public BeaconRssiMeasurement GetLatestMeasurement()
     {
-        BeaconRssiMeasurement[] measurements = new BeaconRssiMeasurement[beaconGuids.Length];
+        BeaconRssiMeasurement measurement = new(beaconGuids.Length);
         
-        for (int i = 0; i < measurements.Length; i++)
+        for (int i = 0; i < measurement.Count; i++)
         {
             Guid guid = beaconGuids[i];
             int rssi = beaconRssis[guid];
             
-            measurements[i] = new BeaconRssiMeasurement(guid, rssi);
+            measurement.Add(guid, rssi);
         }
         
-        return measurements;
+        return measurement;
     }
 }

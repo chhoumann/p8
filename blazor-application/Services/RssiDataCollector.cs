@@ -1,5 +1,6 @@
 using BlazorBLE.Data;
 using Plugin.BLE.Abstractions.Contracts;
+using Plugin.Maui.Audio;
 
 namespace BlazorBLE.Services;
 
@@ -55,10 +56,11 @@ public sealed class RssiDataCollector
     public void CollectRssiData()
     {
         if (!IsListening) return;
-        if (IsCollecting) return;
+        if (IsCollecting) return;        
 
         cts = new CancellationTokenSource();
-
+        new SoundEffect("StartCollectingData.mp3").Play();
+        
         Task.Run(async () =>
         {
             while (await periodicTimer.WaitForNextTickAsync() && IsCollecting)
@@ -76,6 +78,8 @@ public sealed class RssiDataCollector
 
         cts.Cancel();
         IsCollecting = false;
+        
+        new SoundEffect("StopCollectingData.mp3").Play();
     }
 
     public void UpdateBeaconRssi(IDevice device)

@@ -145,8 +145,10 @@ else
         }
         else
         {
-            InvokeAsync(rssiDataCollector.StopCollectingRssiData);
+            rssiDataCollector.StopCollectingRssiData();
             rssiDataCollector.DataSet.WriteToJson("test_data.json");
         }
+        
+        InvokeAsync(StateHasChanged);
     }
 }

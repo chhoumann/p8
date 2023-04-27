@@ -14,7 +14,7 @@ Various techniques exists to determine this position.
 Trilateration is a form of lateration using the transmission of one or more beacons to calculate a \textit{path loss}.
 Path loss defines the amount of signal power lost as the signal is sent across a distance of $d$ meters.
 As the transmission power of the beacons are known, the loss per distance $L(d)$ can be subtracted from the transmission power $p_0$ to find the distance~\cite{taking_localization_to_the_wild}:
-\begin{equation}
+\begin{equation}\label{distance_equation}
     f(d) = p_0 - L(d)
 \end{equation}
 The path loss is affected by background signal noise and the air in the atmosphere.

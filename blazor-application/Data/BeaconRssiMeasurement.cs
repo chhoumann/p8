@@ -1,11 +1,11 @@
 namespace BlazorBLE.Data;
 
-public struct BeaconRssiMeasurement
+public sealed class BeaconRssiMeasurement
 {
-    public readonly Guid[] BeaconIds;
-    public readonly int[] Rssis;
+    public Guid[] BeaconIds { get; }
+    public int[] Rssis { get; }
 
-    public readonly int Count;
+    public int Count { get; }
 
     private int index;
 

@@ -6,7 +6,7 @@ We propose a design where, instead of having a fixed collection time, a fixed mi
 We do this, as beacons broadcast on a fixed time-schedule \cite{apple2023ibeacon}.
 This is done to ensure that all beacons have a representative set of measurements with low standard deviation when constructing the map.
 To ensure a low standard deviation, we use the following procedure.
-Data is collected from each beacon until a minimum number of data points are collected, and a  satisfiable standard deviation is reached.
+Data is collected from each beacon until a minimum number of data points are collected, and a stable standard deviation within a satisfactory threshold is reached.
 As fluctuations can cause large deviations in the collected data, the data collection for a beacon is halted as soon as the prior condition is satisfied.
 The average RSSI value from the collected measurements from the beacons is used to create entries for the map.
 During the measurement collection each cell is labelled as being either inside or outside of the meeting room.

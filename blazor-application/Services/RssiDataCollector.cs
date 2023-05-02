@@ -11,7 +11,7 @@ public sealed class RssiDataCollector
     
     public RssiDataSet DataSet { get; private set; }
 
-    public bool IsMeasuring { get; private set; }
+    public bool IsListening { get; private set; }
     public bool IsCollecting { get; private set; }
 
     private PeriodicTimer periodicTimer;
@@ -19,9 +19,9 @@ public sealed class RssiDataCollector
     private Dictionary<Guid, int> beaconRssis;
     private CancellationTokenSource cts;
 
-    public void StartMeasuring(IReadOnlyList<IDevice> beacons, TimeSpan interval)
+    public void Listen(IReadOnlyList<IDevice> beacons, TimeSpan interval)
     {
-        if (IsMeasuring) return;
+        if (IsListening) return;
 
         DataSet = new RssiDataSet(beacons);
         periodicTimer = new PeriodicTimer(interval);
@@ -36,15 +36,15 @@ public sealed class RssiDataCollector
             beaconGuids[i] = beacon.Id;
         }
 
-        IsMeasuring = true;
+        IsListening = true;
     }
     
-    public void StopMeasuring()
+    public void StopListening()
     {
-        if (!IsMeasuring) return;
+        if (!IsListening) return;
 
         periodicTimer.Dispose();
-        IsMeasuring = false;
+        IsListening = false;
         
         if (IsCollecting)
         {
@@ -54,16 +54,25 @@ public sealed class RssiDataCollector
 
     public void CollectRssiData()
     {
-        if (!IsMeasuring) return;
-        if (IsCollecting) return;
+        if (!IsListening) return;
+        if (IsCollecting) return;        
 
         cts = new CancellationTokenSource();
-
+        new SoundEffect("StartCollectingData.mp3").Play();
+        
         Task.Run(async () =>
         {
+            RssiLowVarianceSample sample = new(beaconGuids);
+            
             while (await periodicTimer.WaitForNextTickAsync() && IsCollecting)
             {
-                DataSet.Add(GetLatestMeasurement(), CurrentLabel);
+                sample.Add(GetLatestMeasurement());
+                
+                if (sample.IsStable(5))
+                {
+                    DataSet.Add(sample.CalculateAverageMeasurement(), CurrentLabel);
+                    StopCollectingRssiData();
+                }
             }
         }, cts.Token);
         
@@ -76,11 +85,15 @@ public sealed class RssiDataCollector
 
         cts.Cancel();
         IsCollecting = false;
+        
+        DataSet.WriteToJson("test_data.json");
+        
+        new SoundEffect("StopCollectingData.mp3").Play();
     }
 
     public void UpdateBeaconRssi(IDevice device)
     {
-        if (!IsMeasuring) return;
+        if (!IsListening) return;
         if (!beaconRssis.ContainsKey(device.Id)) return;
 
         beaconRssis[device.Id] = device.Rssi;
@@ -88,9 +101,9 @@ public sealed class RssiDataCollector
         BeaconRssisUpdated?.Invoke();
     }
 
-    public BeaconRssiMeasurement GetLatestMeasurement()
+    public BeaconRssiMeasurement<int> GetLatestMeasurement()
     {
-        BeaconRssiMeasurement measurement = new(beaconGuids.Length);
+        BeaconRssiMeasurement<int> measurement = new(beaconGuids.Length);
         
         for (int i = 0; i < measurement.Count; i++)
         {

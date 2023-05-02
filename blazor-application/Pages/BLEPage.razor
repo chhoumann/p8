@@ -7,60 +7,104 @@
 
 @inject BLEScannerService BLEScannerService
 
-<h1>Bluetooth Low Energy iBeacons</h1>
-
 @if (BLEScannerService.Devices == null || rssiDataCollector == null)
 {
-    <p><em>Loading...</em></p>
+    <LoadingPage/>
 }
 else 
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Id</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (IDevice device in BLEScannerService.Devices)
-            {
-                <tr>
-                    <td>@(device.GetDeviceDisplayName())</td>
-                    <td>
-                        <input type="checkbox" @onchange="e => OnDeviceSelectionChanged(e, device)" />
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <br/>
-    <div style="display:flex; width:100%; justify-content:center;">
-        <div>Status: @(isInsideRoom ? "Inside room" : "Outside room")</div>
-    </div>
-    <br/>
-    <div style="display:flex; width:100%; justify-content:center;">
-        <button @onclick=ToggleMeasuring>@(!rssiDataCollector.IsMeasuring ? "Start measuring" : "Stop measuring")</button>
-        <button disabled=@(!rssiDataCollector.IsMeasuring) @onclick=ToggleDataCollecting>@(!rssiDataCollector.IsCollecting ? "Start collecting data" : "Stop collecting data")</button>
-    </div>
-    <br/>
-    <div>
-        <div>Distance Threshold = @(distanceThreshold) dBm</div>
-        <div style="display: flex; flex-direction: row; align-items: center;">
-            <input type="range" min="1" max="100" step="1" @bind="distanceThreshold" @bind:event="oninput" style="width: 100%" />
+    <div class="my-4 w-full text-center">
+        <div class="mb-4">
+            <button class="w-5/6 bg-blue-500 text-white font-bold py-2 px-4 rounded @((selectedDevices.Count == 0) ? "bg-slate-300 cursor-not-allowed text-opacity-60" : "")"
+                    disabled=@(selectedDevices.Count == 0)
+                @onclick=ToggleListening>
+                @(rssiDataCollector.IsListening ? "Stop listening" : "Listen")
+            </button>
+        </div>
+        <div>
+            <button class="w-5/6 bg-blue-500 text-white font-bold py-2 px-4 rounded @((!rssiDataCollector.IsListening) ? "bg-slate-300 cursor-not-allowed text-opacity-60" : "")"
+                    disabled=@(!rssiDataCollector.IsListening)
+                @onclick=OnClickCollectData>
+                @(!rssiDataCollector.IsCollecting && !delayedActionExecutor.IsRunning ? "Start collecting data" : "Stop collecting data")
+            </button>
         </div>
     </div>
-    <br/>
-    <div>Label</div>
-    <div style="display: flex; flex-direction: row; align-items: center;">
-        <select @bind="rssiDataCollector.CurrentLabel" @bind:event="oninput" style="width: 100%">
-            @foreach (ClassLabel label in Enum.GetValues(typeof(ClassLabel)))
-            {
-                <option value="@label">@label</option>
-            }
-        </select>
-    </div>
+    @if (!rssiDataCollector.IsListening)
+    {
+        <div class="text-2xl font-extrabold text-center">Available devices</div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Id</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (IDevice device in BLEScannerService.Devices)
+                {
+                    <tr>
+                        <td>@(device.GetDeviceDisplayName())</td>
+                        <td>
+                            <input type="checkbox" 
+                                   @onchange="e => OnDeviceSelectionChanged(e, device)" 
+                                   checked="@selectedDevices.Contains(device)" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="my-4">
+            <div class="flex items-center mb-2">
+                <div class="w-1/4 pr-2">Label:</div>
+                <div class="w-1/2 flex">
+                    <select class="w-full" @bind="rssiDataCollector.CurrentLabel" @bind:event="oninput">
+                        @foreach (ClassLabel label in Enum.GetValues(typeof(ClassLabel)))
+                        {
+                            <option value="@label">@label</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="flex items-center mb-2">
+                <div class="w-1/4 pr-2">Threshold</div>
+                <div class="w-1/2 flex items-center mr-2">
+                    <input id="default-range" type="range" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointerm" @bind="distanceThreshold" @bind:event="oninput">
+                </div>
+                <div class="text-nowrap text-right">@(distanceThreshold) dBm</div>
+            </div>
+        </div>
+
+        @if (!rssiDataCollector.IsCollecting)
+        {
+            <div class="my-3 text-center">
+                @if (!delayedActionExecutor.IsRunning)
+                {
+                    <div>
+                        Status: <span class="font-bold"> @(isInsideRoom ? "Inside room" : "Outside room") </span>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-2xl font-extrabold text-center">@delayedActionExecutor.SecondsRemaining + 1</div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="flex flex-col items-center justify-center">
+                <div>
+                    <Spinner/>
+                </div>
+                <div class="text-1xl font-extrabold">
+                    Collecting data...
+                </div>
+            </div>
+        }
+    }
 }
 
 @code {
@@ -70,18 +114,23 @@ else
     private readonly List<IDevice> selectedDevices = new();
     private readonly RssiDataCollector rssiDataCollector = new();
     private readonly BLEAdvertisementScanner advertisementScanner = new();
-    private readonly  RssiDataHandler rssiDataHandler = new();
+    private readonly RssiDataHandler rssiDataHandler = new();
+
+    private DelayedActionExecutor delayedActionExecutor;
 
     private bool isInsideRoom;
 
     private int distanceThreshold = 10;
-    
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
         BLEScannerService.DevicesChanged += StateHasChanged;
         advertisementScanner.BeaconAdvertised += OnBeaconAdvertised;
         rssiDataCollector.BeaconRssisUpdated += OnBeaconRssisUpdated;
+
+        delayedActionExecutor = new DelayedActionExecutor(5, StartDataCollecting);
+        delayedActionExecutor.SecondElapsed += () => InvokeAsync(StateHasChanged);
 
         rssiDataHandler.LoadData("test_data.json");
     }
@@ -107,7 +156,7 @@ else
 
     private void OnBeaconRssisUpdated()
     {
-        BeaconRssiMeasurement latestMeasurement = rssiDataCollector.GetLatestMeasurement();
+        BeaconRssiMeasurement<int> latestMeasurement = rssiDataCollector.GetLatestMeasurement();
         isInsideRoom = rssiDataHandler.IsInsideRoom(latestMeasurement, distanceThreshold);
 
         StateHasChanged();
@@ -118,28 +167,49 @@ else
         rssiDataCollector.UpdateBeaconRssi(device);
     }
 
-    private void ToggleMeasuring()
+    private void ToggleListening()
     {
-        if (!rssiDataCollector.IsMeasuring)
+        if (!rssiDataCollector.IsListening)
         {
-            rssiDataCollector.StartMeasuring(selectedDevices, TimeSpan.FromMilliseconds(500));
+            rssiDataCollector.Listen(selectedDevices, TimeSpan.FromMilliseconds(500));
         }
         else
         {
-            rssiDataCollector.StopMeasuring();
+            rssiDataCollector.StopListening();
         }
     }
 
-    private void ToggleDataCollecting()
+    private void OnClickCollectData()
     {
-        if (!rssiDataCollector.IsCollecting)
+        if (rssiDataCollector.IsCollecting)
         {
-            rssiDataCollector.CollectRssiData();
+            StopDataCollecting();
+        }
+        else if (delayedActionExecutor.IsRunning)
+        {
+            delayedActionExecutor.Stop();
         }
         else
         {
-            rssiDataCollector.StopCollectingRssiData();
-            rssiDataCollector.DataSet.WriteToJson("test_data.json");
+            delayedActionExecutor.Start();
         }
+
+        InvokeAsync(StateHasChanged);
+    }
+    
+    private void StartDataCollecting()
+    {
+        if (rssiDataCollector.IsCollecting) return;
+        
+        rssiDataCollector.CollectRssiData();
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void StopDataCollecting()
+    {
+        if (!rssiDataCollector.IsCollecting) return;
+            
+        rssiDataCollector.StopCollectingRssiData();
+        InvokeAsync(StateHasChanged);
     }
 }

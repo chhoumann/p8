@@ -19,7 +19,7 @@ public sealed class RssiDataHandler
         }
     }
     
-    public bool IsInsideRoom(BeaconRssiMeasurement beaconMeasurements, double distanceThreshold)
+    public bool IsInsideRoom(BeaconRssiMeasurement<int> beaconMeasurements, double distanceThreshold)
     {
         if (dataSet == null)
         {
@@ -33,10 +33,10 @@ public sealed class RssiDataHandler
 
         for (int i = 0; i < dataSet.RssiDataPoints.Count; i++)
         {
-            DataPoint dataPoint = dataSet.RssiDataPoints[i];
+            DataPoint<double> dataPoint = dataSet.RssiDataPoints[i];
 
-            double distance = DataPoint.Distance(dataPoint, beaconMeasurements.Rssis);
-            
+            double distance = dataPoint.DistanceTo(beaconMeasurements.Rssis);
+
             if (distance < distanceThreshold)
             {
                 return true;

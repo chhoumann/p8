@@ -1,5 +1,6 @@
 ﻿using BlazorBLE.Services;
 using Microsoft.Extensions.Logging;
+using Plugin.Maui.Audio;
 
 namespace BlazorBLE;
 
@@ -22,6 +23,7 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
 
+        builder.Services.AddSingleton(AudioManager.Current);
         builder.Services.AddSingleton<BLEScannerService>();
         builder.Services.AddSingleton<IPromptService, PromptService>();
 

@@ -17,32 +17,42 @@ else
 {
     <table class="table">
         <thead>
-            <tr>
-                <th>Name</th>
-                <th>Id</th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>Name</th>
+            <th>Id</th>
+            <th></th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (IDevice device in BLEScannerService.Devices)
-            {
-                <tr>
-                    <td>@(device.GetDeviceDisplayName())</td>
-                    <td>
-                        <input type="checkbox" @onchange="e => OnDeviceSelectionChanged(e, device)" />
-                    </td>
-                </tr>
-            }
+        @foreach (IDevice device in BLEScannerService.Devices)
+        {
+            <tr>
+                <td>@(device.GetDeviceDisplayName())</td>
+                <td>
+                    <input 
+                        type="checkbox"
+                        @onchange="e => OnDeviceSelectionChanged(e, device)"
+                        checked="@selectedDevices.Contains(device)"
+                    />
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
-    <br/>
     <div style="display:flex; width:100%; justify-content:center;">
         <div>Status: @(isInsideRoom ? "Inside room" : "Outside room")</div>
     </div>
     <br/>
-    <div style="display:flex; width:100%; justify-content:center;">
-        <button @onclick=ToggleMeasuring>@(!rssiDataCollector.IsMeasuring ? "Start measuring" : "Stop measuring")</button>
-        <button disabled=@(!rssiDataCollector.IsMeasuring) @onclick=ToggleDataCollecting>@(!rssiDataCollector.IsCollecting ? "Start collecting data" : "Stop collecting data")</button>
+    <div style="width:100%; text-align:center;">
+        <div style="display:block; margin-bottom: 10px;">
+            <button 
+                disabled=@(selectedDevices.Count == 0)
+                @onclick=ToggleListening>@(!rssiDataCollector.IsListening ? "Listen" : "Stop listening")
+            </button>
+        </div>
+        <div style="display:block;">
+            <button disabled=@(!rssiDataCollector.IsListening) @onclick=OnClickCollectData>@(!rssiDataCollector.IsCollecting && !delayedActionExecutor.IsRunning ? "Start collecting data" : "Stop collecting data")</button>
+        </div>
     </div>
     <br/>
     <div>
@@ -70,12 +80,14 @@ else
     private readonly List<IDevice> selectedDevices = new();
     private readonly RssiDataCollector rssiDataCollector = new();
     private readonly BLEAdvertisementScanner advertisementScanner = new();
-    private readonly  RssiDataHandler rssiDataHandler = new();
+    private readonly RssiDataHandler rssiDataHandler = new();
+
+    private DelayedActionExecutor delayedActionExecutor;
 
     private bool isInsideRoom;
 
     private int distanceThreshold = 10;
-    
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -83,6 +95,8 @@ else
         advertisementScanner.BeaconAdvertised += OnBeaconAdvertised;
         rssiDataCollector.BeaconRssisUpdated += OnBeaconRssisUpdated;
 
+        delayedActionExecutor = new DelayedActionExecutor(5000, StartDataCollecting);
+        
         rssiDataHandler.LoadData("test_data.json");
     }
 
@@ -107,7 +121,7 @@ else
 
     private void OnBeaconRssisUpdated()
     {
-        BeaconRssiMeasurement latestMeasurement = rssiDataCollector.GetLatestMeasurement();
+        BeaconRssiMeasurement<int> latestMeasurement = rssiDataCollector.GetLatestMeasurement();
         isInsideRoom = rssiDataHandler.IsInsideRoom(latestMeasurement, distanceThreshold);
 
         StateHasChanged();
@@ -118,28 +132,47 @@ else
         rssiDataCollector.UpdateBeaconRssi(device);
     }
 
-    private void ToggleMeasuring()
+    private void ToggleListening()
     {
-        if (!rssiDataCollector.IsMeasuring)
+        if (!rssiDataCollector.IsListening)
         {
-            rssiDataCollector.StartMeasuring(selectedDevices, TimeSpan.FromMilliseconds(500));
+            rssiDataCollector.Listen(selectedDevices, TimeSpan.FromMilliseconds(500));
         }
         else
         {
-            rssiDataCollector.StopMeasuring();
+            rssiDataCollector.StopListening();
         }
     }
 
-    private void ToggleDataCollecting()
+    private void OnClickCollectData()
     {
-        if (!rssiDataCollector.IsCollecting)
+        if (rssiDataCollector.IsCollecting)
         {
-            rssiDataCollector.CollectRssiData();
+            StopDataCollecting();
+        }
+        else if (delayedActionExecutor.IsRunning)
+        {
+            delayedActionExecutor.Stop();
         }
         else
         {
-            rssiDataCollector.StopCollectingRssiData();
-            rssiDataCollector.DataSet.WriteToJson("test_data.json");
+            delayedActionExecutor.Start();
         }
+    }
+    
+    private void StartDataCollecting()
+    {
+        if (rssiDataCollector.IsCollecting) return;
+        
+        rssiDataCollector.CollectRssiData();
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void StopDataCollecting()
+    {
+        if (!rssiDataCollector.IsCollecting) return;
+            
+        rssiDataCollector.StopCollectingRssiData();
+        InvokeAsync(StateHasChanged);
     }
 }

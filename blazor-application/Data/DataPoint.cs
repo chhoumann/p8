@@ -1,38 +1,42 @@
+using System.Globalization;
+
 namespace BlazorBLE.Data;
 
-public sealed class DataPoint
+public sealed class DataPoint<T> where T : struct, IConvertible
 {
     public ClassLabel Label { get; }
     
-    public int[] Rssis { get; }
+    public T[] Rssis { get; }
 
-    public DataPoint(ClassLabel label, int[] rssis)
+    public DataPoint(ClassLabel label, T[] rssis)
     {
         Label = label;
         Rssis = rssis;
     }
 
-    public static double Distance(DataPoint p1, DataPoint p2) => Distance(p1.Rssis, p2.Rssis);
-
-    public static double Distance(int[] rssis, DataPoint p) => Distance(rssis, p.Rssis);
-    
-    public static double Distance(DataPoint p, int[] rssis) => Distance(p.Rssis, rssis);
-
-    public static double Distance(int[] rssis1, int[] rssis2)
+    public double DistanceTo(int[] rssis)
     {
-        if (rssis1.Length != rssis2.Length)
+        if (rssis.Length != Rssis.Length)
         {
             throw new ArgumentException("The number of RSSI values must be the same.");
         }
         
         double distanceSquared = 0;
         
-        for (int i = 0; i < rssis1.Length; i++)
+        for (int i = 0; i < Rssis.Length; i++)
         {
-            double difference = rssis1[i] - rssis2[i];
+            double difference = ToDouble(Rssis[i]) - rssis[i];
             distanceSquared += difference * difference;
         }
         
         return Math.Sqrt(distanceSquared);
+    }
+    
+    /// <summary>
+    /// Helper method to convert a value to a double type while preventing boxing (like Convert.ToDouble() does).
+    /// </summary>
+    private static double ToDouble<V>(V value) where V : struct, IConvertible
+    {
+        return value.ToDouble(CultureInfo.InvariantCulture);
     }
 }

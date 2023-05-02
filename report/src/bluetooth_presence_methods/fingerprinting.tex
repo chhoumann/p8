@@ -6,6 +6,7 @@ During the first phase, a measuring device is used to measure RSSIs for known po
 The RSSI measurements and the actual position of the devices, as well as any additional information that can be used in the model, are collected. 
 One approach to collecting these measurements is to partition the area of interest into a grid and use the measuring device to collect data for several seconds in each cell of the grid.\cite{improving_indoor_localization}
 The measurements are then labelled with the cell coordinate for later classification.
+The resulting measurements from the first phase is often referred to as a \textit{map}.
 
 \citeauthor{taking_localization_to_the_wild} \cite{taking_localization_to_the_wild} presents results for a fingerprinting approach using random forest regression.
 They show how varying measured RSSI across devices can be mitigated by using RSSI differences between pairs of beacons.

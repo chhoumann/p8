@@ -5,7 +5,7 @@ public sealed class DelayedActionExecutor
     private Timer timer;
     private CancellationTokenSource cancellationTokenSource;
     
-    private Action actionToExecute;
+    private readonly Action actionToExecute;
     
     private readonly int delayInMilliseconds;
     
@@ -45,14 +45,10 @@ public sealed class DelayedActionExecutor
 
     private void TimerCallback(object state)
     {
-        if (cancellationTokenSource.Token.IsCancellationRequested)
-        {
-            return;
-        }
-
-        SecondElapsed?.Invoke(this, EventArgs.Empty);
+        if (cancellationTokenSource.Token.IsCancellationRequested) return;
 
         elapsedMilliseconds -= 1000;
+        SecondElapsed?.Invoke(this, EventArgs.Empty);
 
         if (elapsedMilliseconds <= 0)
         {

@@ -4,12 +4,15 @@ namespace BlazorBLE.Tests;
 
 public sealed class KBeaconDataTest
 {
-    private readonly byte[] testData = new byte[] { 0x06, 0x17, 0x9C, 0xAA, 0xB5, 0xF3, 0x7E, 0x78, 0x26, 0xD3, 0xCD, 0x82, 0xE3, 0x03, 0xDE, 0xCD, 0x5D, 0x3A, 0xDE, 0xF4, 0xA9, 0x96, 0xD9, 0x23, 0x16 };
     private readonly Guid expectedUuid = new Guid("787ef3b5-d326-82cd-e303-decd5d3adef4");
-    private readonly byte[] expectedCompanyId = new byte[] { 0x06, 0x17 };
-    private readonly ushort expectedMajor = 0x96A9;
-    private readonly ushort expectedMinor = 0x23D9;
-    private readonly sbyte expectedTxPower = 0x16;
+    
+    private readonly byte[] testData = { 0x06, 0x17, 0x9C, 0xAA, 0xB5, 0xF3, 0x7E, 0x78, 0x26, 0xD3, 0xCD, 0x82, 0xE3, 0x03, 0xDE, 0xCD, 0x5D, 0x3A, 0xDE, 0xF4, 0xA9, 0x96, 0xD9, 0x23, 0x16 };
+    private readonly byte[] expectedCompanyId = { 0x06, 0x17 };
+    
+    private const ushort ExpectedMajor = 0x96A9;
+    private const ushort ExpectedMinor = 0x23D9;
+    
+    private const sbyte ExpectedTxPower = 0x16;
 
     [Fact]
     public void TestConstructor_testData_LittleEndian()
@@ -18,9 +21,9 @@ public sealed class KBeaconDataTest
             
         Assert.Equal(expectedUuid, kBeaconData.Uuid);
         Assert.Equal(expectedCompanyId, kBeaconData.CompanyId);
-        Assert.Equal(expectedMajor, kBeaconData.Major);
-        Assert.Equal(expectedMinor, kBeaconData.Minor);
-        Assert.Equal(expectedTxPower, kBeaconData.TxPower);
+        Assert.Equal(ExpectedMajor, kBeaconData.Major);
+        Assert.Equal(ExpectedMinor, kBeaconData.Minor);
+        Assert.Equal(ExpectedTxPower, kBeaconData.TxPower);
     }
 
     [Fact]
@@ -30,9 +33,9 @@ public sealed class KBeaconDataTest
             
         Assert.Equal(expectedUuid, kBeaconData.Uuid);
         Assert.Equal(expectedCompanyId, kBeaconData.CompanyId);
-        Assert.Equal(expectedMajor, kBeaconData.Major);
-        Assert.Equal(expectedMinor, kBeaconData.Minor);
-        Assert.Equal(expectedTxPower, kBeaconData.TxPower);
+        Assert.Equal(ExpectedMajor, kBeaconData.Major);
+        Assert.Equal(ExpectedMinor, kBeaconData.Minor);
+        Assert.Equal(ExpectedTxPower, kBeaconData.TxPower);
     }
 
     [Theory]
@@ -43,7 +46,6 @@ public sealed class KBeaconDataTest
     {
         Assert.Throws<ArgumentException>(() => new KBeaconData(generatedData));
     }
-
 
     [Fact]
     public void KBeaconData_testData_CompanyId_LittleEndian_Equals_BigEndian()

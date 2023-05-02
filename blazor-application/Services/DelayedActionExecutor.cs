@@ -2,24 +2,24 @@ namespace BlazorBLE.Services;
 
 public sealed class DelayedActionExecutor
 {
+    public int SecondsRemaining { get; private set; }
+    
+    public bool IsRunning { get; private set; }
+
     private Timer timer;
     private CancellationTokenSource cancellationTokenSource;
     
     private readonly Action actionToExecute;
     
-    private readonly int delayInMilliseconds;
+    private readonly int delayInSeconds;
     
-    private int timeLeftMilliseconds;
+    public event Action SecondElapsed;
 
-    public bool IsRunning { get; private set; }
-
-    public event EventHandler SecondElapsed;
-
-    public DelayedActionExecutor(int delayInMilliseconds, Action actionToExecute)
+    public DelayedActionExecutor(int delayInSeconds, Action actionToExecute)
     {
-        this.delayInMilliseconds = delayInMilliseconds;
+        this.delayInSeconds = delayInSeconds;
         this.actionToExecute = actionToExecute;
-        timeLeftMilliseconds = delayInMilliseconds;
+        SecondsRemaining = delayInSeconds + 1;
     }
 
     public void Start()
@@ -36,7 +36,7 @@ public sealed class DelayedActionExecutor
         if (!IsRunning) return;
 
         IsRunning = false;
-        timeLeftMilliseconds = delayInMilliseconds;
+        SecondsRemaining = delayInSeconds + 1;
         
         timer.Dispose();
         cancellationTokenSource.Cancel();
@@ -47,10 +47,10 @@ public sealed class DelayedActionExecutor
     {
         if (cancellationTokenSource.Token.IsCancellationRequested) return;
 
-        timeLeftMilliseconds -= 1000;
-        SecondElapsed?.Invoke(this, EventArgs.Empty);
+        SecondsRemaining--;
+        SecondElapsed?.Invoke();
 
-        if (timeLeftMilliseconds <= 0)
+        if (SecondsRemaining <= 0)
         {
             actionToExecute?.Invoke();
             Stop();

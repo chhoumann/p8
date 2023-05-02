@@ -18,18 +18,20 @@ This area contains two high tables.
 Each of these tables has a small couch and two chairs placed next to it.
 Beacons are placed on top of the cabinet and in the three corners furthest away from the door.   
 The meeting room and its surrounding area is depicted in Figure \ref{fig:experiment_room}.
-\begin{figure}[h]
-    \centering
-    \includegraphics[scale=0.7]{images/experiment_setup.png}
-    \caption{A sketch of the meeting room in which the experiments were carried out, decorated with beacon placements (red antenna) and measurement locations(green circles)}
-    \label{fig:experiment_setup}
-\end{figure}
+
 
 \subsection{Creating a map}
 To execute the first phase of the approach described in Section \label{sec:first_phase}, we first partition the previously described meeting room into a $1m \times 1m$ resolutionn grid.
 To perform measurements inside each cell, a person holding a phone traverses through the room and stops in each cell to collect data. We will refer to this person as a \textit{collector}.
 The data is collected using a smart-phone, with a developed app installed.   \todo{do we need to describe this in depth somewhere? NEED TO DESCRIBE THE APP SOMEWHERE}
 With the app, it is possible to perform measurements from any number of selected beacons and append a label to the measurements.
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.7]{images/experiment_map_creation.png}
+    \caption{A sketch of the meeting room partitioned into a grid decorated with beacon placements (red antenna) and measurement locations (green cross). The figure how the measurements are collected systematically in the meeting room.}
+    \label{fig:experiment_map_creation}
+\end{figure}
+
 When the collector stops in a cell, they can press a button in the app, which starts measuring after n seconds. \todo{figure out how many seconds we need}
 The phone provides auditory feedback when it has collected enough adverticements for the requirements described in Section \ref{sec:first_phase} to be fulfilled.
 When the information for the cell has been computed and stored on the phone, the collector is informed and continues to the next cell in the grid. 
@@ -37,6 +39,12 @@ During the measurement the phone is kept in roughly the same height.
 
 
 \subsection{Evaluation strategy}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.7]{images/experiment_setup.png}
+    \caption{A sketch of the meeting room in which the experiments were carried out, decorated with beacon placements (red antenna) and measurement locations(green circles)}
+    \label{fig:experiment_setup}
+\end{figure}
 When performing the evaluations, we want to examine whether the system can correctly classify whether a receiving device is inside the room.
 We do this by performing measurements inside, outside, and on borders of the room.
 As physical obstacles can cause fluctuations in the received signals, we design the expirement such that measurements are takens in areas where some, none, and all of the beacons are blocked. 

@@ -10,13 +10,3 @@ Figure \ref{fig:StateDiagram} is a state diagram illustrating the different stag
     \label{fig:StateDiagram}
 \end{figure}
 
-
-\subsection{Blazor Component for BLE Device Monitoring and Analysis}
-
-Upon initialization, the component injects the \texttt{BLEScannerService} and establishes event handlers for device scanning, beacon advertisement updates, and RSSI data updates. The \texttt{RssiDataCollector} and \texttt{RssiDataHandler} instances are responsible for managing the collection and processing of RSSI data, respectively. The \texttt{advertisementScanner} object allows the component to listen for BLE advertisements and update beacon RSSI values accordingly.
-
-The Blazor component presents an interface for users to select available devices for monitoring, initiate or terminate the listening process, and manage the collection of RSSI data. The listening process is triggered by the \texttt{Listen} method of the \texttt{RssiDataCollector} class, which employs a periodic timer to periodically collect data. The component also provides an interface to set the room's label and a threshold for determining whether a device is inside or outside the room.
-
-When the user initiates the data collection process, a countdown timer (represented by the \texttt{DelayedActionExecutor} class) is displayed, and the actual data collection begins after the countdown elapses. The component then displays the current status of whether the monitored devices are inside or outside the room, based on the calculated distances and the specified threshold.
-
-Upon completion of the data collection process, the collected data is written to a JSON file for further analysis. The \texttt{IPromptService} is used to handle user prompts and display relevant information during the execution of the program.

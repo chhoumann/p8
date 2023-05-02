@@ -152,12 +152,10 @@ else
         }
         else if (delayedActionExecutor.IsRunning)
         {
-            Console.WriteLine("Stopping delayed action executor");
             delayedActionExecutor.Stop();
         }
         else
         {
-            Console.WriteLine("Starting delayed action executor");
             delayedActionExecutor.Start();
         }
     }
@@ -166,7 +164,6 @@ else
     {
         if (rssiDataCollector.IsCollecting) return;
         
-        Console.WriteLine("Starting data collecting");
         rssiDataCollector.CollectRssiData();
         InvokeAsync(StateHasChanged);
     }
@@ -175,8 +172,6 @@ else
     {
         if (!rssiDataCollector.IsCollecting) return;
             
-        Console.WriteLine("Stopping data collecting");
-        
         rssiDataCollector.StopCollectingRssiData();
         InvokeAsync(StateHasChanged);
     }

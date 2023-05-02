@@ -50,7 +50,7 @@ public sealed class DelayedActionExecutor
         timeLeftMilliseconds -= 1000;
         SecondElapsed?.Invoke(this, EventArgs.Empty);
 
-        if (elapsedMilliseconds <= 0)
+        if (timeLeftMilliseconds <= 0)
         {
             actionToExecute?.Invoke();
             Stop();

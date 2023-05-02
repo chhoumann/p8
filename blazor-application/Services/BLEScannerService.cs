@@ -35,7 +35,7 @@ public sealed class BLEScannerService
     {
         IDevice device = e.Device;
 
-        // if (!device.IsProximityBeacon()) return;
+        if (!device.IsProximityBeacon()) return;
         if (devices.Contains(device)) return;
 
         devices.Add(device);

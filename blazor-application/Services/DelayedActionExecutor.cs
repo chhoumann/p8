@@ -36,7 +36,7 @@ public sealed class DelayedActionExecutor
         if (!IsRunning) return;
 
         IsRunning = false;
-        elapsedMilliseconds = delayInMilliseconds;
+        timeLeftMilliseconds = delayInMilliseconds;
         
         timer.Dispose();
         cancellationTokenSource.Cancel();

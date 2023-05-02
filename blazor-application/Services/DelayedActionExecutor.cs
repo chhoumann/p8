@@ -9,7 +9,7 @@ public sealed class DelayedActionExecutor
     
     private readonly int delayInMilliseconds;
     
-    private int elapsedMilliseconds;
+    private int timeLeftMilliseconds;
 
     public bool IsRunning { get; private set; }
 
@@ -19,7 +19,7 @@ public sealed class DelayedActionExecutor
     {
         this.delayInMilliseconds = delayInMilliseconds;
         this.actionToExecute = actionToExecute;
-        elapsedMilliseconds = delayInMilliseconds;
+        timeLeftMilliseconds = delayInMilliseconds;
     }
 
     public void Start()
@@ -36,7 +36,7 @@ public sealed class DelayedActionExecutor
         if (!IsRunning) return;
 
         IsRunning = false;
-        elapsedMilliseconds = delayInMilliseconds;
+        timeLeftMilliseconds = delayInMilliseconds;
         
         timer.Dispose();
         cancellationTokenSource.Cancel();
@@ -47,10 +47,10 @@ public sealed class DelayedActionExecutor
     {
         if (cancellationTokenSource.Token.IsCancellationRequested) return;
 
-        elapsedMilliseconds -= 1000;
+        timeLeftMilliseconds -= 1000;
         SecondElapsed?.Invoke(this, EventArgs.Empty);
 
-        if (elapsedMilliseconds <= 0)
+        if (timeLeftMilliseconds <= 0)
         {
             actionToExecute?.Invoke();
             Stop();

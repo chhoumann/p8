@@ -47,7 +47,7 @@ public sealed class DelayedActionExecutor
     {
         if (cancellationTokenSource.Token.IsCancellationRequested) return;
 
-        elapsedMilliseconds -= 1000;
+        timeLeftMilliseconds -= 1000;
         SecondElapsed?.Invoke(this, EventArgs.Empty);
 
         if (elapsedMilliseconds <= 0)

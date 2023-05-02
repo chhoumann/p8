@@ -33,6 +33,8 @@ public sealed class KBeaconData
     /// <param name="isLittleEndian">Indicates whether the byte order is little-endian.</param>
     public KBeaconData(byte[] data, bool isLittleEndian)
     {
+        if (data == null) throw new ArgumentNullException($"{data} was null");
+
         if (data.Length != ByteCount)
         {
             throw new ArgumentException($"Number of bytes was {data.Length}, expected {ByteCount}.");
@@ -52,7 +54,7 @@ public sealed class KBeaconData
         }
         else
         {
-            CompanyId = data.Skip(1).Take(2).ToArray();
+            CompanyId = data.Take(2).ToArray();
             Uuid = new Guid(
                 BitConverter.ToInt32(data.Skip(4).Take(4).Reverse().ToArray()),
                 BitConverter.ToInt16(data.Skip(8).Take(2).Reverse().ToArray()),

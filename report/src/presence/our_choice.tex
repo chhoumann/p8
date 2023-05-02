@@ -32,7 +32,6 @@ However, existing hardware for presence detection, such as BLE beacons, could be
 Similar to WiFi, collected device information should be stored responsibly.
 Personal health devices can broadcast messages containing sensitive information.
 
-\todo{fix table}
 Table \ref{lst:evaluated_technologies} summarizes the characteristics of the covered technologies in terms of the chosen metrics seen in Table \ref{lst:presence_eval_criteria}.
 \begin{table}[H]
     \centering
@@ -40,22 +39,16 @@ Table \ref{lst:evaluated_technologies} summarizes the characteristics of the cov
         \begin{tabular}{|l|p{20mm}|p{20mm}|l|l|p{25mm}|}
             \hline
             Technology/Metrics & Accuracy & Precision & Cost & Privacy & Environmental robustness \\ \hline
-            Bluetooth          & x        & x         & x    & x       & -                      \\ \hline
-            Wifi               & x        & x         & -    & x       & -                      \\ \hline
-            CO2 sensors        & Not applicable        & Not applicable         & x    & x       & -                      \\ \hline
-            Camera (regular)   & x        & x         & x    & -       & -                      \\ \hline
-            Camera (infrared)  & x        & x         & -    & x       & x                      \\ \hline
+            Bluetooth          & \cmark        & \cmark         & \cmark    & \cmark   & \xmark                      \\ \hline
+            Wifi               & \cmark        & \cmark         & \xmark    & \cmark       & \xmark                      \\ \hline
+            CO2 sensors        & Not applicable        & Not applicable         & \cmark    & \cmark       & \xmark                      \\ \hline
+            Camera (regular)   & \cmark        & \cmark         & \cmark    & \xmark       & \xmark                      \\ \hline
+            Camera (infrared)  & \cmark        & \cmark         & \xmark    & \cmark       & \cmark                      \\ \hline
         \end{tabular}
     \end{center}
     \caption{Summerized capabilities of the technologies using the metrics from Table \ref{lst:presence_eval_criteria}. X marks capabilities satisfied by the technology}
     \label{lst:evaluated_technologies}
 \end{table}
-
-
-
-
-
-
 As $\text{CO}_{2}$ sensors are dependent on environmental indicators that cannot be controlled, the accuracy of a solution utilizing this technology might not be sufficient.
 Even though video technologies provide a high level of accuracy and are mostly independent of environmental factors, such as air circulation radio wave fluctuations, the privacy concerns, cost of installment, and maintenance are deemed too high.
 WiFi is already an integral part of any office environment. 

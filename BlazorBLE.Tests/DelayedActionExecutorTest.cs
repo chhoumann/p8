@@ -4,21 +4,19 @@ namespace BlazorBLE.Tests;
 
 public sealed class DelayedActionExecutorTest
 {
-    private const int DelayInMilliseconds = 5000;
+    private const int DelayInSeconds = 5;
         
     [Fact]
     public void DelayedActionExecutor_Start_InvokesSecondElapsedEvent()
     {
         int secondsElapsed = 0;
         
-        DelayedActionExecutor delayedActionExecutor = new (DelayInMilliseconds, null);
+        DelayedActionExecutor delayedActionExecutor = new(DelayInSeconds, null);
         
-        delayedActionExecutor.SecondElapsed += (_, _) => secondsElapsed++;
+        delayedActionExecutor.SecondElapsed += () => secondsElapsed++;
         delayedActionExecutor.Start();
         
-        Thread.Sleep(DelayInMilliseconds + 1000);
-        
-        delayedActionExecutor.Stop();
+        Thread.Sleep(TimeSpan.FromSeconds(DelayInSeconds + 1));
         
         Assert.Equal(5, secondsElapsed);
     }
@@ -28,12 +26,10 @@ public sealed class DelayedActionExecutorTest
     {
         bool actionExecuted = false;
         
-        DelayedActionExecutor delayedActionExecutor = new (DelayInMilliseconds, () => actionExecuted = true);
+        DelayedActionExecutor delayedActionExecutor = new (DelayInSeconds, () => actionExecuted = true);
         delayedActionExecutor.Start();
         
-        Thread.Sleep(DelayInMilliseconds + 1000);
-        
-        delayedActionExecutor.Stop();
+        Thread.Sleep(TimeSpan.FromSeconds(DelayInSeconds + 1));
         
         Assert.True(actionExecuted);
     }

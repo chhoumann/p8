@@ -19,7 +19,7 @@ public sealed class DelayedActionExecutor
     {
         this.delayInMilliseconds = delayInMilliseconds;
         this.actionToExecute = actionToExecute;
-        elapsedMilliseconds = delayInMilliseconds;
+        timeLeftMilliseconds = delayInMilliseconds;
     }
 
     public void Start()

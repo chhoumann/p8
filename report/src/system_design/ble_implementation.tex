@@ -1,1 +1,20 @@
 \subsection{Implementation: Receiving beacon information}\label{sec:ble_implementation}
+
+\subsection{System Overview}
+The implemented Blazor component provides a high-level interface for monitoring and analyzing Bluetooth Low Energy (BLE) devices within a room. The system utilizes various services and classes to handle device scanning, data collection, and processing. The component is designed to be user-friendly, offering interactive elements for device selection, room detection, and data collection management.
+
+\subsection{Device Scanning and Selection}
+The system scans for available BLE devices using the \texttt{BLEScannerService}. This service detects nearby devices and populates a list, which is then presented to the user through the Blazor component. Users can select or deselect devices for monitoring using interactive checkboxes.
+
+\subsection{RSSI Data Collection and Handling}
+The \texttt{RssiDataCollector} class is responsible for collecting Received Signal Strength Indicator (RSSI) data from the selected devices. This class listens for device updates and manages data collection over time. The \texttt{RssiDataHandler} class processes and analyzes the collected RSSI data, determining if the component is inside or outside the room based on a specified distance threshold.
+
+\subsection{User Interface and Interactivity}
+The Blazor component provides an intuitive user interface for managing the monitoring process. Users can start or stop listening for BLE devices, and initiate or terminate data collection through dedicated buttons. The interface also allows users to set labels and adjust the distance threshold for the room detection algorithm.
+
+\subsection{Room Detection Algorithm}
+The room detection algorithm, implemented in the \texttt{RssiDataHandler} class, evaluates the collected RSSI data in conjunction with the user-defined distance threshold to determine the component's location relative to the room. This algorithm forms the core of the system's functionality and ensures accurate room detection.
+
+\subsection{Performance and Limitations}
+The implemented system performs well in accurately detecting the location of the component with respect to the room. However, the system may have limitations in terms of scalability, noise handling, and real-time performance. Potential areas for improvement include refining the room detection algorithm and enhancing the user interface.
+

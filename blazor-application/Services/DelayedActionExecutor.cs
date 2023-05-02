@@ -9,7 +9,7 @@ public sealed class DelayedActionExecutor
     
     private readonly int delayInMilliseconds;
     
-    private int elapsedMilliseconds;
+    private int timeLeftMilliseconds;
 
     public bool IsRunning { get; private set; }
 

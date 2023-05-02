@@ -26,8 +26,14 @@ The meeting room and its surrounding area is depicted in Figure \ref{fig:experim
 \end{figure}
 
 \subsection{Creating a map}
-To execute the first phase of the approach described in Section  
-
+To execute the first phase of the approach described in Section \label{sec:first_phase}, we first partition the previously described meeting room into a $1m \times 1m$ resolutionn grid.
+To perform measurements inside each cell, a person holding a phone traverses through the room and stops in each cell to collect data. We will refer to this person as a \textit{collector}.
+The data is collected using a smart-phone, with a developed app installed.   \todo{do we need to describe this in depth somewhere? NEED TO DESCRIBE THE APP SOMEWHERE}
+With the app, it is possible to perform measurements from any number of selected beacons and append a label to the measurements.
+When the collector stops in a cell, they can press a button in the app, which starts measuring after n seconds. \todo{figure out how many seconds we need}
+The phone provides auditory feedback when it has collected enough adverticements for the requirements described in Section \ref{sec:first_phase} to be fulfilled.
+When the information for the cell has been computed and stored on the phone, the collector is informed and continues to the next cell in the grid. 
+During the measurement the phone is kept in roughly the same height.
 
 
 \subsection{Evaluation strategy}

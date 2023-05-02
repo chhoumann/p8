@@ -19,7 +19,7 @@ public sealed class DelayedActionExecutor
     {
         this.delayInSeconds = delayInSeconds;
         this.actionToExecute = actionToExecute;
-        SecondsRemaining = delayInSeconds + 1;
+        SecondsRemaining = delayInSeconds;
     }
 
     public void Start()
@@ -36,7 +36,7 @@ public sealed class DelayedActionExecutor
         if (!IsRunning) return;
 
         IsRunning = false;
-        SecondsRemaining = delayInSeconds + 1;
+        SecondsRemaining = delayInSeconds;
         
         timer.Dispose();
         cancellationTokenSource.Cancel();

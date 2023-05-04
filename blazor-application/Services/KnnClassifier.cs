@@ -13,26 +13,32 @@ public sealed class KnnClassifier
         this.k = k;
         this.threshold = threshold;
     }
-
+    
     public ClassLabel Classify(RawBeaconRssiMeasurement rawBeaconRssiMeasurement, IReadOnlyList<DataPoint> rssiDataPoints)
     {
-        DataPointDistance[] distances = CalculateDistances(rawBeaconRssiMeasurement, rssiDataPoints);
+        return Classify(rawBeaconRssiMeasurement.Rssis, rssiDataPoints);
+    }
+
+    public ClassLabel Classify(int[] rssis, IReadOnlyList<DataPoint> rssiDataPoints)
+    {
+        DataPointDistance[] distances = CalculateDistances(rssis, rssiDataPoints);
         DataPointDistance[] kNearestNeighbors = GetKNearestNeighbors(distances, k);
-        
+
         // Calculate the sum of the inverse distances of all neighbors
         double weightedNumNeighborsInsideRoom = CalculateWeight(kNearestNeighbors);
+        Console.WriteLine(weightedNumNeighborsInsideRoom);
 
         return weightedNumNeighborsInsideRoom > threshold ? ClassLabel.Inside : ClassLabel.Outside;
     }
 
-    private static DataPointDistance[] CalculateDistances(RawBeaconRssiMeasurement rawBeaconRssiMeasurement, IReadOnlyList<DataPoint> rssiDataPoints)
+    private static DataPointDistance[] CalculateDistances(int[] rssis, IReadOnlyList<DataPoint> rssiDataPoints)
     {
         DataPointDistance[] distances = new DataPointDistance[rssiDataPoints.Count];
 
         for (int i = 0; i < rssiDataPoints.Count; i++)
         {
             DataPoint dataPoint = rssiDataPoints[i];
-            double distance = dataPoint.Distance(rawBeaconRssiMeasurement.Rssis);
+            double distance = dataPoint.Distance(rssis);
 
             distances[i] = new DataPointDistance(dataPoint, distance);
         }

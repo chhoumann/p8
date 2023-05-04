@@ -67,7 +67,7 @@ public sealed class KnnClassifier
         return weightedNumNeighborsInsideRoom;
     }
 
-    private static DataPointDistance[] GetKNearestNeighbors(DataPointDistance[] distances, int k = 5)
+    private static DataPointDistance[] GetKNearestNeighbors(DataPointDistance[] distances, int k)
     {
         DataPointDistance[] result = new DataPointDistance[k];
         Random random = new();

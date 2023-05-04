@@ -2,7 +2,7 @@ namespace BlazorBLE.Data;
 
 public sealed class BeaconRssiSamples
 {
-    public int Count => rssis.Count;
+    public int Count { get; private set; }
 
     public double StandardDeviation { get; private set; }
 
@@ -10,7 +10,11 @@ public sealed class BeaconRssiSamples
 
     private bool isStable;
 
-    public void Add(int rssi) => rssis.Add(rssi);
+    public void Add(int rssi)
+    {
+        rssis.Add(rssi);
+        Count++;
+    }
 
     public bool IsStable(double threshold)
     {

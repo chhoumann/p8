@@ -29,6 +29,7 @@ public sealed class RssiDataHandler
     public bool IsInsideRoom(RawBeaconRssiMeasurement rawBeaconRssiMeasurement)
     {
         if (dataSet?.RssiDataPoints == null) return false;
+        if (dataSet.RssiDataPoints.Count == 0) return false;
         if (rawBeaconRssiMeasurement.Count != dataSet.NumBeacons) return false;
 
         return Classifier.Classify(rawBeaconRssiMeasurement, dataSet.RssiDataPoints) == ClassLabel.Inside;

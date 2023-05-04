@@ -10,6 +10,7 @@ public sealed class KnnClassifierTest
     [InlineData(new[] { -200, 250, 300 }, ClassLabel.Outside, 3, 0.5)]
     public void TestClassifyInside(int[] measurement, ClassLabel expectedLabel, int k, double threshold)
     {
+        // Arrange
         KnnClassifier classifier = new KnnClassifier(k, threshold);
 
         IReadOnlyList<DataPoint> rssiDataPoints = new List<DataPoint>

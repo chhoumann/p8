@@ -24,8 +24,7 @@ public sealed class KnnClassifier
     {
         if (K > rssiDataPoints.Count)
         {
-            Console.WriteLine("K cannot be greater than the number of data points in the data set.");
-            return ClassLabel.Outside;
+            throw new ArgumentException("K cannot be greater than the number of data points");
         }
         
         DataPointDistance[] distances = CalculateDistances(rssis, rssiDataPoints);

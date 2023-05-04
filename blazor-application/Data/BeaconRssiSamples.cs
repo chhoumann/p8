@@ -2,6 +2,8 @@ namespace BlazorBLE.Data;
 
 public sealed class BeaconRssiSamples
 {
+    public int Count => rssis.Count;
+    
     private readonly List<int> rssis = new();
     
     private bool isStable;

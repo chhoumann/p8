@@ -34,15 +34,12 @@ public sealed class RssiLowVarianceSample
     
     public bool IsStable(double threshold)
     {
-        if (samples.Count < minimumSampleCount)
-        {
-            return false;
-        }
-
         int stableCount = 0;
         
         foreach (BeaconRssiSamples beaconSamples in samples.Values)
         {
+            if (beaconSamples.Count < minimumSampleCount) return false;
+            
             if (beaconSamples.IsStable(threshold))
             {
                 stableCount++;

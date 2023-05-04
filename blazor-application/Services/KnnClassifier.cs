@@ -22,7 +22,11 @@ public sealed class KnnClassifier
 
     public ClassLabel Classify(int[] rssis, IReadOnlyList<DataPoint> rssiDataPoints)
     {
-        if (K > rssiDataPoints.Count) return ClassLabel.Outside;
+        if (K > rssiDataPoints.Count)
+        {
+            Console.WriteLine("K cannot be greater than the number of data points in the data set.");
+            return ClassLabel.Outside;
+        }
         
         DataPointDistance[] distances = CalculateDistances(rssis, rssiDataPoints);
         DataPointDistance[] kNearestNeighbors = GetKNearestNeighbors(distances, K);

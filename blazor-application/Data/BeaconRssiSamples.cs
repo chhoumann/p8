@@ -2,6 +2,8 @@ namespace BlazorBLE.Data;
 
 public sealed class BeaconRssiSamples
 {
+    public double StandardDeviation { get; private set; }
+    
     private readonly List<int> rssis = new();
     
     private bool isStable;
@@ -12,9 +14,8 @@ public sealed class BeaconRssiSamples
     {
         if (isStable) return true;
         
-        double standardDeviation = CalculateStandardDeviation();
-        
-        isStable = standardDeviation < threshold;
+        StandardDeviation = CalculateStandardDeviation();
+        isStable = StandardDeviation < threshold;
 
         return isStable;
     }

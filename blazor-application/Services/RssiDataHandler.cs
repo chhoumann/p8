@@ -4,13 +4,13 @@ namespace BlazorBLE.Services;
 
 public sealed class RssiDataHandler
 {
-    private readonly KnnClassifier classifier;
+    public KnnClassifier Classifier { get; }
     
     private RssiDataSet dataSet;
 
     public RssiDataHandler(int k, double threshold)
     {
-        classifier = new KnnClassifier(k, threshold);
+        Classifier = new KnnClassifier(k, threshold);
     }
 
     public void LoadData(string jsonFileName)
@@ -31,6 +31,6 @@ public sealed class RssiDataHandler
         if (dataSet?.RssiDataPoints == null) return false;
         if (rawBeaconRssiMeasurement.Count != dataSet.NumBeacons) return false;
 
-        return classifier.Classify(rawBeaconRssiMeasurement, dataSet.RssiDataPoints) == ClassLabel.Inside;
+        return Classifier.Classify(rawBeaconRssiMeasurement, dataSet.RssiDataPoints) == ClassLabel.Inside;
     }
 }

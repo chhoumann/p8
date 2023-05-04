@@ -64,4 +64,9 @@ public sealed class RssiLowVarianceSample
 
         return new AveragedBeaconRssiMeasurement(beaconGuids, averages);
     }
+
+    public override string ToString()
+    {
+        return string.Join(", ", samples.Values.Select(x => x.StandardDeviation.ToString("F2")));
+    }
 }

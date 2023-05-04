@@ -19,7 +19,7 @@ public sealed class RssiDataHandler
         }
     }
     
-    public bool IsInsideRoom(BeaconRssiMeasurement<int> beaconMeasurements, double distanceThreshold)
+    public bool IsInsideRoom(RawBeaconRssiMeasurement beaconMeasurements, double distanceThreshold)
     {
         if (dataSet == null)
         {

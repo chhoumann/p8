@@ -21,6 +21,8 @@ public sealed class KnnClassifier
 
     public ClassLabel Classify(int[] rssis, IReadOnlyList<DataPoint> rssiDataPoints)
     {
+        if (k > rssis.Length) return ClassLabel.Outside;
+        
         DataPointDistance[] distances = CalculateDistances(rssis, rssiDataPoints);
         DataPointDistance[] kNearestNeighbors = GetKNearestNeighbors(distances, k);
 

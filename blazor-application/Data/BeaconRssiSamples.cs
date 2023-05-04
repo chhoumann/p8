@@ -2,7 +2,7 @@ namespace BlazorBLE.Data;
 
 public sealed class BeaconRssiSamples
 {
-    public int Count { get; private set; }
+    public int Count => rssis.Count;
 
     public double StandardDeviation { get; private set; }
 

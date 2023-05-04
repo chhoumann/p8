@@ -79,7 +79,7 @@ public sealed class KnnClassifier
         return result;
     }
 
-    private static void QuickSelect(DataPointDistance[] distances, int left, int right, int k, Random random)
+    private static void QuickSelect(IList<DataPointDistance> distances, int left, int right, int k, Random random)
     {
         if (left == right) return;
 

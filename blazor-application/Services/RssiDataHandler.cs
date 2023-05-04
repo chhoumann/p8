@@ -31,49 +31,112 @@ public sealed class RssiDataHandler
             return false;
         }
 
+        const double threshold = 0.5;
+        const int k = 5;
+
+        // Get the distance between the beacon measurements and each data point 
+        // Find the K nearest neighbors to the beacon measurement provided in the argument
+        // If the majority of the K nearest neighbors are inside the room, return true
+        
+        DataPointDistance[] distances = new DataPointDistance[dataSet.RssiDataPoints.Count];
+
         for (int i = 0; i < dataSet.RssiDataPoints.Count; i++)
         {
-            DataPoint<double> dataPoint = dataSet.RssiDataPoints[i];
+            DataPoint dataPoint = dataSet.RssiDataPoints[i];
+            double distance = dataPoint.Distance(beaconMeasurements.Rssis);
+            
+            distances[i] = new DataPointDistance(dataPoint, distance);
+        }
 
-            double distance = dataPoint.DistanceTo(beaconMeasurements.Rssis);
+        // Get the 5 lowest distances from the dictionary (the 5 nearest neighbors)
+        DataPointDistance[] kNearestNeighbors = GetKNearestNeighbors(distances, k);
+        
+        // Calculate the sum of the inverse distances of all neighbors
+        double sumOfInverseDistances = kNearestNeighbors.Sum(neighbor => 1 / neighbor.Distance);
 
-            if (distance < distanceThreshold)
+        // Count the number of neighbors that are inside the room and weigh them by their distance
+        double weightedNumNeighborsInsideRoom = 0;
+
+        foreach (DataPointDistance neighbor in kNearestNeighbors)
+        {
+            if (neighbor.DataPoint.Label == ClassLabel.Inside)
             {
-                return true;
+                weightedNumNeighborsInsideRoom += (1 / neighbor.Distance) / sumOfInverseDistances;
             }
         }
 
-        return false;
+        // If the probability of the data point being inside the room is greater than the threshold, return true
+        return weightedNumNeighborsInsideRoom > threshold;
     }
 
-    private static double[] GetKNearestNeighbors(IReadOnlyList<double> distances, int k = 5)
+    private static DataPointDistance[] GetKNearestNeighbors(DataPointDistance[] distances, int k = 5)
     {
-        double[] kSmallestDistances = new double[k];
+        DataPointDistance[] result = new DataPointDistance[k];
+        Random random = new();
 
-        for (int i = 0; i < k; i++)
+        QuickSelect(distances, 0, distances.Length - 1, k, random);
+
+        Array.Copy(distances, result, k);
+        
+        return result;
+    }
+
+    private static void QuickSelect(DataPointDistance[] distances, int left, int right, int k, Random random)
+    {
+        if (left == right) return;
+
+        int pivotIndex = random.Next(left, right);
+        pivotIndex = Partition(distances, left, right, pivotIndex);
+
+        if (k == pivotIndex) return;
+
+        if (k < pivotIndex)
         {
-            kSmallestDistances[i] = double.MaxValue;
+            QuickSelect(distances, left, pivotIndex - 1, k, random);
         }
-
-        for (int i = 0; i < distances.Count; i++)
+        else
         {
-            double distance = distances[i];
+            QuickSelect(distances, pivotIndex + 1, right, k, random);
+        }
+    }
 
-            for (int j = 0; j < k; j++)
+    private static int Partition(IList<DataPointDistance> distances, int left, int right, int pivotIndex)
+    {
+        DataPointDistance pivotValue = distances[pivotIndex];
+        
+        Swap(distances, pivotIndex, right);
+
+        int storeIndex = left;
+        
+        for (int i = left; i < right; i++)
+        {
+            if (distances[i].Distance < pivotValue.Distance)
             {
-                if (distance < kSmallestDistances[j])
-                {
-                    for (int n = k - 1; n > j; n--)
-                    {
-                        kSmallestDistances[n] = kSmallestDistances[n - 1];
-                    }
-
-                    kSmallestDistances[j] = distance;
-                    break;
-                }
+                Swap(distances, storeIndex, i);
+                storeIndex++;
             }
         }
+
+        Swap(distances, right, storeIndex);
         
-        return kSmallestDistances;
+        return storeIndex;
+    }
+
+    private static void Swap(IList<DataPointDistance> distances, int a, int b)
+    {
+        (distances[a], distances[b]) = (distances[b], distances[a]);
+    }
+    
+    private sealed class DataPointDistance
+    {
+        public DataPoint DataPoint { get; }
+        
+        public double Distance { get; }
+        
+        public DataPointDistance(DataPoint dataPoint, double distance)
+        {
+            DataPoint = dataPoint;
+            Distance = distance;
+        }
     }
 }

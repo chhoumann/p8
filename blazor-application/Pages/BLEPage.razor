@@ -147,7 +147,6 @@ else
         advertisementScanner.BeaconAdvertised += OnBeaconAdvertised;
         
         rssiDataCollector.BeaconRssisUpdated += OnBeaconRssisUpdated;
-        rssiDataCollector.SampleCollected += StateHasChanged;
 
         rssiDataHandler = new RssiDataHandler(3, 0.5);
         

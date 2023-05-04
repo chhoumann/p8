@@ -6,7 +6,6 @@ namespace BlazorBLE.Services;
 public sealed class RssiDataCollector
 {
     public event Action BeaconRssisUpdated;
-    public event Action SampleCollected;
 
     public ClassLabel CurrentLabel { get; set; }
     
@@ -75,8 +74,6 @@ public sealed class RssiDataCollector
                     DataSet.Add(CurrentSample.CalculateAverageMeasurement(), CurrentLabel);
                     StopCollectingRssiData();
                 }
-                
-                SampleCollected?.Invoke();
             }
         }, cts.Token);
         

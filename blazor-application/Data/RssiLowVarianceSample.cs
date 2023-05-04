@@ -64,6 +64,14 @@ public sealed class RssiLowVarianceSample
 
     public override string ToString()
     {
+        foreach (BeaconRssiSamples beaconSamples in samples.Values)
+        {
+            if (beaconSamples.Count < minimumSampleCount)
+            {
+                return "Not enough samples to calculate standard deviations yet.";
+            }
+        }
+
         return string.Join(", ", samples.Values.Select(x => x.StandardDeviation.ToString("F2")));
     }
 }

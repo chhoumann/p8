@@ -24,9 +24,7 @@ public sealed class KnnClassifier
         DataPointDistance[] distances = CalculateDistances(rssis, rssiDataPoints);
         DataPointDistance[] kNearestNeighbors = GetKNearestNeighbors(distances, k);
 
-        // Calculate the sum of the inverse distances of all neighbors
-        double weightedNumNeighborsInsideRoom = CalculateWeight(kNearestNeighbors);
-        Console.WriteLine(weightedNumNeighborsInsideRoom);
+        double weightedNumNeighborsInsideRoom = CalculateWeight(kNearestNeighbors, ClassLabel.Inside);
 
         return weightedNumNeighborsInsideRoom > threshold ? ClassLabel.Inside : ClassLabel.Outside;
     }
@@ -46,7 +44,7 @@ public sealed class KnnClassifier
         return distances;
     }
     
-    private static double CalculateWeight(IReadOnlyList<DataPointDistance> kNearestNeighbors)
+    private static double CalculateWeight(IReadOnlyList<DataPointDistance> kNearestNeighbors, ClassLabel label)
     {
         double sumOfInverseDistances = 0;
 
@@ -60,7 +58,7 @@ public sealed class KnnClassifier
 
         for (int i = 0; i < kNearestNeighbors.Count; i++)
         {
-            if (kNearestNeighbors[i].DataPoint.Label == ClassLabel.Inside)
+            if (kNearestNeighbors[i].DataPoint.Label == label)
             {
                 weightedNumNeighborsInsideRoom += (1 / kNearestNeighbors[i].Distance) / sumOfInverseDistances;
             }

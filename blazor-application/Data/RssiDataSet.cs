@@ -41,7 +41,7 @@ public sealed class RssiDataSet
         File.WriteAllText(GetPath(fileName), jsonString);
     }
 
-    public void Add(BeaconRssiMeasurement<double> measurement, ClassLabel label)
+    public void Add(AveragedBeaconRssiMeasurement measurement, ClassLabel label)
     {
         if (measurement.Count != NumBeacons)
         {

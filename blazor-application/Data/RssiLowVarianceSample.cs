@@ -21,7 +21,7 @@ public sealed class RssiLowVarianceSample
         }
     }
 
-    public void Add(BeaconRssiMeasurement<int> measurement)
+    public void Add(RawBeaconRssiMeasurement measurement)
     {
         for (int i = 0; i < measurement.BeaconIds.Length; i++)
         {
@@ -52,7 +52,7 @@ public sealed class RssiLowVarianceSample
         return stableCount == BeaconCount;
     }
 
-    public BeaconRssiMeasurement<double> CalculateAverageMeasurement()
+    public AveragedBeaconRssiMeasurement CalculateAverageMeasurement()
     {
         double[] averages = new double[BeaconCount];
         
@@ -62,6 +62,6 @@ public sealed class RssiLowVarianceSample
             averages[i] = samples[beaconGuid].Average();
         }
 
-        return new BeaconRssiMeasurement<double>(beaconGuids, averages);
+        return new AveragedBeaconRssiMeasurement(beaconGuids, averages);
     }
 }

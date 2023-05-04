@@ -1,6 +1,20 @@
 namespace BlazorBLE.Data;
 
-public sealed class BeaconRssiMeasurement<T>
+public sealed class RawBeaconRssiMeasurement : BeaconRssiMeasurement<int>
+{
+    public RawBeaconRssiMeasurement(int count) : base(count) { }
+
+    public RawBeaconRssiMeasurement(Guid[] beaconIds, int[] rssis) : base(beaconIds, rssis) { }
+}
+
+public sealed class AveragedBeaconRssiMeasurement : BeaconRssiMeasurement<double>
+{
+    public AveragedBeaconRssiMeasurement(int count) : base(count) { }
+    
+    public AveragedBeaconRssiMeasurement(Guid[] beaconIds, double[] rssis) : base(beaconIds, rssis) { }
+}
+
+public abstract class BeaconRssiMeasurement<T>
 {
     public Guid[] BeaconIds { get; }
     public T[] Rssis { get; }

@@ -157,7 +157,7 @@ else
     private void OnBeaconRssisUpdated()
     {
         RawBeaconRssiMeasurement latestMeasurement = rssiDataCollector.GetLatestMeasurement();
-        isInsideRoom = rssiDataHandler.IsInsideRoom(latestMeasurement, distanceThreshold);
+        isInsideRoom = rssiDataHandler.IsInsideRoom(latestMeasurement);
 
         StateHasChanged();
     }

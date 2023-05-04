@@ -7,7 +7,7 @@
 
 @inject BLEScannerService BLEScannerService
 
-@if (BLEScannerService.Devices == null || rssiDataCollector == null)
+@if (BLEScannerService.Devices == null || rssiDataCollector == null || rssiDataHandler == null)
 {
     <LoadingPage/>
 }

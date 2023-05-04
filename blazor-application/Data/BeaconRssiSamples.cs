@@ -10,11 +10,7 @@ public sealed class BeaconRssiSamples
 
     private bool isStable;
 
-    public void Add(int rssi)
-    {
-        rssis.Add(rssi);
-        Count++;
-    }
+    public void Add(int rssi) => rssis.Add(rssi);
 
     public bool IsStable(double threshold)
     {

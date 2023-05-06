@@ -10,10 +10,11 @@ public sealed class RssiDataCollector
     public ClassLabel CurrentLabel { get; set; }
     
     public RssiDataSet DataSet { get; private set; }
+    public RssiLowVarianceSample CurrentSample { get; private set; }
 
     public bool IsListening { get; private set; }
     public bool IsCollecting { get; private set; }
-
+    
     private PeriodicTimer periodicTimer;
     private Guid[] beaconGuids;
     private Dictionary<Guid, int> beaconRssis;
@@ -62,15 +63,15 @@ public sealed class RssiDataCollector
         
         Task.Run(async () =>
         {
-            RssiLowVarianceSample sample = new(beaconGuids);
+            CurrentSample = new RssiLowVarianceSample(beaconGuids);
             
             while (await periodicTimer.WaitForNextTickAsync() && IsCollecting)
             {
-                sample.Add(GetLatestMeasurement());
+                CurrentSample.Add(GetLatestMeasurement());
                 
-                if (sample.IsStable(5))
+                if (CurrentSample.IsStable(5))
                 {
-                    DataSet.Add(sample.CalculateAverageMeasurement(), CurrentLabel);
+                    DataSet.Add(CurrentSample.CalculateAverageMeasurement(), CurrentLabel);
                     StopCollectingRssiData();
                 }
             }
@@ -101,9 +102,9 @@ public sealed class RssiDataCollector
         BeaconRssisUpdated?.Invoke();
     }
 
-    public BeaconRssiMeasurement<int> GetLatestMeasurement()
+    public RawBeaconRssiMeasurement GetLatestMeasurement()
     {
-        BeaconRssiMeasurement<int> measurement = new(beaconGuids.Length);
+        RawBeaconRssiMeasurement measurement = new(beaconGuids.Length);
         
         for (int i = 0; i < measurement.Count; i++)
         {

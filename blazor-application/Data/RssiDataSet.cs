@@ -10,7 +10,7 @@ public sealed class RssiDataSet
 
     public Guid[] BeaconIds { get; set; }
     
-    public List<DataPoint<double>> RssiDataPoints { get; set; }
+    public List<DataPoint> RssiDataPoints { get; set; }
     
     [JsonConstructor]
     public RssiDataSet() { }
@@ -41,7 +41,7 @@ public sealed class RssiDataSet
         File.WriteAllText(GetPath(fileName), jsonString);
     }
 
-    public void Add(BeaconRssiMeasurement<double> measurement, ClassLabel label)
+    public void Add(AveragedBeaconRssiMeasurement measurement, ClassLabel label)
     {
         if (measurement.Count != NumBeacons)
         {
@@ -64,7 +64,7 @@ public sealed class RssiDataSet
             }
         }
         
-        RssiDataPoints.Add(new DataPoint<double>(label, rssis));
+        RssiDataPoints.Add(new DataPoint(label, rssis));
     }
 
     public void RemoveDuplicates()

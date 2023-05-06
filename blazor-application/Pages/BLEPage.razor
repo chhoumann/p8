@@ -7,7 +7,7 @@
 
 @inject BLEScannerService BLEScannerService
 
-@if (BLEScannerService.Devices == null || rssiDataCollector == null)
+@if (BLEScannerService.Devices == null || rssiDataCollector == null || rssiDataHandler == null)
 {
     <LoadingPage/>
 }
@@ -15,14 +15,14 @@ else
 {
     <div class="my-4 w-full text-center">
         <div class="mb-4">
-            <button class="w-5/6 bg-blue-500 text-white font-bold py-2 px-4 rounded @((selectedDevices.Count == 0) ? "bg-slate-300 cursor-not-allowed text-opacity-60" : "")"
+            <button class="w-5/6 bg-blue-500 text-white font-bold py-2 px-4 rounded @(selectedDevices.Count == 0 ? "bg-slate-300 cursor-not-allowed text-opacity-60" : "")"
                     disabled=@(selectedDevices.Count == 0)
                 @onclick=ToggleListening>
                 @(rssiDataCollector.IsListening ? "Stop listening" : "Listen")
             </button>
         </div>
         <div>
-            <button class="w-5/6 bg-blue-500 text-white font-bold py-2 px-4 rounded @((!rssiDataCollector.IsListening) ? "bg-slate-300 cursor-not-allowed text-opacity-60" : "")"
+            <button class="w-5/6 bg-blue-500 text-white font-bold py-2 px-4 rounded @(!rssiDataCollector.IsListening ? "bg-slate-300 cursor-not-allowed text-opacity-60" : "")"
                     disabled=@(!rssiDataCollector.IsListening)
                 @onclick=OnClickCollectData>
                 @(!rssiDataCollector.IsCollecting && !delayedActionExecutor.IsRunning ? "Start collecting data" : "Stop collecting data")
@@ -72,9 +72,20 @@ else
             <div class="flex items-center mb-2">
                 <div class="w-1/4 pr-2">Threshold</div>
                 <div class="w-1/2 flex items-center mr-2">
-                    <input id="default-range" type="range" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointerm" @bind="distanceThreshold" @bind:event="oninput">
+                    <input id="default-range" type="range" min="0" max="1" step="0.01" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointerm" 
+                           @bind="rssiDataHandler.Classifier.Threshold" 
+                           @bind:event="oninput">
                 </div>
-                <div class="text-nowrap text-right">@(distanceThreshold) dBm</div>
+                <div class="text-nowrap text-right">@(rssiDataHandler.Classifier.Threshold) dBm</div>
+            </div>
+            <div class="flex items-center mb-2">
+                <div class="w-1/4 pr-2">K</div>
+                <div class="w-1/2 flex items-center mr-2">
+                    <input id="default-range" type="range" min="1" max="10" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointerm" 
+                           @bind="rssiDataHandler.Classifier.K" 
+                           @bind:event="oninput">
+                </div>
+                <div class="text-nowrap text-right">@(rssiDataHandler.Classifier.K)</div>
             </div>
         </div>
 
@@ -85,6 +96,9 @@ else
                 {
                     <div>
                         Status: <span class="font-bold"> @(isInsideRoom ? "Inside room" : "Outside room") </span>
+                    </div>
+                    <div>
+                        Weight: <span class="font-bold"> @(Math.Round(rssiDataHandler.Classifier.WeightedNumNeighborsInsideRoom, 2)) </span>
                     </div>
                 }
                 else
@@ -102,6 +116,12 @@ else
                 <div class="text-1xl font-extrabold">
                     Collecting data...
                 </div>
+                @if (rssiDataCollector.CurrentSample != null)
+                {
+                    <div>
+                        {@rssiDataCollector.CurrentSample.ToString()}
+                    </div>
+                }
             </div>
         }
     }
@@ -114,21 +134,22 @@ else
     private readonly List<IDevice> selectedDevices = new();
     private readonly RssiDataCollector rssiDataCollector = new();
     private readonly BLEAdvertisementScanner advertisementScanner = new();
-    private readonly RssiDataHandler rssiDataHandler = new(5, 0.5);
 
+    private RssiDataHandler rssiDataHandler;
     private DelayedActionExecutor delayedActionExecutor;
 
     private bool isInsideRoom;
-
-    private int distanceThreshold = 10;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         BLEScannerService.DevicesChanged += StateHasChanged;
         advertisementScanner.BeaconAdvertised += OnBeaconAdvertised;
+        
         rssiDataCollector.BeaconRssisUpdated += OnBeaconRssisUpdated;
 
+        rssiDataHandler = new RssiDataHandler(3, 0.5);
+        
         delayedActionExecutor = new DelayedActionExecutor(5, StartDataCollecting);
         delayedActionExecutor.SecondElapsed += () => InvokeAsync(StateHasChanged);
 

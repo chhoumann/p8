@@ -61,4 +61,16 @@ public sealed class RssiLowVarianceSample
 
         return new AveragedBeaconRssiMeasurement(beaconGuids, averages);
     }
+
+    public override string ToString()
+    {
+        int min = samples.Values.Min(x => x.Count);
+        
+        if (min < minimumSampleCount)
+        {
+            return $"Not enough samples: {min}/{minimumSampleCount}";
+        }
+
+        return string.Join(", ", samples.Values.Select(x => x.StandardDeviation.ToString("F2")));
+    }
 }

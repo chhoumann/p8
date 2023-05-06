@@ -4,14 +4,15 @@ namespace BlazorBLE.Services;
 
 public sealed class KnnClassifier
 {
-    private readonly int k;
+    public int K { get; set; }
     
-    private readonly double threshold;
+    public double Threshold { get; set; }
+    public double WeightedNumNeighborsInsideRoom { get; private set; }
 
     public KnnClassifier(int k, double threshold)
     {
-        this.k = k;
-        this.threshold = threshold;
+        K = k;
+        Threshold = threshold;
     }
     
     public ClassLabel Classify(RawBeaconRssiMeasurement rawBeaconRssiMeasurement, IReadOnlyList<DataPoint> rssiDataPoints)
@@ -21,14 +22,18 @@ public sealed class KnnClassifier
 
     public ClassLabel Classify(int[] rssis, IReadOnlyList<DataPoint> rssiDataPoints)
     {
-        if (k > rssiDataPoints.Count) return ClassLabel.Outside;
-        
+
+        if (K > rssiDataPoints.Count)
+        {
+            throw new ArgumentException("K cannot be greater than the number of data points");
+        }
+
         DataPointDistance[] distances = CalculateDistances(rssis, rssiDataPoints);
-        DataPointDistance[] kNearestNeighbors = GetKNearestNeighbors(distances, k);
+        DataPointDistance[] kNearestNeighbors = GetKNearestNeighbors(distances, K);
 
-        double weightedNumNeighborsInsideRoom = CalculateWeight(kNearestNeighbors, ClassLabel.Inside);
+        WeightedNumNeighborsInsideRoom = CalculateWeight(kNearestNeighbors, ClassLabel.Inside);
 
-        return weightedNumNeighborsInsideRoom > threshold ? ClassLabel.Inside : ClassLabel.Outside;
+        return WeightedNumNeighborsInsideRoom > Threshold ? ClassLabel.Inside : ClassLabel.Outside;
     }
 
     private static DataPointDistance[] CalculateDistances(int[] rssis, IReadOnlyList<DataPoint> rssiDataPoints)

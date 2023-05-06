@@ -21,7 +21,7 @@ public sealed class RssiLowVarianceSample
         }
     }
 
-    public void Add(RawBeaconRssiMeasurement measurement)
+    public void Add(BeaconRssiMeasurement<int> measurement)
     {
         for (int i = 0; i < measurement.BeaconIds.Length; i++)
         {
@@ -34,12 +34,15 @@ public sealed class RssiLowVarianceSample
     
     public bool IsStable(double threshold)
     {
+        if (samples.Count < minimumSampleCount)
+        {
+            return false;
+        }
+
         int stableCount = 0;
         
         foreach (BeaconRssiSamples beaconSamples in samples.Values)
         {
-            if (beaconSamples.Count < minimumSampleCount) return false;
-            
             if (beaconSamples.IsStable(threshold))
             {
                 stableCount++;
@@ -49,7 +52,7 @@ public sealed class RssiLowVarianceSample
         return stableCount == BeaconCount;
     }
 
-    public AveragedBeaconRssiMeasurement CalculateAverageMeasurement()
+    public BeaconRssiMeasurement<double> CalculateAverageMeasurement()
     {
         double[] averages = new double[BeaconCount];
         
@@ -59,18 +62,6 @@ public sealed class RssiLowVarianceSample
             averages[i] = samples[beaconGuid].Average();
         }
 
-        return new AveragedBeaconRssiMeasurement(beaconGuids, averages);
-    }
-
-    public override string ToString()
-    {
-        int min = samples.Values.Min(x => x.Count);
-        
-        if (min < minimumSampleCount)
-        {
-            return $"Not enough samples: {min}/{minimumSampleCount}";
-        }
-
-        return string.Join(", ", samples.Values.Select(x => x.StandardDeviation.ToString("F2")));
+        return new BeaconRssiMeasurement<double>(beaconGuids, averages);
     }
 }

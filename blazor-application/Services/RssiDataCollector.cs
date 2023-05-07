@@ -69,7 +69,7 @@ public sealed class RssiDataCollector
             {
                 CurrentSample.Add(GetLatestMeasurement());
                 
-                if (CurrentSample.IsStable(5))
+                if (CurrentSample.IsStable(6.5))
                 {
                     DataSet.Add(CurrentSample.CalculateAverageMeasurement(), CurrentLabel);
                     StopCollectingRssiData();

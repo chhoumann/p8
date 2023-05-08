@@ -10,7 +10,7 @@ Figure \ref{fig:StateDiagram} is a state diagram illustrating the transitions ha
     \label{fig:StateDiagram}
 \end{figure}
 
-As can be seen in figure \ref{fig:StateDiagram}, the application has two modes. 
+These two stages, along with the states within each stage can be seen in figure \ref{fig:StateDiagram}. 
 An idle mode and a listening mode. 
 When the application is started, it will run background jobs that gives the device the ability to scan for other devices, collect Bluetooth beacon advertisement and RSSI data updates. 
 This corresponds to the \textit{loading state}.
@@ -20,5 +20,7 @@ If the user toggles listening on, the application will transition to a \textit{n
 At this state, the device will start listening for advertisement and RSSI data updates, allowing the user to start collecting this data.
 When the user starts collecting data, a delayed action will be started and the application will transition to a \textit{Delayed Action} state.
 The point of this delayed action, is to allow the user to orient themselves before the data collection process starts.
-Once the delayed action has finished, the application will transition to a data collecting state, 
+Once the delayed action has finished, the application will transition to a data collecting state, which can be ended and the application will go back to a non-collecting state.
+
+The int
 

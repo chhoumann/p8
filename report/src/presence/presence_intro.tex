@@ -10,8 +10,16 @@ The following sections will examine a few of them-based.
 because they cover what we believe are the key aspects necessary for the successful implementation of a system such as this.
 Accuracy and responsiveness ensure reliable detection and efficient space management, while privacy addresses user confidence and regulatory compliance.
 Cost ensures affordability and sustainability, and environmental factors guarantee consistent performance under varying conditions.
-Taken together, these criteria help to select a technology that fits the context of use.
+Taken together, these criteuria help to select a technology that fits the context of use.
 A short definition of each critera is given in Table~\ref{lst:presence_eval_criteria}.
+
+In this project, we work with the classification of whether a meeting room is occupied or not. 
+A system for this purpose is suitably accurate, if the determined location can be used to correctly classify if the room can be marked as unoccupied.
+It is sufficient to mark the room as unoccupied when the system is certain that all attendees is not in the room. 
+In this regard, it is not necessary for the system to detect the exact moment an attendee leaves the meeting room.
+The system can wait until a satifyable distance to the room is reached before marking it as occupied. 
+This gives leverage in terms of the accuracy for the solution. 
+In this project, an accuracy of x \todo{definer hvad en suitable accuracy er} meters has been determined based on stakeholder information.  
 
 \begin{table}[H]
     \begin{tabular}{|l|p{85mm}|lll}

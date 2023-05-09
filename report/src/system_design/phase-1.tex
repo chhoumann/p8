@@ -1,0 +1,12 @@
+
+% Intro text - from data collection, but rewrite because it uses wrong terms, bad grammar, etc.
+% Explain the overall design for the data collection phase by using diagrams of central components (DataCollector, etc.)
+% Deep-dive into various aspects of the implementation, relying on the diagrams to explain the overall design
+
+% Beacons broadcast a specific advertisement package
+% This package contains a string of bytes
+% These bytes contain information about the broadcast
+% Describe the byte stream and what each part means
+% Describe how we load these bytes (wrapper class)
+% Remember endianness!
+% Using the iBeacon specification, application filters out Bluetooth broadcasts that are not sent from beacons

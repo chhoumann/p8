@@ -18,7 +18,7 @@ By analysing the distance estimations between the beacons and the receiver, the 
 Various techniques exists to determine this distance.
 \citeauthor{presence_ble_review}~\cite{presence_ble_review} examines five techniques, each using different combinations of advertisement content, to establish a distance measure to each beacon, and present current methods for handling the loss of signal during the analysis.
 
-Trilateration is a form of lateration using the transmission of one or more beacons to calculate a \textit{path loss}.
+Trilateration using Bluetooth is a form of lateration using the known transmission power of one or more beacons to calculate a \textit{path loss}.
 Path loss defines the amount of signal power lost as the signal is sent across a distance of $d$ meters.
 As the transmission power of the beacons are known, the loss per distance $L(d)$ can be subtracted from the transmission power $p_0$ to find the distance~\cite{taking_localization_to_the_wild}:
 \begin{equation}\label{distance_equation}
@@ -30,4 +30,5 @@ Various models using different variants of constants $C$ and $n$ exist\cite{path
 Due to the many possible environmental circumstances in which the beacons and receiver may reside, the accuracy of the approach may be flawed\cite{presence_ble_review}. 
 Multiple mathematical models of the path loss formula exist \cite{rssi_indoor_pos,positioning_alg_rssi, RSSI_ZigBee_distance}, making it trivial to implement this approach for location approximations.
 
-Once the distance to the beacons have been computed, så kan de bruges til at udregne en position fordi beacons har kendte positioner. 
+Once the distance for the path loss to each beacon is computed, using one of these approaches, the path loss can be used to establish spheres with a radius equal to the the distance from the receiver to each of the broadcasters. 
+The intersection of these spheres will define the approximate location of the receiver. 

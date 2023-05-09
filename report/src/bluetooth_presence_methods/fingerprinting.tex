@@ -8,8 +8,10 @@ The RSSI measurements and the actual position of the devices, as well as any add
 One approach to collecting these measurements is to partition the area of interest into a grid and use the measuring device to collect data for several seconds in each cell of the grid.\cite{improving_indoor_localization}
 The measurements are then labelled with the cell coordinate for later classification.
 
-The second phase of fingerprinting involves itself with computation of receiver's location.\todo{udbyd paragraf}
-\citeauthor{taking_localization_to_the_wild} \cite{taking_localization_to_the_wild} presents results for a fingerprinting approach using random forest regression.
+The second phase of fingerprinting involves itself with the computation of a Bluetooth receiver's location based on the map created in the first phase. 
+This is done by examining the map, and analyzing how well a signal vector build from received Bluetooth adverticements from the beacons match with the measurements in this map.
+
+\citeauthor{taking_localization_to_the_wild} \cite{taking_localization_to_the_wild} presents results for a fingerprinting approach using random forest regression.\todo{describe random forrest in short text}
 They show how varying measured RSSI across devices can be mitigated by using RSSI differences between pairs of beacons.
 They conclude that maps created by a specific measuring device can be reused for other types of devices without significant loss of accuracy. 
 \citeauthor{presence_ble_review}\cite{presence_ble_review} presents several ways to use the map to create models for fingerprinting, but does not evaluate them, such as probabilistic techniques and Support Vector Machines. 

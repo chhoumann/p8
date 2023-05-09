@@ -1,12 +1,13 @@
 \section{Lateration}
 Lateration is a technique using multiple, immovable reference points to estimate the distance to an object~\cite{presence_ble_review}.
 
-\todo{hvad er lateration egentlig!!}
+During the technique, the distance from the subject of interest to multiple nodes must be known. 
+As both the location and an approximate distance to the nodes are known, one can estimate the location of the subject by examining circles defined by the distance from the subject to the nodes.
+The point of intersection of these circles will define the approximate location of the subject.\cite{laterationExplanation}  
 
-
-In the context of Bluetooth systems, the reference points are often BLE beacons that broadcast information about their specification. 
+In the context of Bluetooth systems, the nodes are often BLE beacons that broadcast information about their specification. 
 The content of this broadcast is called an \textit{adverticement}. 
-We will refer to the reference points as a \textit{broadcaster} while any entity listening and reacting to its adverticements as a \textit{receiver}.
+We will refer to the nodes as \textit{broadcasters} while any entity listening and reacting to its adverticements as a \textit{receiver}.
 When using Bluetooth, the reference points are often BLE beacons and the receiver some other Bluetooth-capable device.~\cite{apple2023ibeacon} 
 
 The beacons periodically broadcast an advertisement, notifying receivers about information about themselves. 

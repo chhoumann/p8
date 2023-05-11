@@ -35,8 +35,6 @@ public sealed class RssiDataSet
 
         string jsonString = await streamReader.ReadToEndAsync();
 
-        await Console.Out.WriteLineAsync(jsonString);
-
         return JsonConvert.DeserializeObject<RssiDataSet>(jsonString);
     }
 

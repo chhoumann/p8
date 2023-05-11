@@ -24,7 +24,7 @@ During the classification, k-values of 2, 3, and 4 were used.
 The results of the experiment can be seen in Table \ref{lst:resultsPhone}.
 
 As expected, a lower k-value results in a larger uncertainty in the classification.
-However, it is worth noticing that for measuring points \textit{b} and \textit{j}  (see Figure \ref{fig:experiment_room}) a large uncertainty in classification is observed.  
+However, it is worth noticing that for measuring points \textit{B} and \textit{J}  (see Figure \ref{fig:experiment_room}) a large uncertainty in classification is observed.  
 We suspect that this is a consequence of the glass pane next to the door having a much lower absorbation of radio frequencies than the door and the wall next to it. 
 This low absorbation results in the two data points next to the pane having similar distances to both map values labelled as inside and some as outside, therefore giving uncertain classifications.
 
@@ -32,12 +32,16 @@ This low absorbation results in the two data points next to the pane having simi
     \centering
     \begin{tabular}{|l|ll|}
     \hline
-            & \multicolumn{2}{l|}{Precision}                      \\ \hline
+            & \multicolumn{2}{l|}{Accuracy}                      \\ \hline
     K-Value & \multicolumn{1}{l|}{Indoor}          & Outdoor      \\ \hline
     2       & \multicolumn{1}{l|}{66/70 (94.29\%)} & 24/50 (48\%) \\ \hline
     3       & \multicolumn{1}{l|}{65/70 (92.86\%)} & 39/50 (78\%) \\ \hline
     4       & \multicolumn{1}{l|}{67/70 (95.71\%)} & 44/50 (88\%) \\ \hline   
     \end{tabular}
-    \caption{Precision of the classifications for different k-values}
+    \caption{Accuracy of the classifications for different k-values}
     \label{lst:resultsPhone_precision}
 \end{table}
+
+Table \ref{lst:resultsPhone_precision} shows the accuracy in terms of correct classification of whether the test phone is inside of the meething room or outside of the meeting room.
+We see that the system can determine that the occupant is inside the room with a high accuracy even when a small k-value is selected.
+On the other hand, the approach is not as accurate when detecting that the occupant is outside the room when small values of k is used.  

@@ -1,20 +1,22 @@
 \section{Fingerprinting}\label{sec:fingerprinting}
-Fingerprinting is a technique utilizing the measured power of the received Bluetooth signal to accommodate the physical layout of the room in which the system is deployed. 
-Setting up a system utilizing fingerprinting requires two phases: a phase where the layout of the room is analysed to accommodate the impact of physical obstacles in the room, and a phase where the unknown position of a Bluetooth receiver is inferred \cite{presence_ble_review, taking_localization_to_the_wild}.
+Contrary to trilateration, the concept behind fingerprinting is creating a so-called map that includes measured RSSI values for all beacons in the system for grid-like positions of the area that we want to cover.
+This map is created prior to the system going online.
+Thus systems using fingerprinting can be partitioned into two phases: a phase where the layout of the room is analyzed to accommodate for the impact of physical obstacles in the room, and a phase where the unknown position of a Bluetooth receiver is computed using the map and live measurements of the received signal strength from the beacons \cite{presence_ble_review, taking_localization_to_the_wild}.
 
 During the first phase, a measuring device is used to measure RSSIs for known positions.
 The RSSI measurements and the actual position of the devices, as well as any additional information that can be used in the model, are collected. 
 One approach to collecting these measurements is to partition the area of interest into a grid and use the measuring device to collect data for several seconds in each cell of the grid.\cite{improving_indoor_localization}
 The measurements are then labelled with the cell coordinate for later classification.
-The resulting measurements from the first phase is often referred to as a \textit{map}.
 
-\citeauthor{taking_localization_to_the_wild} \cite{taking_localization_to_the_wild} presents results for a fingerprinting approach using random forest regression.
-They show how varying measured RSSI across devices can be mitigated by using RSSI differences between pairs of beacons.
+The second phase of fingerprinting involves the computation of a Bluetooth receiver's location based on the map created in the first phase. 
+This is done by examining the map, and analyzing how well a signal vector built from received Bluetooth advertisements from the beacons match the measurements in this map.
+
+The study \cite{taking_localization_to_the_wild} demonstrates how the inconsistencies in measured RSSI across devices can be effectively mitigated. This is achieved through a fingerprinting technique that employs the use of RSSI differences between pairs of beacons.
 They conclude that maps created by a specific measuring device can be reused for other types of devices without significant loss of accuracy. 
 \citeauthor{presence_ble_review}\cite{presence_ble_review} presents several ways to use the map to create models for fingerprinting, but does not evaluate them, such as probabilistic techniques and Support Vector Machines. 
 They mention that the main challenges for fingerprinting approaches lies within handling the environmental effects on the received signal strength.
 
-\citeauthor{improving_indoor_localization} \cite{improving_indoor_localization} choose to use a K-nearest neighbour directly on the observed data and compute the average location between the selected k neighbours and the actual position. 
+\citeauthor{improving_indoor_localization} \cite{improving_indoor_localization} used a K-nearest neighbour directly on the observed data and compute the average location between the selected k neighbours and the actual position. 
 Their experiments are performed in an area of $52\times43$ meters using 17 BLE beacons.
 The experiment yields accurate results, although with a few drastic outliers. 
 They conclude that the number of beacons greatly affects the accuracy of the approach.

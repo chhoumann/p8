@@ -1,15 +1,10 @@
-\section{Using the map to classify occupancy}\label{sec:experiment_results}
+\section{System evaluation}\label{sec:experiment_results}
 %describe in terms of criteria for using bluetooth. `'
 The collection of measurements using the app is carried out in the same room as the map is created. 
 However, while the room was unoccupied during the creation of the map, this was not the case for the 
 second part of the experiment. 
 During this experiment, computers and phone where placed near the tables of the room, with several of them having either only wifi or Bluetooth and Wifi enabled. 
-In the common area outside the room, two people were tasked with moving around, and a laptop with Bluetooth and Wifi enabled was placed on one of the tables. 
-All of this is done to create a more realistic environment, resembling that of a meeting room in use during working hours. 
-Results were gathered in the location as shown on Figure \ref{fig:experiment_room} by making 10 classifications using the app described in Section \ref{todo} \todo{refer to the app} on a Samsung Galaxy A53 phone.
-During the classification, k-values of 2, 3, and 4 were used. 
-The results of the experiment can be seen in Table \ref{lst:resultsPhone}.
-
+In the common area outside the room, two people were tasked with moving around, and a laptop with Bluetooth and Wifi enabled was placed on one of the tables.
 \begin{table}[H]
     \scalebox{0.8}{
     \begin{tabular}{|c|llllllllllll|}
@@ -20,6 +15,15 @@ The results of the experiment can be seen in Table \ref{lst:resultsPhone}.
     3                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10}  & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{7/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{7/10} & \multicolumn{1}{l|}{9/10}  & 10/10                  \\ \hline
     4                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{8/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10}  & \multicolumn{1}{l|}{9/10} & \multicolumn{1}{l|}{8/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{10/10} & 10/10                  \\ \hline
     \end{tabular}}
-    \caption{Evaluation results from Samsung Galaxy A53}
+    \caption{Evaluation results from Samsung Galaxy A53 showing the number of correct classifications out of a possible ten for each k-value}
     \label{lst:resultsPhone}
 \end{table}
+All of this is done to create a more realistic environment, resembling that of a meeting room in use during working hours. 
+Results were gathered in the location as shown on Figure \ref{fig:experiment_room} by making 10 classifications using the app described in Section \ref{todo} \todo{refer to the app} on a Samsung Galaxy A53 phone.
+During the classification, k-values of 2, 3, and 4 were used. 
+The results of the experiment can be seen in Table \ref{lst:resultsPhone}.
+
+As expected, a lower k-value results in a larger uncertainty in the classification.
+However, it is worth noticing that for measuring points \textit{b} and \textit{j}  (see Figure \ref{fig:experiment_room}) a large uncertainty in classification is observed.  
+We suspect that this is due to the glass pane next to the door having a much lower absorbation of radio frequencies than the door and the wall next to it. 
+This results in the two data points next to the pane having similar distances to some of the map values, therefore giving uncertain classifications. 

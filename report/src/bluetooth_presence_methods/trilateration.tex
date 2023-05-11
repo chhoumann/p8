@@ -6,7 +6,7 @@ As both the location and an approximate distance to the nodes are known, one can
 The point of intersection of these circles will define the approximate location of the subject.\cite{laterationExplanation}  
 
 In the context of Bluetooth systems, the nodes are often BLE beacons that broadcast information about their specification. 
-The content of this broadcast is called an \textit{adverticement}. 
+The content of this broadcast is called an \textit{advertisement}. 
 We will refer to the nodes as \textit{broadcasters} while any entity listening and reacting to its advertisements as a \textit{receiver}.
 When using Bluetooth, the reference points are often BLE beacons, and the receiver some other Bluetooth-capable device.~\cite{apple2023ibeacon} 
 
@@ -14,7 +14,7 @@ The beacons periodically broadcast an advertisement, notifying receivers of info
 If the beacon uses the iBeacon protocol ~\cite{apple2023ibeacon} the advertisement will include information about the beacon's transmission power, its name, and a group used to categorize the device.
 The advertisement and its content are collected by receivers which use the signal strength of the received signal and the information about the beacon's transmission power to calculate distance estimations to each beacon. 
 
-By analysing the distance estimations between the beacons and the receiver, the position of the receiver is estimated.
+By analyzing the distance estimations between the beacons and the receiver, the position of the receiver is estimated.
 Various techniques exists to determine this distance.
 \citeauthor{presence_ble_review}~\cite{presence_ble_review} examines five techniques, each using different combinations of advertisement content, to establish a distance measure to each beacon, and present current methods for handling the loss of signal during the analysis.
 
@@ -26,7 +26,7 @@ As the transmission power of the beacons are known, the loss per distance $L(d)$
 \end{equation}
 The path loss is affected by background signal noise and the air in the atmosphere.
 This can be defined as $L(d) = 10n log_{10}(d)+C$, where $C$ represents signal loss and background noise, and $n$ is a loss factor. \cite{taking_localization_to_the_wild}
-Various models using different variants of constants $C$ and $n$ exist\cite{path_loss_models}.
+Numerous models exist that utilize differing variants of the constants $C$ and $n$ \cite{path_loss_models}.
 Due to the many possible environmental circumstances in which the beacons and receiver may reside, the accuracy of the approach may be flawed\cite{presence_ble_review}. 
 Multiple mathematical models of the path loss formula exist \cite{rssi_indoor_pos,positioning_alg_rssi, RSSI_ZigBee_distance}, making it trivial to implement this approach for location approximations.	  
   

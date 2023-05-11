@@ -1,2 +1,25 @@
-\section{Results}\label{sec:experiment_results}
+\section{Using the map to classify occupancy}\label{sec:experiment_results}
 %describe in terms of criteria for using bluetooth. `'
+The collection of measurements using the app is carried out in the same room as the map is created. 
+However, while the room was unoccupied during the creation of the map, this was not the case for the 
+second part of the experiment. 
+During this experiment, computers and phone where placed near the tables of the room, with several of them having either only wifi or Bluetooth and Wifi enabled. 
+In the common area outside the room, two people were tasked with moving around, and a laptop with Bluetooth and Wifi enabled was placed on one of the tables. 
+All of this is done to create a more realistic environment, resembling that of a meeting room in use during working hours. 
+Results were gathered in the location as shown on Figure \ref{fig:experiment_room} by making 10 classifications using the app described in Section \ref{todo} \todo{refer to the app} on a Samsung Galaxy A53 phone.
+During the classification, k-values of 2, 3, and 4 were used. 
+The results of the experiment can be seen in Table \ref{lst:resultsPhone}.
+
+\begin{table}[H]
+    \scalebox{0.8}{
+    \begin{tabular}{|c|llllllllllll|}
+    \hline
+    \multicolumn{1}{|l|}{K-Value} & \multicolumn{12}{c|}{Position} \\ \hline
+    \multicolumn{1}{|l|}{}        & \multicolumn{1}{c|}{a}     & \multicolumn{1}{c|}{b}    & \multicolumn{1}{c|}{c}     & \multicolumn{1}{c|}{d}     & \multicolumn{1}{c|}{e}     & \multicolumn{1}{c|}{f}     & \multicolumn{1}{c|}{g}     & \multicolumn{1}{c|}{h}    & \multicolumn{1}{c|}{i}    & \multicolumn{1}{c|}{j}    & \multicolumn{1}{c|}{k}     & \multicolumn{1}{c|}{l} \\ \hline
+    2                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{8/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10}  & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{8/10}  & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{4/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{2/10} & \multicolumn{1}{l|}{5/10}  & 7/10                   \\ \hline
+    3                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10}  & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{7/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{7/10} & \multicolumn{1}{l|}{9/10}  & 10/10                  \\ \hline
+    4                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{8/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10}  & \multicolumn{1}{l|}{9/10} & \multicolumn{1}{l|}{8/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{10/10} & 10/10                  \\ \hline
+    \end{tabular}}
+    \caption{Evaluation results from Samsung Galaxy A53}
+    \label{lst:resultsPhone}
+\end{table}

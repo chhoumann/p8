@@ -1,18 +1,26 @@
 \subsection{Implementation: Receiving beacon information}\label{sec:ble_implementation}
-Upon initialization of the main page, in the background the \texttt{BLEScannerService} and event handlers for device scanning, beacon advertisement updates, and RSSI data updates are established.
-The classes \texttt{RssiDataCollector} and \texttt{RssiDataHandler} are responsible for publishing these events and managing the collection and processing of RSSI data, respectively.
-The \texttt{BLEAdvertisementScanner} class allows the application to listen for BLE advertisements, which are used to update beacon RSSI values.
+Razor pages have tightly-coupled views and controllers, however, we have chosen to separate them in the system diagram, seen in figure~\ref{fig:implementation_diagram}. This is to emphasize the separation of concerns between the view and the controller. The view is responsible for displaying the data, while the controller is responsible for handling the data.
 
-The main page presents an interface for users to select available devices for monitoring, initiate or terminate the listening process, and manage the collection of RSSI data. 
-The listening process is triggered by the \texttt{Listen} method of the \texttt{RssiDataCollector} class, which employs a timer to periodically collect data. 
-The main page also provides an interface to set a label for measurements and a threshold for determining whether a device is inside or outside the room. 
-This label represents the class label, which we will use to classify measurements. 
-This process will be described in section \ref{sec:knn_implementation}.
 
-When the user initiates the data collection process, a countdown timer (facilitated by the \texttt{DelayedActionExecutor} class) is displayed, and the actual data collection begins after the countdown elapses.
-The main page then displays the current status of whether the monitored devices are inside or outside the room, based on the calculated distances and the specified threshold (\todo{This last sentence may change in future}).
 
-Once the data collection process is stopped by the user, the collected data is written to a JSON file on the device.
+
+
+
+
+% Upon initialization of the main page, in the background the \texttt{BLEScannerService} and event handlers for device scanning, beacon advertisement updates, and RSSI data updates are established.
+% The classes \texttt{RssiDataCollector} and \texttt{RssiDataHandler} are responsible for invoking these events and managing the collection and processing of RSSI data, respectively.
+% The \texttt{BLEAdvertisementScanner} class allows the application to listen for BLE advertisements, which are used to update beacon RSSI values.
+
+% The main page presents an interface for users to select available devices for monitoring, initiate or terminate the listening process, and manage the collection of RSSI data. 
+% The listening process is triggered by the \texttt{Listen} method of the \texttt{RssiDataCollector} class, which employs a timer to periodically collect data. 
+% The main page also provides an interface to set a label for measurements and a threshold for determining whether a device is inside or outside the room. 
+% This label represents the class label, which we will use to classify measurements. 
+% This process will be described in section \ref{sec:knn_implementation}.
+
+% When the user initiates the data collection process, a countdown timer is displayed after which the data collection begins.
+% The main page then displays the current status of whether the monitored devices are inside or outside the room, based on the calculated distances and the specified threshold (\todo{This last sentence may change in future}).
+
+% Once the data collection process is stopped by the user, the collected data is written to a JSON file on the device.
 
 % \subsection{Device Scanning and Selection}
 % The system employs the \texttt{BLEScannerService} to efficiently identify and manage available BLE devices within the proximity. This service initiates the device scanning process, incorporating specific configurations to optimize the scan, such as employing a low-latency scan mode and an infinite scan timeout. As a result, the service detects nearby devices with minimal delay and continuously updates the list of devices.

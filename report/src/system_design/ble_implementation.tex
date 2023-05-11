@@ -1,65 +1,21 @@
-\subsection{Implementation: Receiving beacon information}\label{sec:ble_implementation}
-Razor pages have tightly-coupled views and controllers, however, we have chosen to separate them in the system diagram, seen in figure~\ref{fig:implementation_diagram}. This is to emphasize the separation of concerns between the view and the controller. The view is responsible for displaying the data, while the controller is responsible for handling the data.
+\subsection{Offline phase}\label{sec:ble_implementation}
+Razor pages have tightly-coupled views and controllers, however, we have chosen to separate them in the system diagram, seen in figure~\ref{fig:implementation_diagram}. This is to emphasize the separation of concerns between the view and the controller. The view is responsible for displaying the data, while the controller is responsible for managing the system components. The view handles user interactions, such as such as toggling between listening and non-listening states, and starting or stopping data collection, which it then propagates to the controller.
+
+The system is largely event-driven, which helps decouple the system components. 
+Therefore, much of the responsibility of the controller is to subscribe services to events and to handle the events when they are raised thus delegating responsibility across components. 
+
+When the application starts, the \texttt{Beacon Scanner} component will begin listening for Bluetooth devices and add those who match the iBeacon signature to a list of devices.
+These devices showed to the user in the view inside of a list.
+Each device in the list has a corresponding toggle, letting the user select which devices to use for data collection.
+After selecting at least one device, the user can click the "Start listening collection" button, which prompts the \texttt{Data Collector} class to listen for advertisement packets from the selected devices. 
+While the \texttt{Data Collector} is actively listening for packets, the \texttt{BeaconRssis} hashtable is continuously populated with the selected beacons' GUIDs and latest RSSI values.
 
 
+At this point, the data collection process for a given point in the grid may begin.
+First, the user must select a label (inside or outside), denoting whether the current point is within or outside the room.
+Then, when the user presses the "Collect data" button on the view, the \texttt{Data Collector} class will begin collecting data from the selected beacons.
+The data collection process is implemented using standard deviation to account for fluctations.
+During data collection, the latest beacon RSSI measurements are added to a collection every 500ms until at least 40 measurements have been made, and the standard deviation is lower than some preset threshold. The collection interval was selected based on a heuristic -- the beacons advertise every 100ms, and therefore 500ms was selected to account for potential delays. However, the 40 measurements threshold was selected arbitrarily.\todo{also based on heuristic actually - the paper from ppl who collected 20s, and collect every 0.5ms for 20s = 40 measurements}
+Finally, the sample is added to the data set, and the process can be repeated for the next point in the grid.
 
-
-
-
-
-% Upon initialization of the main page, in the background the \texttt{BLEScannerService} and event handlers for device scanning, beacon advertisement updates, and RSSI data updates are established.
-% The classes \texttt{RssiDataCollector} and \texttt{RssiDataHandler} are responsible for invoking these events and managing the collection and processing of RSSI data, respectively.
-% The \texttt{BLEAdvertisementScanner} class allows the application to listen for BLE advertisements, which are used to update beacon RSSI values.
-
-% The main page presents an interface for users to select available devices for monitoring, initiate or terminate the listening process, and manage the collection of RSSI data. 
-% The listening process is triggered by the \texttt{Listen} method of the \texttt{RssiDataCollector} class, which employs a timer to periodically collect data. 
-% The main page also provides an interface to set a label for measurements and a threshold for determining whether a device is inside or outside the room. 
-% This label represents the class label, which we will use to classify measurements. 
-% This process will be described in section \ref{sec:knn_implementation}.
-
-% When the user initiates the data collection process, a countdown timer is displayed after which the data collection begins.
-% The main page then displays the current status of whether the monitored devices are inside or outside the room, based on the calculated distances and the specified threshold (\todo{This last sentence may change in future}).
-
-% Once the data collection process is stopped by the user, the collected data is written to a JSON file on the device.
-
-% \subsection{Device Scanning and Selection}
-% The system employs the \texttt{BLEScannerService} to efficiently identify and manage available BLE devices within the proximity. This service initiates the device scanning process, incorporating specific configurations to optimize the scan, such as employing a low-latency scan mode and an infinite scan timeout. As a result, the service detects nearby devices with minimal delay and continuously updates the list of devices.
-
-% The \texttt{BLEScannerService} includes logic to filter out irrelevant devices, ensuring that only proximity beacons are added to the list. The service initializes an adapter from the \texttt{CrossBluetoothLE} class, which is responsible for managing the BLE scanning process. The \texttt{Adapter\_DeviceDiscovered} event handler processes the discovered devices, filtering out devices that are not proximity beacons and checking for device uniqueness to prevent duplicates in the list.
-
-% Furthermore, the devices are sorted based on their received signal strength indicator (RSSI) values, which helps prioritize devices with stronger signals. The curated list of devices is exposed through the \texttt{Devices} property and presented to the users by a Blazor component. This component enables users to interactively select or deselect devices for monitoring through checkboxes.
-
-% By combining an optimized scanning process with effective filtering, sorting, and presentation mechanisms, the \texttt{BLEScannerService} provides a streamlined and user-friendly experience for managing BLE device selections.
-
-% \subsubsection{Permission Management} % manually merge
-% Before initiating the scanning process, the service checks and requests the necessary permissions. If permissions are not granted, an alert is displayed, and the scanning process is halted.
-
-% In summary, the \texttt{BLEScannerService} class provides a comprehensive and efficient approach to detecting and managing BLE devices. By utilizing a well-configured adapter, effective filtering and sorting mechanisms, and an interactive Blazor component, the service offers a user-friendly and streamlined experience for device selection and monitoring.
-
-
-% _________________
-
-% \subsection{RSSI Data Collection and Handling}
-% The \texttt{RssiDataCollector} class is responsible for collecting Received Signal Strength Indicator (RSSI) data from the selected devices. This class listens for device updates and manages data collection over time. The \texttt{RssiDataHandler} class processes and analyzes the collected RSSI data, determining if the component is inside or outside the room based on a specified distance threshold.
-
-
-% \subsection{RSSI Data Collection and Handling}
-% The Received Signal Strength Indicator (RSSI) data collection and handling mechanism in the proposed system is achieved through two primary classes: \texttt{RssiDataCollector} and \texttt{RssiDataHandler}. 
-
-% The \texttt{RssiDataCollector} class is responsible for collecting RSSI data from a selected set of devices, such as beacons. This class listens for device updates, manages data collection over time, and stores the collected data in an \texttt{RssiDataSet} object. It utilizes a \texttt{PeriodicTimer} to schedule data collection at a specified interval. When collecting data, the class employs a low-variance sampling technique, which requires a series of stable measurements before recording a valid data point, thus reducing the impact of noise in the RSSI measurements. 
-
-% The \texttt{RssiDataHandler} class is responsible for processing and analyzing the collected RSSI data. It loads the data from a JSON file into an \texttt{RssiDataSet} object and removes any duplicates to ensure data consistency. 
-% The class provides a method, \texttt{IsInsideRoom}, which determines if a component is inside or outside a room based on a specified distance threshold. This method iterates through the data points and calculates the distance between the current RSSI measurements and the RSSI data points. If the distance is less than the threshold, the component is considered to be inside the room.
-
-% % DO NOT INCLUDE Additionally, the \texttt{RssiDataHandler} class implements a k-nearest neighbors algorithm to obtain the k closest data points. This algorithm, \texttt{GetKNearestNeighbors}, takes a list of distances and an optional value for k (defaulting to 5), and returns an array of the k smallest distances. The algorithm iterates through the list of distances and, for each distance, identifies if it is smaller than any of the current k smallest distances. If so, it updates the k smallest distances array accordingly, maintaining the sorted order of distances.
-
-% _____________________
-% \subsection{User Interface and Interactivity}
-% The Blazor component provides an intuitive user interface for managing the monitoring process. Users can start or stop listening for BLE devices, and initiate or terminate data collection through dedicated buttons. The interface also allows users to set labels and adjust the distance threshold for the room detection algorithm.
-
-% % \subsection{Room Detection Algorithm} DO NOT INCLUDE
-% % The room detection algorithm, implemented in the \texttt{RssiDataHandler} class, evaluates the collected RSSI data in conjunction with the user-defined distance threshold to determine the component's location relative to the room. This algorithm forms the core of the system's functionality and ensures accurate room detection.
-
-% % \subsection{Performance and Limitations} DO NOT INCLUDE
-% % The implemented system performs well in accurately detecting the location of the component with respect to the room. However, the system may have limitations in terms of scalability, noise handling, and real-time performance. Potential areas for improvement include refining the room detection algorithm and enhancing the user interface.
-
+For each sampled point, the application writes the data set to a JSON file, which is used by the \texttt{Data Handler} for classification.

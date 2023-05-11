@@ -1,15 +1,10 @@
 \section{Phase one: Data collection}\label{sec:first_phase}
-As the quality of the system is reliant on the accuracy and precision of the map during this phase it is critical to create a map of high quality.
-Therefore, steps must be taken to ensure this quality. 
-\citeauthor{improving_indoor_localization}~\cite{improving_indoor_localization} suggests that measurements be taken by systematically partitioning the area in a grid and then performing measurements for each cell of the grid for n-seconds. 
-We propose a design where, instead of having a fixed collection time, a fixed minimum number of measurements is received from each beacon.
-We do this, as beacons broadcast on a fixed time-schedule \cite{apple2023ibeacon}.
-This is done to ensure that all beacons have a representative set of measurements with low standard deviation when constructing the map.
-To ensure a low standard deviation, we use the following procedure.
-Data is collected from each beacon until a minimum number of data points are collected, and a stable standard deviation within a satisfactory threshold is reached.
-As fluctuations can cause large deviations in the collected data, the data collection for a beacon is halted as soon as the prior condition is satisfied.
-The average RSSI value from the collected measurements from the beacons is used to create entries for the map.
-During the measurement collection each cell is labelled as being either inside or outside of the meeting room.
-This process is repeated for each cell in the grid to construct the entries for the map. 
+The system's performance is linked to the accuracy and precision of the map during this phase, making it essential to construct a high-quality map. As such, appropriate measures are required to assure this quality. 
 
+\citeauthor{improving_indoor_localization}~\cite{improving_indoor_localization} propose a method of taking measurements by systematically dividing the area into a grid and conducting measurements for each grid cell over a period of n-seconds. 
 
+In contrast, our proposed design collects a fixed minimum number of measurements from each beacon, rather than adhering to a specific collection time. This approach is informed by the fact that beacons broadcast according to a fixed schedule\cite{apple2023ibeacon}. The goal is to provide a representative set of measurements for each beacon, with a low standard deviation when constructing the map.
+
+The protocol to achieve a low standard deviation involves collecting data from each beacon until a certain number of data points are accumulated and a stable standard deviation within a designated threshold is realized. Considering that fluctuations can lead to considerable deviations in the data, the data collection for a beacon is halted once these conditions are fulfilled.
+
+The average RSSI value from the collected measurements from the beacons is then used to populate the map entries. During the measurement collection phase, each cell is labeled as being either inside or outside the meeting room. This procedure is repeated for each cell in the grid to construct the map entries.

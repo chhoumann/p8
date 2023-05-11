@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using Newtonsoft.Json;
 using Plugin.BLE.Abstractions.Contracts;
-using Plugin.Maui.Audio;
 
 namespace BlazorBLE.Data;
 

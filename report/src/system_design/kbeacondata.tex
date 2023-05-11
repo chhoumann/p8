@@ -1,10 +1,10 @@
-\section{Decoding Beacon Advertisement Packet: The KBeaconData Class}
+\subsection{Decoding Beacon Advertisement Packet: The KBeaconData Class}
 
 As previously mentioned, we use Bluetooth Low Energy beacons that broadcast specific advertisement packets which can be perceived by other nearby devices.
 The key element of these packets is a particular sequence of bytes encapsulating valuable information about the beacon and its broadcast. 
 In this section, we delve into the details of this byte stream and present an analytical dissection of \texttt{KBeaconData}, a wrapper class whose purpose is to interpret and abstract over the byte stream.
 
-\subsection{Beacon Advertisement Packet Structure}
+\subsubsection{Beacon Advertisement Packet Structure}
 % 4C-00-02-15-77-77-77-2E-6B-6B-6D-63-6E-2E-63-6F-6D-00-00-01-00-03-39-2B-C5
 % Company ID:  4C-00
 % Beacon type: 02-15
@@ -37,7 +37,7 @@ These two values allow further differentiation among beacons.
 \end{itemize}
 \cite{apple2023ibeacon}
 
-\subsection{Role of the KBeaconData Class}
+\subsubsection{Role of the KBeaconData Class}
 
 The KBeaconData class is a concrete class designed to parse and encapsulate the information embedded within the beacon advertisement packet.
 As a wrapper class, it takes a byte array as an input and decodes the values, storing them in properties for subsequent use.
@@ -113,7 +113,7 @@ The last byte, regardless of the endianness, is directly converted to a signed b
 
 The KBeaconData class thereby provides an effecient way to parse, encapsulate, and interpret the data from beacon advertisement packets.
 
-\subsection{Testing the KBeaconData class}
+\subsubsection{Testing the KBeaconData class}
 Unit testing is a vital element within the larger framework of software testing. 
 As the name suggests, it focuses on testing individual units of code, traditionally functions or methods, to ascertain their robustness and correctness. By isolating each part of the software, it enables developers to verify the correctness of their code at a granular level, ensuring that each component functions as expected.\cite{sommervilleSoftwareEngineering2016}
 

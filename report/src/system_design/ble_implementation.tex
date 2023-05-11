@@ -1,4 +1,3 @@
-\subsection{Offline phase}\label{sec:ble_implementation}
 Razor pages have tightly-coupled views and controllers, however, we have chosen to separate them in the system diagram, seen in figure~\ref{fig:implementation_diagram}. This is to emphasize the separation of concerns between the view and the controller. The view is responsible for displaying the data, while the controller is responsible for managing the system components. The view handles user interactions, such as such as toggling between listening and non-listening states, and starting or stopping data collection, which it then propagates to the controller.
 
 The system is largely event-driven, which helps decouple the system components. 

@@ -8,6 +8,13 @@
 % data class - contains structured parses of the data we receive from the beacons
 \input{system_design/kbeacondata.tex}
 
+\begin{figure}[H]
+  \centering
+  \rotatebox{90}{\includegraphics[width=1.75\textwidth]{images/implementation-diagram.png}}
+  \caption{Diagram showing the implementation of the system}
+  \label{fig:implementation_diagram}
+\end{figure}
+
 % overall section to describe the implementation of the data collection system
 % uses system diagram & frontend  as reference, along with selected code snippets
 % to explain the system implementation
@@ -16,12 +23,5 @@ This section presents an an overview of the system architecture and data flow.
 
 Figure~\ref{fig:implementation_diagram} shows the overall system architecture and data flow.
 We implictly assume usage of the previously described \texttt{KBeaconData} class throughout the program flow, however we have omitted it from the diagram in the interest of keeping the overview concise and comprehensible.
-
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=1\textwidth]{images/implementation-diagram.png}
-  \caption{Diagram showing the implementation of the system}
-  \label{fig:implementation_diagram}
-\end{figure}
 
 \input{system_design/ble_implementation.tex}

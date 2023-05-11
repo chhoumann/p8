@@ -53,51 +53,51 @@ The implementation can be seen in code snippet \ref{lst:KBeaconData}.
 	caption={C\# Implementation of the KBeaconData Class for processing Bluetooth Low Energy (BLE) Beacon Advertising Packets}, 
 	captionpos=b] 
 public sealed class KBeaconData {
-private const int ByteCount = 25;
+	private const int ByteCount = 25;
 
-public Guid Uuid { get; }
+	public Guid Uuid { get; }
 
-public byte[] CompanyId { get; }
+	public byte[] CompanyId { get; }
 
-public ushort Major { get; }
-public ushort Minor { get; }
+	public ushort Major { get; }
+	public ushort Minor { get; }
 
-public sbyte TxPower { get; }
+	public sbyte TxPower { get; }
 
-public KBeaconData(byte[] data) 
-	: this(data, BitConverter.IsLittleEndian) { }
+	public KBeaconData(byte[] data) 
+		: this(data, BitConverter.IsLittleEndian) { }
 
-public KBeaconData(byte[] data, bool isLittleEndian) {
-	if (data.Length != ByteCount)
-	throw new ArgumentException($"Number of bytes was {data.Length}, expected {ByteCount}.");
+	public KBeaconData(byte[] data, bool isLittleEndian) {
+		if (data.Length != ByteCount)
+			throw new ArgumentException($"Number of bytes was {data.Length}, expected {ByteCount}.");
 
-	if (isLittleEndian) {
-	CompanyId = data.Take(2).ToArray();
-	Uuid = new Guid(
-		BitConverter.ToInt32(data.Skip(4).Take(4).ToArray()),
-		BitConverter.ToInt16(data.Skip(8).Take(2).ToArray()),
-		BitConverter.ToInt16(data.Skip(10).Take(2).ToArray()),
-		data.Skip(12).Take(8).ToArray()
-	);
-	Major = BitConverter.ToUInt16(data.Skip(20).Take(2).ToArray());
-	Minor = BitConverter.ToUInt16(data.Skip(22).Take(2).ToArray());
-	} else {
-	CompanyId = data.Take(2).ToArray();
-	Uuid = new Guid(
-		BitConverter.ToInt32(data.Skip(4).Take(4).Reverse().ToArray()),
-		BitConverter.ToInt16(data.Skip(8).Take(2).Reverse().ToArray()),
-		BitConverter.ToInt16(data.Skip(10).Take(2).Reverse().ToArray()),
-		data.Skip(12).Take(8).ToArray()
-	);
-	Major = BitConverter.ToUInt16(
-		data.Skip(20).Take(2).Reverse().ToArray()
-	);
-	Minor = BitConverter.ToUInt16(
-		data.Skip(22).Take(2).Reverse().ToArray()
-	);
+		if (isLittleEndian) {
+			CompanyId = data.Take(2).ToArray();
+			Uuid = new Guid(
+				BitConverter.ToInt32(data.Skip(4).Take(4).ToArray()),
+				BitConverter.ToInt16(data.Skip(8).Take(2).ToArray()),
+				BitConverter.ToInt16(data.Skip(10).Take(2).ToArray()),
+				data.Skip(12).Take(8).ToArray()
+			);
+			Major = BitConverter.ToUInt16(data.Skip(20).Take(2).ToArray());
+			Minor = BitConverter.ToUInt16(data.Skip(22).Take(2).ToArray());
+		} else {
+			CompanyId = data.Take(2).ToArray();
+			Uuid = new Guid(
+				BitConverter.ToInt32(data.Skip(4).Take(4).Reverse().ToArray()),
+				BitConverter.ToInt16(data.Skip(8).Take(2).Reverse().ToArray()),
+				BitConverter.ToInt16(data.Skip(10).Take(2).Reverse().ToArray()),
+				data.Skip(12).Take(8).ToArray()
+			);
+			Major = BitConverter.ToUInt16(
+				data.Skip(20).Take(2).Reverse().ToArray()
+			);
+			Minor = BitConverter.ToUInt16(
+				data.Skip(22).Take(2).Reverse().ToArray()
+			);
+		}
+		TxPower = (sbyte)data[^1];
 	}
-	TxPower = (sbyte)data[^1];
-}
 }
 \end{lstlisting}
 \end{figure}
@@ -148,19 +148,19 @@ private readonly byte[] testData = {
 
 [Fact]
 public void TestConstructor_testData_LittleEndian() {
-  const ushort expectedMinor = 0x23D9;
-  const ushort expectedMajor = 0x96A9;
-  
-  byte[] expectedCompanyId = { 0x06, 0x17 };
-  
-  Guid expectedUuid = new("787ef3b5-d326-82cd-e303-decd5d3adef4");
-  KBeaconData kBeaconData = new(testData, isLittleEndian: true);
-  	
-  Assert.Equal(expectedUuid, kBeaconData.Uuid);
-  Assert.Equal(expectedCompanyId, kBeaconData.CompanyId);
-  Assert.Equal(expectedMajor, kBeaconData.Major);
-  Assert.Equal(expectedMinor, kBeaconData.Minor);
-  Assert.Equal(ExpectedTxPower, kBeaconData.TxPower);
+	const ushort expectedMinor = 0x23D9;
+	const ushort expectedMajor = 0x96A9;
+
+	byte[] expectedCompanyId = { 0x06, 0x17 };
+
+	Guid expectedUuid = new("787ef3b5-d326-82cd-e303-decd5d3adef4");
+	KBeaconData kBeaconData = new(testData, isLittleEndian: true);
+
+	Assert.Equal(expectedUuid, kBeaconData.Uuid);
+	Assert.Equal(expectedCompanyId, kBeaconData.CompanyId);
+	Assert.Equal(expectedMajor, kBeaconData.Major);
+	Assert.Equal(expectedMinor, kBeaconData.Minor);
+	Assert.Equal(ExpectedTxPower, kBeaconData.TxPower);
 }
 \end{lstlisting}
 \end{figure}

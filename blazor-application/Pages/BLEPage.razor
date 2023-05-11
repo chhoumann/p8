@@ -145,15 +145,15 @@ else
         base.OnInitialized();
         BLEScannerService.DevicesChanged += StateHasChanged;
         advertisementScanner.BeaconAdvertised += OnBeaconAdvertised;
-        
+
         rssiDataCollector.BeaconRssisUpdated += OnBeaconRssisUpdated;
 
         rssiDataHandler = new RssiDataHandler(3, 0.5);
-        
+
         delayedActionExecutor = new DelayedActionExecutor(5, StartDataCollecting);
         delayedActionExecutor.SecondElapsed += () => InvokeAsync(StateHasChanged);
 
-        rssiDataHandler.LoadData("test_data.json");
+        InvokeAsync(() => rssiDataHandler.LoadData("test_data.json"));
     }
 
     protected override async Task OnInitializedAsync()

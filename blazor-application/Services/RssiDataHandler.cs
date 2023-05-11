@@ -13,11 +13,11 @@ public sealed class RssiDataHandler
         Classifier = new KnnClassifier(k, threshold);
     }
 
-    public void LoadData(string jsonFileName)
+    public async void LoadData(string jsonFileName)
     {
         try
         {
-            dataSet = RssiDataSet.ReadFromJson(jsonFileName);
+            dataSet = await RssiDataSet.ReadFromJson(jsonFileName);
             dataSet.RemoveDuplicates();
         }
         catch (Exception e)

@@ -16,10 +16,10 @@ Each beacon broadcasts data, which may include a unique identifier for the speci
 A device configured to receive these broadcasts can extract this information and also calculate the received signal strength indicator (RSSI) of the signal.
 
 As outlined in section \ref{sec:fingerprinting}, fingerprinting involves two stages.
-The first stage entails the generation of a map based on the RSSI of the received Bluetooth signal. The second stage involves estimating the unknown location of a Bluetooth receiver.
+The first stage entails the creation of a map based on the RSSI of the received Bluetooth signal. The second stage involves estimating the unknown location of a Bluetooth receiver.
 
 Through the collection of the broadcast data from the beacons, the application supports the initial phase of fingerprinting, which involves map generation.
-Figure \ref{fig:CreateMap} illustrates the map generation process. During this process, a device equipped with the application collects data while being carried around the room in a specific pattern.
+Figure \ref{fig:CreateMap} illustrates the map creation process. During this process, a device equipped with the application collects data while being carried around the room in a specific pattern.
 
 Moreover, the beacons are strategically positioned to demarcate the room's perimeter, a critical aspect in the second stage, which entails position inference.
 
@@ -34,3 +34,12 @@ To support the second phase of fingerprinting, we have developed a classificatio
 By collecting new data and using the map generated during the first phase, the classification module is able to classify the position of other devices relative to the room. 
 Using the classifier, the application is able to estimate whether a device is either inside or outside the room.
 
+The system diagram in figure \ref{fig:implementation_diagram} illustrates the system architecture and design.
+In the following sections, we delve deeper into each phase, offering comprehensive descriptions of crucial aspects of the implementation. In addition, we present our reasoning behind our chosen methodology.
+
+\begin{figure}[H]
+  \centering
+  \rotatebox{90}{\includegraphics[width=1.75\textwidth]{images/implementation-diagram.png}}
+  \caption{Diagram showing the implementation of the system}
+  \label{fig:implementation_diagram}
+\end{figure}

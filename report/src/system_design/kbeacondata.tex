@@ -21,19 +21,19 @@ The given byte stream is an example of an advertisement and can be represented a
 \noindent\texttt{4C-00-02-15-77-77-77-2E-6B-6B-6D-63-6E-2E-63-6F-6D-00-00-}
 
 
-\noindent\texttt{00-03-39-2B-C5}
+\noindent\texttt{00-03-39-2B-C5}.
 
 
 The allocation of bytes is as follows:
 
 \begin{itemize}
-  \item The initial two bytes, known as the Company ID (e.g., \texttt{4C-00}, i.e. Apple), uniquely identify the company that created the specification for the beacon.
-  \item The next two bytes, known as the beacon type, represents the type of the beacon. For proximity beacons, like the ones we use, these two bytes must be set to \texttt{02-15}.
+  \item The initial two bytes, known as the Company ID (\texttt{4C-00}, i.e. Apple), uniquely identify the company that created the specification for the beacon.
+  \item The next two bytes, known as the beacon type,. represents the type of the beacon. For proximity beacons, like the ones we use, these two bytes must be set to \texttt{02-15}.
   \item The subsequent 16 bytes represent the \textit{Universally Unique Identifier} (UUID).
-This UUID (e.g., \texttt{77-77-77-2E-6B-6B-6D-63-6E-2E-63-6F-6D-00-00-01}) is a standard identifier that the beacon broadcasts, allowing the receiving devices to recognize the specific beacon or a group of beacons.
-  \item The next two bytes denote the Major number (e.g., \texttt{00-03}), and the two bytes following them indicate the Minor number (e.g., \texttt{39-2B}).
+This UUID (\texttt{77-77-77-2E-6B-6B-6D-63-6E-2E-63-6F-6D-00-00-01}) is a standard identifier that the beacon broadcasts, allowing the receiving devices to recognize the specific beacon or a group of beacons.
+  \item The next two bytes denote the Major number (\texttt{00-03}), and the two bytes following them indicate the Minor number (\texttt{39-2B}).
 These two values allow further differentiation among beacons.
-  \item The final byte, called TxPower (e.g., \texttt{C5}), indicates the \textit{Measured Power}, which represents a standardized signal strength value within Apple's proximity beacon technology. Obtained via a systematic procedure using an iPhone 5s, it involves sampling the Received Signal Strength Indicator (RSSI) from the beacon at a one-meter distance. Outliers in the RSSI samples are discarded to minimize signal strength variability. The remaining data is averaged, producing the 'Measured Power' - a benchmark for subsequent ranging calculations.
+  \item The final byte, called TxPower (\texttt{C5}), indicates the \textit{Measured Power}, which represents a standardized signal strength value within Apple's proximity beacon technology. Obtained via a systematic procedure using an iPhone 5s, it involves sampling the Received Signal Strength Indicator (RSSI) from the beacon at a one-meter distance. Outliers in the RSSI samples are discarded to minimize signal strength variability. The remaining data is averaged, producing the 'Measured Power' - a benchmark for subsequent ranging calculations.
 \end{itemize}
 \cite{apple2023ibeacon}
 

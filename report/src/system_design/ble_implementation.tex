@@ -14,7 +14,14 @@ At this point, the data collection process for a given point in the grid may beg
 First, the user must select a label (inside or outside), denoting whether the current point is within or outside the room.
 Then, when the user presses the "Collect data" button on the view, the \texttt{Data Collector} class will begin collecting data from the selected beacons.
 The data collection process is implemented using standard deviation to account for fluctations.
-During data collection, the latest beacon RSSI measurements are added to a collection every 500ms until at least 40 measurements have been made, and the standard deviation is lower than some preset threshold. The collection interval was selected based on a heuristic -- the beacons advertise every 100ms, and therefore 500ms was selected to account for potential delays. However, the 40 measurements threshold was selected arbitrarily.\todo{also based on heuristic actually - the paper from ppl who collected 20s, and collect every 0.5ms for 20s = 40 measurements}
-Finally, the sample is added to the data set, and the process can be repeated for the next point in the grid.
+During data collection, the latest beacon RSSI measurements are added to a collection every 500ms until at least 40 measurements have been made, and the standard deviation is lower than some preset threshold.
+The collection interval was selected based on a heuristic -- the beacons advertise every 100ms, and therefore 500ms was selected to account for potential delays.
+Originally, the threshold was set to 20 measurements based on \citeauthor{improving_indoor_localization}~\cite{improving_indoor_localization}, which collected data for 10 seconds.
+Since we collect every 500ms, we could collect 20 measurements in ~10 seconds. However, during development, we found that the standard deviation varied too much with only 20 measurements, and therefore we doubled the minimum number of required measurements to 40.
+
+Ultimately, the requirement of at least 40 measurements is a safety measure to ensure a more representative sample for the given point. 
+It is important to emphasize that even with 40 measurements, deviation may still fluctuate, necessitating additional measurements to reach a stable point. 
+As mentioned, this is facilitated by the additional requirement of having a low variance in the standard deviation. 
+Once these two criteria are met, the average of the sampled RSSI values for each beacon is calculated and included in the data set, and the process can be repeated for subsequent points in the grid.
 
 For each sampled point, the application writes the data set to a JSON file, which is used by the \texttt{Data Handler} for classification.

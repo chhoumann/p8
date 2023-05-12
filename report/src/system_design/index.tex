@@ -1,8 +1,26 @@
 \chapter{System design}
-% \input{system_design/intro.tex} - commented out as it seemed redundant
 \input{system_design/system_design_introduction.tex}
 \input{system_design/phase-1.tex}
 \input{system_design/phase-2.tex}
-% \input{system_design/data_collection_design.tex} %Hvordan har vi taenkt os at opsamle data, og hvad skal vi vaere opmaerksomme paa?? Det er nodvendigt at finde outliers, hvordan kan det goeres?
-% \input{system_design/ble_implementation.tex} %Hvor stor er grid, hvordan er rummet, hvor mange data punker opsamler vi, hvad er vores st.div? %How do we get measured power.
-% \input{system_design/knn_implementation.tex}
+
+Figures \ref{fig:selected_devices} and \ref{fig:collecting_data} show examples of the application in use. 
+Figure \ref{fig:selected_devices} shows the beacon selection view where Bluetooth Low Enery devices broadcasting iBeacon advertisement data are shown.
+Using the toggles, the user can select each individual beacon for use in data collection or classification (assuming a dataset using the selected beacons exists).
+Figure \ref{fig:collecting_data} shows the UI state during data collection.
+Here, the user can select the label for the given data point, and information about the current measurment is shown beneath the spinner animation.\todo{Get an updated image of the frontend where this can be seen}
+
+\begin{figure}[h!]
+    \centering
+    \begin{minipage}{0.41\textwidth}
+        \centering
+        \frame{\includegraphics[width=\textwidth]{images/selected_devices.png}}
+        \caption{Beacon selection view, showing BLE devices that broadcast iBeacon advertisement data.}
+        \label{fig:selected_devices}
+    \end{minipage}\hfill
+    \begin{minipage}{0.41\textwidth}
+        \centering
+        \frame{\includegraphics[width=\textwidth]{images/collecting_data.png}}
+        \caption{The data collection view, showing that the user is collecting data, labelled as \textit{inside}.}
+        \label{fig:collecting_data}
+    \end{minipage}
+\end{figure}

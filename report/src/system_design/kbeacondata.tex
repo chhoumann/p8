@@ -39,7 +39,7 @@ These two values allow further differentiation among beacons.
 
 \subsubsection{Role of the KBeaconData Class}
 
-The KBeaconData class is designed to parse and encapsulate the information embedded within the beacon advertisement packet.
+The \texttt{KBeaconData} class is designed to parse and encapsulate the information embedded within the beacon advertisement packet.
 As a wrapper class, it takes a byte array as an input and decodes the values, storing them in properties for subsequent use.
 The implementation can be seen in code snippet \ref{lst:KBeaconData}.
 
@@ -50,7 +50,7 @@ The implementation can be seen in code snippet \ref{lst:KBeaconData}.
 	language=CSharp, 
 	frame=single, 
 	label={lst:KBeaconData},
-	caption={C\# Implementation of the KBeaconData Class for processing Bluetooth Low Energy (BLE) Beacon Advertising Packets}, 
+	caption={C\# Implementation of the \texttt{KBeaconData} Class for processing Bluetooth Low Energy (BLE) Beacon Advertising Packets}, 
 	captionpos=b] 
 public sealed class KBeaconData {
 	private const int ByteCount = 25;
@@ -103,7 +103,7 @@ public sealed class KBeaconData {
 \end{figure}
 
 The notion of endianness is crucial while interpreting the byte sequence.
-It refers to the byte order in which the integers are stored in the computer memory. In the context of the KBeaconData class, the constructor accepts a boolean parameter that indicates whether the byte order of the data is little-endian or not. If the byte order is indeed little-endian, the sequence is read as-is. Otherwise, the sequence is reversed before interpreting, thereby maintaining the accuracy of the parsed data.
+It refers to the byte order in which the integers are stored in the computer memory. In the context of the \texttt{KBeaconData} class, the constructor accepts a boolean parameter that indicates whether the byte order of the data is little-endian or not. If the byte order is indeed little-endian, the sequence is read as-is. Otherwise, the sequence is reversed before interpreting, thereby maintaining the accuracy of the parsed data.
 
 In both little and big-endian scenarios, the first two bytes are extracted as the Company ID.
 However, the remaining data is parsed differently depending on the endianness. If the byte order is little-endian, the bytes are sequentially processed. The UUID is constructed from the next 16 bytes, with the first four bytes converted to an integer, the next four bytes to two short integers, and the last eight bytes remain as a byte array. The Major and Minor values are derived from the next two bytes each, interpreted as unsigned short integers. In case of big-endian, the sequence is reversed before parsing the UUID, Major, and Minor values.
@@ -111,7 +111,7 @@ However, the remaining data is parsed differently depending on the endianness. I
 The last byte, regardless of the endianness, is directly converted to a signed byte to represent the TxPower.
 
 
-The KBeaconData class thereby provides an effecient way to parse, encapsulate, and interpret the data from beacon advertisement packets.
+The \texttt{KBeaconData} class thereby provides an effecient way to parse, encapsulate, and interpret the data from beacon advertisement packets.
 
 \subsubsection{Testing the KBeaconData class}
 Unit testing is a vital element within the larger framework of software testing. 
@@ -121,13 +121,13 @@ This method of testing carries numerous benefits, primarily improving the design
 
 We use the xUnit.net testing framework for .NET, which provides a comprehensive and extensible set of testing tools. This framework simplifies the creation of test cases, supports parallel test execution, and integrates seamlessly with various development environments.\cite{xunitdotnet}
 
-In the context of the KBeaconData class, we have designed several unit tests to validate its functionality. The tests focus on different aspects of the class, such as the correct parsing of beacon advertisement packet data, the handling of endianness, and the proper handling of invalid input data. 
+In the context of the \texttt{KBeaconData} class, we have designed several unit tests to validate its functionality. The tests focus on different aspects of the class, such as the correct parsing of beacon advertisement packet data, the handling of endianness, and the proper handling of invalid input data. 
 
-We initially test the KBeaconData class constructor using both little-endian and big-endian test data. These tests ensure that the class correctly interprets data irrespective of the byte order. We examine the resulting UUID, Major, Minor, TxPower, and CompanyId values, asserting their equality to the expected values.
+We initially test the \texttt{KBeaconData} class constructor using both little-endian and big-endian test data. These tests ensure that the class correctly interprets data irrespective of the byte order. We examine the resulting UUID, Major, Minor, TxPower, and Company ID values, asserting their equality to the expected values.
 
-Subsequently, we test the class for its ability to handle invalid data. We attempt to construct a KBeaconData object with data arrays of insufficient length and null arrays. In line with best practices, we anticipate the class to throw an ArgumentException in the former scenario, indicating an inappropriate data array length, and an ArgumentNullException in the latter scenario, indicating the absence of data.
+Subsequently, we test the class for its ability to handle invalid data. We attempt to construct a \texttt{KBeaconData} object with data arrays of insufficient length and null arrays. In line with best practices, we anticipate the class to throw an \texttt{ArgumentException} in the former scenario, indicating an inappropriate data array length, and an \texttt{ArgumentNullException} in the latter scenario, indicating the absence of data.
 
-Lastly, we perform an equality test between the CompanyId values of a KBeaconData object created with little-endian data and a KBeaconData object created with big-endian data. As the CompanyId should remain consistent regardless of byte order, this test verifies the byte order independence of the CompanyId.
+Lastly, we perform an equality test between the \texttt{CompanyId} values of a \texttt{KBeaconData} object created with little-endian data and a \texttt{KBeaconData} object created with big-endian data. As the \texttt{CompanyId} should remain consistent regardless of byte order, this test verifies the byte order independence of the \texttt{CompanyId} value.
 
 Code snippet \ref{lst:KBeaconDataTest} shows an example of a unit test which validates the correct parsing of beacon advertisement data in the little-endian format, asserting that the extracted UUID, Company ID, Major, Minor, and TxPower values match the expected results.
 

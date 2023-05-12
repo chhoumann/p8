@@ -1,6 +1,7 @@
 \section{Phase one: Data collection}\label{sec:first_phase}
-The system's performance is linked to the accuracy and precision of the map during this phase, making it essential to construct a high-quality map. As such, appropriate measures are required to assure this quality. 
+The first phase of the fingerprinting implementation will now be outlined, with particular attention given to the data collection process and its significance in building a precise and dependable map for indoor localization.
 
+Because the system's performance is linked to the accuracy and precision of the map created during this phase, it is essential to construct a high-quality map. 
 \citeauthor{improving_indoor_localization}~\cite{improving_indoor_localization} propose a method of taking measurements by systematically dividing the area into a grid and conducting measurements for each grid cell over a period of n-seconds. 
 
 In contrast, our proposed design collects a fixed minimum number of measurements from each beacon, rather than adhering to a specific collection time. This approach is informed by the fact that beacons broadcast according to a fixed schedule\cite{apple2023ibeacon}. The goal is to provide a representative set of measurements for each beacon, with a low standard deviation when constructing the map.
@@ -8,3 +9,5 @@ In contrast, our proposed design collects a fixed minimum number of measurements
 The protocol to achieve a low standard deviation involves collecting data from each beacon until a certain number of data points are accumulated and a stable standard deviation within a designated threshold is realized. Considering that fluctuations can lead to considerable deviations in the data, the data collection for a beacon is halted once these conditions are fulfilled.
 
 The average RSSI value from the collected measurements from the beacons is then used to populate the map entries. During the measurement collection phase, each cell is labeled as being either inside or outside the meeting room. This procedure is repeated for each cell in the grid to construct the map entries.
+
+In order to create such a map, we must first establish how to interpret the advertisement packet data broadcast by the beacons.

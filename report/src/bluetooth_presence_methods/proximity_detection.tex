@@ -1,0 +1,19 @@
+\section{Proximity detection}\label{sec:proximity_detection}
+Proximity detection computes distances using the Received Signal Strength Indicator (RSSI).
+Utilizing RSSI values, the proximity of devices, such as smartphones or wearables, to a central hub in the meeting room can be determined. This determination is based on the fact that as the signal strength diminishes, the distance between the device and the hub increases, providing a rudimentary approximation of the user's location.\cite{spachosBLEBeaconsIndoor2020}
+
+The principle of proximity detection is fundamentally rooted in the path-loss model, which correlates the received signal strength with the distance from the transmitter. This relationship can be formulated mathematically as follows:
+
+$$
+d = 10^{ \frac{(RSSI_{tx} - RSSI_{rx})}{10 \cdot n}}
+$$\cite{spachosBLEBeaconsIndoor2020}
+
+In this equation, \(d\) symbolizes the estimated distance, \(RSSI_{tx}\) stands for the transmitted signal strength, \(RSSI_{rx}\) denotes the received signal strength, and \(n\) is the path loss exponent. The path loss exponent \(n\) is chosen based on environmental factors. In open spaces, \(n\) is typically around 2, while in obstructed spaces, \(n\) is typically 4 - 6.\cite{spachosBLEBeaconsIndoor2020, mathuranathanLogDistancePath2013}
+
+Despite its merits, including cost-effectiveness, ease of implementation, and scalability, proximity detection has significant limitations in terms of accuracy, primarily due to the potential for inaccurate range estimation. The intrinsic nature of RSSI causes the signal strength to fluctuate, complicating the task of obtaining an accurate measurement of distance.\cite{spachosBLEBeaconsIndoor2020}
+
+Furthermore, the formula employed to calculate distance from RSSI values must often be adjusted to account for environmental factors, depending on the specific deployment setting. This stipulation implies that the system must be calibrated to yield accurate results in a particular environment. This undertaking can be labor-intensive and may necessitate periodic recalibration.\cite{spachosBLEBeaconsIndoor2020}
+
+While proximity detection can offer a rough approximation of device locations within the meeting room, alternative methodologies may provide superior accuracy. Incorporation of more sophisticated techniques could potentially mitigate the limitations of proximity detection, resulting in a more dependable and effective presence detection system.
+
+To summarize, while proximity-based presence detection using RSSI offers a foundational and relatively easy-to-implement mechanism for automating meeting room occupancy management, the concerns regarding its accuracy present a significant limitation. Considering alternative methodologies with higher accuracy could lead to the establishment of a more robust and reliable solution for managing meeting room occupancy.

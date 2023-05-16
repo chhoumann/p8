@@ -47,13 +47,14 @@ public sealed class DelayedActionExecutor
     {
         if (cancellationTokenSource.Token.IsCancellationRequested) return;
 
-        SecondsRemaining--;
-        SecondElapsed?.Invoke();
-
         if (SecondsRemaining <= 0)
         {
             actionToExecute?.Invoke();
             Stop();
+            return;
         }
+
+        SecondsRemaining--;
+        SecondElapsed?.Invoke();
     }
 }

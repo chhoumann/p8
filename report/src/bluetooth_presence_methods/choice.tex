@@ -16,7 +16,7 @@ This would create a set of labelled data, where the labels of the k-nearest neig
 Between the two approaches, the fingerprinting approach can easily be configured with beacons to increase accuracy.
 Edge cases for this approach can be analyzed and handled by setting some threshold for when a \textit{present} label is considered correct. 
 This threshold could be found experimentally or determined from existing research. 
-For instance, \citeauthor{ble_kneares_neural}~\cite{ble_kneares_neural} showed that a kNN approach yielded a high number of measurements with an accuracy up to 3 meters.
+For instance, \citeauthor{ble_kneares_neural}~\cite{ble_kneares_neural} showed that a kNN approach yielded high precision, in a range of up to 3 meters.
 As the goal of the project is not to localize people in a room, but to classify whether they are present or not, we will use the kNN method for classification.
 Additionally, kNN methods are comparatively cost-effective in terms of computation, which is crucial given that classification tasks will be executed frequently.
 This precision could be used as a threshold to determine to modify which neighbours to consider.    

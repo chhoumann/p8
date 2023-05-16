@@ -8,7 +8,7 @@ $$
 d = 10^{ \frac{(RSSI_{tx} - RSSI_{rx})}{10 \cdot n}}
 $$\cite{spachosBLEBeaconsIndoor2020}
 
-In this equation, \(d\) symbolizes the estimated distance, \(RSSI_{tx}\) stands for the transmitted signal strength, \(RSSI_{rx}\) denotes the received signal strength, and \(n\) is the path loss exponent. The path loss exponent, \(n\), varies depending on the environment. In open spaces, \(n\) is typically around 2, while in obstructed spaces, \(n\) can rise to at most 4.\cite{spachosBLEBeaconsIndoor2020, mathuranathanLogDistancePath2013}
+In this equation, \(d\) symbolizes the estimated distance, \(RSSI_{tx}\) stands for the transmitted signal strength, \(RSSI_{rx}\) denotes the received signal strength, and \(n\) is the path loss exponent. The path loss exponent \(n\) is chosen based on environmental factors. In open spaces, \(n\) is typically around 2, while in obstructed spaces, \(n\) can rise to at most 4.\cite{spachosBLEBeaconsIndoor2020, mathuranathanLogDistancePath2013}
 
 Despite its merits, including cost-effectiveness, ease of implementation, and scalability, proximity detection has significant limitations in terms of accuracy, primarily due to the potential for inaccurate range estimation. The intrinsic nature of RSSI causes the signal strength to fluctuate, complicating the task of obtaining an accurate measurement of distance.\cite{spachosBLEBeaconsIndoor2020}
 

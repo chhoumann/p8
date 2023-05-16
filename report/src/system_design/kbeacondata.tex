@@ -1,0 +1,167 @@
+\subsection{Parsing Beacon Advertisement Packet Data}
+
+As previously mentioned, we use Bluetooth Low Energy beacons that broadcast specific advertisement packets which can be perceived by other nearby devices.
+The key element of these packets is a particular sequence of bytes encapsulating valuable information about the beacon and its broadcast. 
+In this section, we delve into the details of this byte stream and present an analytical dissection of \texttt{KBeaconData}, a wrapper class whose purpose is to interpret and abstract over the byte stream.
+
+\subsubsection{Beacon Advertisement Packet Structure}
+% 4C-00-02-15-77-77-77-2E-6B-6B-6D-63-6E-2E-63-6F-6D-00-00-01-00-03-39-2B-C5
+% Company ID:  4C-00
+% Beacon type: 02-15
+% UUID:        77-77-77-2E-6B-6B-6D-63-6E-2E-63-6F-6D-00-00-01
+% Minor:       39-2B
+% Major:       00-03
+% TxPower:     C5
+	 
+Each beacon advertisement packet consists of a string of 25 bytes.
+These bytes are distributed in a specific order, serving as unique identifiers and providing a variety of information about the beacon. 
+The given byte stream is an example of an advertisement and can be represented as a sequence of hexadecimal values:
+
+
+\noindent\texttt{4C-00-02-15-77-77-77-2E-6B-6B-6D-63-6E-2E-63-6F-6D-00-00-}
+
+
+\noindent\texttt{00-03-39-2B-C5}.
+
+
+As described by \citeauthor{apple2023ibeacon}~\cite{apple2023ibeacon}, the allocation of bytes is as follows:
+
+\begin{itemize}
+  \item The initial two bytes, known as the Company ID (\texttt{4C-00}, i.e. Apple), uniquely identify the company that created the specification for the beacon.
+  \item The next two bytes, known as the beacon type, represents the type of the beacon. For proximity beacons, like the ones we use, these two bytes must be set to \texttt{02-15}.
+  \item The subsequent 16 bytes represent the \textit{Universally Unique Identifier} (UUID).
+This UUID (\texttt{77-77-77-2E-6B-6B-6D-63-6E-2E-63-6F-6D-00-00-01}) is a standard identifier that the beacon broadcasts, allowing the receiving devices to recognize the specific beacon or a group of beacons.
+  \item The next two bytes denote the Major number (\texttt{00-03}), and the two bytes following them indicate the Minor number (\texttt{39-2B}).
+These two values allow further differentiation among beacons.
+  \item The final byte, called TxPower (\texttt{C5}), indicates the \textit{Measured Power}, which represents a standardized signal strength value within Apple's proximity beacon technology. Obtained via a systematic procedure using an iPhone 5s, it involves sampling the Received Signal Strength Indicator (RSSI) from the beacon at a one-meter distance. Outliers in the RSSI samples are discarded to minimize signal strength variability. The remaining data is averaged, producing the 'Measured Power' - a benchmark for subsequent ranging calculations.
+\end{itemize}
+
+\subsubsection{Role of the KBeaconData Class}
+
+The \texttt{KBeaconData} class is designed to parse and encapsulate the information embedded within the beacon advertisement packet.
+As a wrapper class, it takes a byte array as an input and decodes the values, storing them in properties for subsequent use.
+The implementation can be seen in code snippet \ref{lst:KBeaconData}.
+
+
+
+\begin{figure}[H]
+\begin{lstlisting}[
+	language=CSharp, 
+	frame=single, 
+	label={lst:KBeaconData},
+	caption={C\# Implementation of the \texttt{KBeaconData} Class for processing Bluetooth Low Energy (BLE) Beacon Advertising Packets}, 
+	captionpos=b] 
+public sealed class KBeaconData {
+	private const int ByteCount = 25;
+
+	public Guid Uuid { get; }
+
+	public byte[] CompanyId { get; }
+
+	public ushort Major { get; }
+	public ushort Minor { get; }
+
+	public sbyte TxPower { get; }
+
+	public KBeaconData(byte[] data) 
+		: this(data, BitConverter.IsLittleEndian) { }
+
+	public KBeaconData(byte[] data, bool isLittleEndian) {
+		if (data.Length != ByteCount)
+			throw new ArgumentException($"Number of bytes was {data.Length}, expected {ByteCount}.");
+
+		if (isLittleEndian) {
+			CompanyId = data.Take(2).ToArray();
+			Uuid = new Guid(
+				BitConverter.ToInt32(data.Skip(4).Take(4).ToArray()),
+				BitConverter.ToInt16(data.Skip(8).Take(2).ToArray()),
+				BitConverter.ToInt16(data.Skip(10).Take(2).ToArray()),
+				data.Skip(12).Take(8).ToArray()
+			);
+			Major = BitConverter.ToUInt16(data.Skip(20).Take(2).ToArray());
+			Minor = BitConverter.ToUInt16(data.Skip(22).Take(2).ToArray());
+		} else {
+			CompanyId = data.Take(2).ToArray();
+			Uuid = new Guid(
+				BitConverter.ToInt32(data.Skip(4).Take(4).Reverse().ToArray()),
+				BitConverter.ToInt16(data.Skip(8).Take(2).Reverse().ToArray()),
+				BitConverter.ToInt16(data.Skip(10).Take(2).Reverse().ToArray()),
+				data.Skip(12).Take(8).ToArray()
+			);
+			Major = BitConverter.ToUInt16(
+				data.Skip(20).Take(2).Reverse().ToArray()
+			);
+			Minor = BitConverter.ToUInt16(
+				data.Skip(22).Take(2).Reverse().ToArray()
+			);
+		}
+		TxPower = (sbyte)data[^1];
+	}
+}
+\end{lstlisting}
+\end{figure}
+
+The notion of endianness is crucial while interpreting the byte sequence.
+It refers to the byte order in which the integers are stored in the computer memory. In the context of the \texttt{KBeaconData} class, the constructor accepts a boolean parameter that indicates whether the byte order of the data is little-endian or not. If the byte order is indeed little-endian, the sequence is read as-is. Otherwise, the sequence is reversed before interpreting, thereby maintaining the accuracy of the parsed data.
+The beacon advertisement data is in little-endian format, which means that the least significant byte is stored first.\cite{CoreSpecification2023}
+Because the receiving decide may have a different endianness, the \texttt{KBeaconData} class can parse both little-endian and big-endian data.
+
+In both little and big-endian scenarios, the first two bytes are extracted as the Company ID.
+However, the remaining data is parsed differently depending on the endianness. If the byte order is little-endian, the bytes are sequentially processed. The UUID is constructed from the next 16 bytes, with the first four bytes converted to an integer, the next four bytes to two short integers, and the last eight bytes remain as a byte array. The Major and Minor values are derived from the next two bytes each, interpreted as unsigned short integers. In case of big-endian, the sequence is reversed before parsing the UUID, Major, and Minor values.
+
+The last byte, regardless of the endianness, is directly converted to a signed byte to represent the TxPower.
+
+
+The \texttt{KBeaconData} class thereby provides an effecient way to parse, encapsulate, and interpret the data from beacon advertisement packets.
+
+\subsubsection{Testing the KBeaconData class}
+Unit testing is a vital element within the larger framework of software testing. 
+As the name suggests, it focuses on testing individual units of code, traditionally functions or methods, to ascertain their robustness and correctness. By isolating each part of the software, it enables developers to verify the correctness of their code at a granular level, ensuring that each component functions as expected.\cite{sommervilleSoftwareEngineering2016}
+
+This method of testing carries numerous benefits, primarily improving the design, enhancing maintainability, and facilitating the refactoring of code. It significantly simplifies the debugging process, as it allows for easy identification of issues at the unit level rather than in a composite system. Moreover, it fosters the evolution of software by making it more resilient to changes, as potential issues can be mitigated before they propagate through the system.\cite{sommervilleSoftwareEngineering2016}
+
+We use the xUnit.net testing framework for .NET, which provides a comprehensive and extensible set of testing tools. This framework simplifies the creation of test cases, supports parallel test execution, and integrates seamlessly with various development environments.\cite{xunitdotnet}
+
+In the context of the \texttt{KBeaconData} class, we have designed several unit tests to validate its functionality. The tests focus on different aspects of the class, such as the correct parsing of beacon advertisement packet data, the handling of endianness, and the proper handling of invalid input data. 
+
+We initially test the \texttt{KBeaconData} class constructor using both little-endian and big-endian test data. These tests ensure that the class correctly interprets data irrespective of the byte order. We examine the resulting UUID, Major, Minor, TxPower, and Company ID values, asserting their equality to the expected values.
+
+Subsequently, we test the class for its ability to handle invalid data. We attempt to construct a \texttt{KBeaconData} object with data arrays of insufficient length and null arrays. In line with best practices, we anticipate the class to throw an \texttt{ArgumentException} in the former scenario, indicating an inappropriate data array length, and an \texttt{ArgumentNullException} in the latter scenario, indicating the absence of data.
+
+Lastly, we perform an equality test between the \texttt{CompanyId} values of a \\\texttt{KBeaconData} object created with little-endian data and a \texttt{KBeaconData} object created with big-endian data. As the \texttt{CompanyId} should remain consistent regardless of byte order, this test verifies the byte order independence of the \texttt{CompanyId} value.
+
+Code snippet \ref{lst:KBeaconDataTest} shows an example of a unit test which validates the correct parsing of beacon advertisement data in the little-endian format, asserting that the extracted UUID, Company ID, Major, Minor, and TxPower values match the expected results.
+
+\begin{figure}[H]
+\begin{lstlisting}[
+	language=CSharp, 
+	frame=single, 
+	label={lst:KBeaconDataTest},
+	caption={An example of a unit test for \texttt{KBeaconData}, testing the correctness of parsing data in the little endian format}, 
+	captionpos=b] 
+private const sbyte ExpectedTxPower = 0x16;
+	
+private readonly byte[] testData = { 
+	0x06, 0x17, 0x9C, 0xAA, 0xB5, 0xF3, 0x7E, 0x78, 0x26, 0xD3, 0xCD, 0x82,
+	0xE3, 0x03, 0xDE, 0xCD, 0x5D, 0x3A, 0xDE, 0xF4, 0xA9, 0x96, 0xD9, 0x23, 
+	0x16 
+};
+
+[Fact]
+public void TestConstructor_testData_LittleEndian() {
+	const ushort expectedMinor = 0x23D9;
+	const ushort expectedMajor = 0x96A9;
+
+	byte[] expectedCompanyId = { 0x06, 0x17 };
+
+	Guid expectedUuid = new("787ef3b5-d326-82cd-e303-decd5d3adef4");
+	KBeaconData kBeaconData = new(testData, isLittleEndian: true);
+
+	Assert.Equal(expectedUuid, kBeaconData.Uuid);
+	Assert.Equal(expectedCompanyId, kBeaconData.CompanyId);
+	Assert.Equal(expectedMajor, kBeaconData.Major);
+	Assert.Equal(expectedMinor, kBeaconData.Minor);
+	Assert.Equal(ExpectedTxPower, kBeaconData.TxPower);
+}
+\end{lstlisting}
+\end{figure}

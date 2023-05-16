@@ -1,33 +1,47 @@
-\section{Application overview}
-For us to create a system that can implement the fingerprinting technique in a suitable way, we decided to develop a mobile application. 
-The benefit of using a mobile application rests on the fact that typical mobile devices already have the capability to interact and collect data from Bluetooth devices, such as Bluetooth beacons. 
+We decided to develop a mobile application to create a system that can implement the fingerprinting technique in a suitable way.
+The benefit of using a mobile application is that typical mobile devices already have the capability to interact and collect data from Bluetooth devices, such as Bluetooth beacons. 
 This allowed us to integrate the process of collecting the data, doing classification, and applying the resulting classification model to conduct experiments within the same system.
 
+The application will be developed in C\#\cite{billwagnerDocsGetStarted} with Blazor\cite{BlazorBuildClient} and Razor Pages\cite{tdykstraIntroductionRazorPages2023}.
+
 A primary function of the application is to collect data from the aforementioned beacons. 
-As illustrated in figure \ref{fig:ScanAdvertisement}, when the device is running, it will scan for advertisement packets projected by the Bluetooth beacons.
+As illustrated in figure \ref{fig:ScanAdvertisement}, when the device is running, it will scan for advertisement packets broadcast by the Bluetooth beacons.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{images/ScanningForAdvertisement.drawio.png}
-    \caption{}
+    \caption{Illustrating a mobile device scanning for Bluetooth beacons}
     \label{fig:ScanAdvertisement}
 \end{figure}
 
-Each beacon advertises information, such as an identifier for the specific beacon and RSSI data. 
-As described in section \ref{sec:fingerprinting}, fingerprinting consists of two phases. 
-The first phase, where a map is generated based on the received Bluetooth signal, and a second phase, where the position of an unknown Bluetooth receiver is inferred. 
-By using the advertisement packets projected by the beacons, the application is able to support the first phase of fingerprinting by generating a map of a room, through the collection of this advertisement data. 
-The process of generating a map is illustrated in figure \ref{fig:CreateMap}, where a device running the application, and collecting the data, will be carried in a pattern around the room. 
-Additionally, the beacons are positioned such that they outline the area of the room, as the ability to determine this area will be important during the second phase.
+Each beacon broadcasts data, which may include a unique identifier for the specific beacon or manufacturer-specific information.
+A device configured to receive these broadcasts can extract this information and also calculate the received signal strength indicator (RSSI) of the signal.
+
+As outlined in Section \ref{sec:fingerprinting}, fingerprinting involves two stages.
+The first stage entails the creation of a map based on the RSSI of the received Bluetooth signal. The second stage involves estimating the unknown location of a Bluetooth receiver.
+
+Through the collection of the broadcast data from the beacons, the application supports the initial phase of fingerprinting, which involves map generation.
+Figure \ref{fig:CreateMap} illustrates the map creation process. During this process, a device equipped with the application collects data while being carried around the room in a specific pattern.
+
+Moreover, the beacons are strategically positioned to demarcate the room's perimeter, a critical aspect in the second stage, which entails position inference.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{images/CreateMap.drawio.png}
-    \caption{}
+    \caption{Illustrating a mobile device collecting data from Bluetooth beacons}
     \label{fig:CreateMap}
 \end{figure}
 
 To support the second phase of fingerprinting, we have developed a classification module as part of the application. 
-By collecting new data and using the map generated during the first phase, the classification module is trained to classify the position of other devices relative to the room. 
-Using the trained model, the application is able to infer, with some certainty, that a device is either inside the room or outside the room.
+By collecting new data and using the map generated during the first phase, the classification module is able to classify the position of other devices relative to the room. 
+Using the classifier, the application is able to estimate whether a device is either inside or outside the room.
 
+The system diagram in figure \ref{fig:implementation_diagram} illustrates the system architecture and design.
+In the following sections, we delve deeper into each phase, offering comprehensive descriptions of crucial aspects of the implementation. In addition, we present our reasoning behind our chosen methodology.
+
+\begin{figure}[H]
+  \centering
+  \rotatebox{90}{\includegraphics[width=1.75\textwidth]{images/implementation-diagram.png}}
+  \caption{Diagram showing the implementation of the system}
+  \label{fig:implementation_diagram}
+\end{figure}

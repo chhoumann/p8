@@ -1,10 +1,12 @@
 \section{System evaluation}\label{sec:experiment_results}
 %describe in terms of criteria for using bluetooth. `'
-The collection of measurements using the app is carried out in the same room as the map is created. 
+Having created a map that can be used to classify received measurements, we can now begin to examine wether these classifications are accurate. 
+The measurements are collected using the implemented functionality described in Section \ref{sec:knn_implementation}.
 However, while the room was unoccupied during the creation of the map, this was not the case for the 
-second part of the experiment. 
-During this experiment, computers and phone where placed near the tables of the room, with several of them having either only wifi or Bluetooth and Wifi enabled. 
-In the common area outside the room, two people were tasked with moving around, and a laptop with Bluetooth and Wifi enabled was placed on one of the tables.
+this part of the experiment. 
+Computers and phones where placed near the tables of the room, with several of them having either only WiFi or both Bluetooth and WiFi enabled. 
+In the common area outside the room, two people were tasked with moving around, and a laptop with Bluetooth and WiFi enabled was placed on one of the tables.
+
 \begin{table}[H]
     \scalebox{0.8}{
     \begin{tabular}{|c|llllllllllll|}
@@ -47,15 +49,11 @@ In the common area outside the room, two people were tasked with moving around, 
         \label{lst:resultsTablet}
         \end{table}
 
-All of this is done to create a more realistic environment, resembling that of a meeting room in use during working hours. 
-Results were gathered in the location as shown on Figure \ref{fig:experiment_room} by making 10 classifications using the app described in Section \ref{todo} \todo{refer to the app} on a Samsung Galaxy A53 phone.
+This is done to create a more realistic environment, resembling that of a meeting room in use during working hours. 
+Results were gathered in the location as shown on Figure \ref{fig:experiment_room} by making 10 classifications using a Samsung Galaxy A53 and Samsung Galaxy S20 phones, as well as a Lenovo TabM10 FHD Plus tablet.
 During the classification, k-values of 2, 3, and 4 were used. 
-The results of the experiment can be seen in Table \ref{lst:resultsPhone}.
-
-As expected, a lower k-value results in a larger uncertainty in the classification.
-However, it is worth noticing that for measuring points \textit{B} and \textit{J}  (see Figure \ref{fig:experiment_room}) a large uncertainty in classification is observed.  
-We suspect that this is a consequence of the glass pane next to the door having a much lower absorbation of radio frequencies than the door and the wall next to it. 
-This low absorbation results in the two data points next to the pane having similar distances to both map values labelled as inside and some as outside, therefore giving uncertain classifications.
+The results of the experiment can be seen in Tables \ref{lst:resultsPhone}, \ref{lst:resultsTablet}, \ref{lst:resultsPhoneS20}.
+Table \ref{lst:resultsPhone_precision} summerizes the results of the experimentin terms of percentage of true positive classifications. 
 
 \begin{table}[H]
     \centering
@@ -70,7 +68,4 @@ This low absorbation results in the two data points next to the pane having simi
     \caption{Accuracy of the classifications for different k-values}
     \label{lst:resultsPhone_precision}
 \end{table}
-
-Table \ref{lst:resultsPhone_precision} shows the accuracy in terms of correct classification of whether the test phone is inside of the meething room or outside of the meeting room.
-We see that the system can determine that the occupant is inside the room with a high accuracy even when a small k-value is selected.
-On the other hand, the approach is not as accurate when detecting that the occupant is outside the room when small values of k is used.  
+We see that the system can determine that the occupant is inside the room with a high accuracy even when a small k-value is selected. The approach is not as accurate when detecting that the occupant is outside the room when small values of k is used.  

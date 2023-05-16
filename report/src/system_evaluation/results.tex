@@ -2,8 +2,7 @@
 %describe in terms of criteria for using bluetooth. `'
 Having created a map that can be used to classify received measurements, we can now begin to examine wether these classifications are accurate. 
 The measurements are collected using the implemented functionality described in Section \ref{sec:knn_implementation}.
-However, while the room was unoccupied during the creation of the map, this was not the case for the 
-this part of the experiment. 
+However, while the room was unoccupied during the creation of the map, this was not the case for this part of the experiment. 
 Computers and phones where placed near the tables of the room, with several of them having either only WiFi or both Bluetooth and WiFi enabled. 
 In the common area outside the room, two people were tasked with moving around, and a laptop with Bluetooth and WiFi enabled was placed on one of the tables.
 
@@ -49,9 +48,9 @@ In the common area outside the room, two people were tasked with moving around, 
         \label{lst:resultsTablet}
         \end{table}
 
-This is done to create a more realistic environment, resembling that of a meeting room in use during working hours. 
-Results were gathered in the location as shown on Figure \ref{fig:experiment_room} by making 10 classifications using a Samsung Galaxy A53 and Samsung Galaxy S20 phones, as well as a Lenovo TabM10 FHD Plus tablet.
-During the classification, k-values of 2, 3, and 4 were used. 
+To achieve a more realistic environment resembling that of a meeting room in use during working hours. 
+Results were gathered by making 10 classifications using a Samsung Galaxy A53 and Samsung Galaxy S20 phone, as well as a Lenovo TabM10 FHD Plus tablet. The classification results were gathered  in the locations shown on Figure \ref{fig:experiment_room}
+During the experiment, k-values of 2, 3, and 4 were used.  
 The results of the experiment can be seen in Tables \ref{lst:resultsPhone}, \ref{lst:resultsTablet}, \ref{lst:resultsPhoneS20}.
 Table \ref{lst:resultsPhone_precision} summerizes the results of the experimentin terms of percentage of true positive classifications. 
 
@@ -68,4 +67,4 @@ Table \ref{lst:resultsPhone_precision} summerizes the results of the experimenti
     \caption{Accuracy of the classifications for different k-values}
     \label{lst:resultsPhone_precision}
 \end{table}
-We see that the system can determine that the occupant is inside the room with a high accuracy even when a small k-value is selected. The approach is not as accurate when detecting that the occupant is outside the room when small values of k is used.  
+It is seen that the system can determine that the occupant is inside the room with high accuracy even when a small k-value is selected. The approach is not as accurate when detecting that the occupant is outside the room when small values of k are selected.  

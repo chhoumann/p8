@@ -4,7 +4,7 @@ The system is largely event-driven, which helps decouple the system components.
 Therefore, much of the responsibility of the controller is to subscribe services to events and to handle the events when they are raised thus delegating responsibility across components. 
 
 When the application starts, the \texttt{Beacon Scanner} component will begin listening for Bluetooth devices and add those who match the iBeacon signature to a list of devices.
-These devices showed to the user in the view inside of a list.
+These devices are shown to the user in the view inside of a list.
 Each device in the list has a corresponding toggle, letting the user select which devices to use for data collection.
 After selecting at least one device, the user can click the "Start listening collection" button, which prompts the \texttt{Data Collector} class to listen for advertisement packets from the selected devices. 
 While the \texttt{Data Collector} is actively listening for packets, the \texttt{BeaconRssis} hashtable is continuously populated with the selected beacons' GUIDs and latest RSSI values.

@@ -17,7 +17,7 @@ The data collection process is implemented using standard deviation to account f
 During data collection, the latest beacon RSSI measurements are added to a collection every 500ms until at least 40 measurements have been made, and the standard deviation is lower than some preset threshold.
 The collection interval was selected based on a heuristic -- the beacons advertise every 100ms, and therefore 500ms was selected to account for potential delays.
 Originally, the threshold was set to 20 measurements based on \citeauthor{improving_indoor_localization}~\cite{improving_indoor_localization}, which collected data for 10 seconds.
-Since we collect every 500ms, we could collect 20 measurements in ~10 seconds. However, during development, we found that the standard deviation varied too much with only 20 measurements, and therefore we doubled the minimum number of required measurements to 40.
+Since we collect every 500ms, we could collect 20 measurements in approximately 10 seconds. However, during development, we found that the standard deviation varied too much with only 20 measurements, and therefore we doubled the minimum number of required measurements to 40.
 
 Ultimately, the requirement of at least 40 measurements is a safety measure to ensure a more representative sample for the given point. 
 It is important to emphasize that even with 40 measurements, deviation may still fluctuate, necessitating additional measurements to reach a stable point. 

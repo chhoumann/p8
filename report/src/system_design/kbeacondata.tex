@@ -128,7 +128,7 @@ We initially test the \texttt{KBeaconData} class constructor using both little-e
 
 Subsequently, we test the class for its ability to handle invalid data. We attempt to construct a \texttt{KBeaconData} object with data arrays of insufficient length and null arrays. In line with best practices, we anticipate the class to throw an \texttt{ArgumentException} in the former scenario, indicating an inappropriate data array length, and an \texttt{ArgumentNullException} in the latter scenario, indicating the absence of data.
 
-Lastly, we perform an equality test between the \texttt{CompanyId} values of a \texttt{KBeaconData} object created with little-endian data and a \texttt{KBeaconData} object created with big-endian data. As the \texttt{CompanyId} should remain consistent regardless of byte order, this test verifies the byte order independence of the \texttt{CompanyId} value.
+Lastly, we perform an equality test between the \texttt{CompanyId} values of a \\\texttt{KBeaconData} object created with little-endian data and a \texttt{KBeaconData} object created with big-endian data. As the \texttt{CompanyId} should remain consistent regardless of byte order, this test verifies the byte order independence of the \texttt{CompanyId} value.
 
 Code snippet \ref{lst:KBeaconDataTest} shows an example of a unit test which validates the correct parsing of beacon advertisement data in the little-endian format, asserting that the extracted UUID, Company ID, Major, Minor, and TxPower values match the expected results.
 

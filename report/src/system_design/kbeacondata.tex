@@ -24,7 +24,7 @@ The given byte stream is an example of an advertisement and can be represented a
 \noindent\texttt{00-03-39-2B-C5}.
 
 
-The allocation of bytes is as follows:
+As described by \citeauthor{apple2023ibeacon}~\cite{apple2023ibeacon}, the allocation of bytes is as follows:
 
 \begin{itemize}
   \item The initial two bytes, known as the Company ID (\texttt{4C-00}, i.e. Apple), uniquely identify the company that created the specification for the beacon.
@@ -35,7 +35,6 @@ This UUID (\texttt{77-77-77-2E-6B-6B-6D-63-6E-2E-63-6F-6D-00-00-01}) is a standa
 These two values allow further differentiation among beacons.
   \item The final byte, called TxPower (\texttt{C5}), indicates the \textit{Measured Power}, which represents a standardized signal strength value within Apple's proximity beacon technology. Obtained via a systematic procedure using an iPhone 5s, it involves sampling the Received Signal Strength Indicator (RSSI) from the beacon at a one-meter distance. Outliers in the RSSI samples are discarded to minimize signal strength variability. The remaining data is averaged, producing the 'Measured Power' - a benchmark for subsequent ranging calculations.
 \end{itemize}
-\cite{apple2023ibeacon}
 
 \subsubsection{Role of the KBeaconData Class}
 

@@ -103,7 +103,7 @@ public sealed class KBeaconData {
 
 The notion of endianness is crucial while interpreting the byte sequence.
 It refers to the byte order in which the integers are stored in the computer memory. In the context of the \texttt{KBeaconData} class, the constructor accepts a boolean parameter that indicates whether the byte order of the data is little-endian or not. If the byte order is indeed little-endian, the sequence is read as-is. Otherwise, the sequence is reversed before interpreting, thereby maintaining the accuracy of the parsed data.
-The beacon advertisements are broadcast in little-endian format, which means that the least significant byte is stored first.\cite{CoreSpecification2023}
+The beacon advertisement data is in little-endian format, which means that the least significant byte is stored first.\cite{CoreSpecification2023}
 Because the receiving decide may have a different endianness, the \texttt{KBeaconData} class can parse both little-endian and big-endian data.
 
 In both little and big-endian scenarios, the first two bytes are extracted as the Company ID.

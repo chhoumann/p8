@@ -28,7 +28,7 @@ The allocation of bytes is as follows:
 
 \begin{itemize}
   \item The initial two bytes, known as the Company ID (\texttt{4C-00}, i.e. Apple), uniquely identify the company that created the specification for the beacon.
-  \item The next two bytes, known as the beacon type,. represents the type of the beacon. For proximity beacons, like the ones we use, these two bytes must be set to \texttt{02-15}.
+  \item The next two bytes, known as the beacon type, represents the type of the beacon. For proximity beacons, like the ones we use, these two bytes must be set to \texttt{02-15}.
   \item The subsequent 16 bytes represent the \textit{Universally Unique Identifier} (UUID).
 This UUID (\texttt{77-77-77-2E-6B-6B-6D-63-6E-2E-63-6F-6D-00-00-01}) is a standard identifier that the beacon broadcasts, allowing the receiving devices to recognize the specific beacon or a group of beacons.
   \item The next two bytes denote the Major number (\texttt{00-03}), and the two bytes following them indicate the Minor number (\texttt{39-2B}).

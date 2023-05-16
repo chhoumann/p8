@@ -27,9 +27,12 @@ public sealed class RssiDataSet
         }
     }
 
-    public static RssiDataSet ReadFromJson(string fileName)
+    public static async Task<RssiDataSet> ReadFromJson(string fileName)
     {
-        string jsonString = File.ReadAllText(GetPath(fileName));
+        Stream stream = await FileSystem.OpenAppPackageFileAsync(fileName);
+        StreamReader streamReader = new(stream);
+
+        string jsonString = await streamReader.ReadToEndAsync();
 
         return JsonConvert.DeserializeObject<RssiDataSet>(jsonString);
     }

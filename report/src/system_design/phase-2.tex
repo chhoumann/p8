@@ -1,9 +1,13 @@
 \section{Phase two: Presence classification}\label{sec:knn_implementation}
-The \texttt{Data Handler} loads the data set from the JSON file and removes any duplicates to ensure data consistency.
+The \texttt{Data Handler}, as shown in Figure~\ref{fig:implementation_diagram}, loads the data set from the JSON file and removes any duplicates to ensure data consistency.
+Failing to eliminate duplicates could lead to erroneous classifications in the kNN computations.
+This is because each duplicate data point would be equidistant from the target point and could potentially be counted as the k-nearest neighbors, even when non-duplicate points are available.
 
 To classify, the \texttt{Data Handler} calculates the distance between the current RSSI measurements and the collected RSSI data points.
 These distances are then used to find the k-nearest neighbors.
 Once the nearest neighbors are found, the weighted number of neighbors inside the room are calculated and compared to a threshold.
+Because the weight is normalized, this threshold must be between 0 and 1.
+It can be adjusted in the UI using a slider in order to experimentally determine the best configuration.
 If the weighted number of neighbors inside the room is greater than this threshold, the resulting classification is \textit{inside} the room, and otherwise it is classified as \textit{outside} the room.
 The classification algorithm can be seen in code snippet~\ref{lst:knn-implementation}.
 

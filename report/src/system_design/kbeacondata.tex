@@ -110,10 +110,11 @@ Therefore, the \texttt{KBeaconData} class has been designed to accurately interp
 
 In both little and big-endian scenarios, the first two bytes are extracted as the Company ID.
 However, the remaining data is parsed differently depending on the endianness. If the byte order is little-endian, the bytes are sequentially processed. The UUID is constructed from the next 16 bytes, with the first four bytes converted to an integer, the next four bytes to two short integers, and the last eight bytes remain as a byte array. The Major and Minor values are derived from the next two bytes each, interpreted as unsigned short integers. In case of big-endian, the sequence is reversed before parsing the UUID, Major, and Minor values.
-
 The last byte, regardless of the endianness, is directly converted to a signed byte to represent the Measured Power (TxPower).
 
 The \texttt{KBeaconData} class thereby provides an effecient way to parse, encapsulate, and interpret the data from beacon advertisement packets.
+We implictly assume usage of the previously described \texttt{KBeaconData} class throughout the program flow, however we have omitted it from the diagram in Figure~\ref{fig:implementation_diagram} in the interest of keeping the overview concise and comprehensible.
+
 
 \subsubsection{Testing the KBeaconData class}
 Unit testing is a vital element within the larger framework of software testing. 

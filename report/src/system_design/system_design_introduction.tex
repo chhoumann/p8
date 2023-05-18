@@ -1,5 +1,5 @@
-We decided to develop a mobile application to create a system that can implement the fingerprinting technique in a suitable way.
-The benefit of using a mobile application is that typical mobile devices already have the capability to interact and collect data from Bluetooth devices, such as Bluetooth beacons. 
+\section{System Overview}\label{sec:system_overview}
+We decided to develop a mobile application, as modern mobile devices already have the capability to interact and collect data from Bluetooth devices like BLE beacons. 
 This allowed us to integrate the process of collecting the data, doing classification, and applying the resulting classification model to conduct experiments within the same system.
 
 The application will be developed in C\#\cite{billwagnerDocsGetStarted} with Blazor\cite{BlazorBuildClient} and Razor Pages\cite{tdykstraIntroductionRazorPages2023}.
@@ -14,7 +14,7 @@ As illustrated in figure \ref{fig:ScanAdvertisement}, when the device is running
     \label{fig:ScanAdvertisement}
 \end{figure}
 
-Each beacon broadcasts data, which may include a unique identifier for the specific beacon or manufacturer-specific information.
+Each beacon broadcasts data, which consists of a unique identifier for the specific beacon and manufacturer-specific information.
 A device configured to receive these broadcasts can extract this information and also calculate the received signal strength indicator (RSSI) of the signal.
 
 As outlined in Section \ref{sec:fingerprinting}, fingerprinting involves two stages.

@@ -1,15 +1,10 @@
-In Chapter \ref{chap:presence_intro} technologies that can be used for presence detection were described. 
-Technology selection criteria based on \citeauthor{presence_ble_review}~\cite{presence_ble_review} were developed and identified Bluetooth as the most suitable technology for a presence system satisfying the user problems described in Section \ref{sec:understanding_the_problem}.
+The preceding sections have laid the groundwork for understanding the choice of technology and methodology employed in our presence detection system.
 
-Chapter \ref{sec:presence_detection_using_ble} then detailed two approaches to using Bluetooth for presence detection. 
-We found that a fingerprinting approach using kNN is suitable for occupancy detection. 
-We argue that the approach can easily be modified with additional labels when collecting data in the first phase of the approach, as described in section \ref{sec:fingerprinting}.
+Moving forward, this section is dedicated to providing a comprehensive overview of our application and its role in supporting the two phases of our chosen fingerprinting approach: data collection and classification. 
 
-In the following sections we will first present a general overview of the application and how it supports the two phases of fingerprinting. 
-Section \ref{sec:first_phase} establishes how we approach the collection of measurements during the first phase. 
-We describe how we approach the data collection, and how we label the collected data.
-In Section \ref{sec:data_collection_implementation}, we discuss the key design decisions and implementation aspects that significantly influence this application.
-Similarly, Section \ref{sec:knn_implementation} details how the second phase of fingerprinting is implemented in the application, and how a classification of \textit{present} or \textit{absent} is performed.
+Section \ref{sec:first_phase} is devoted to elaborating on our data collection strategy during the first phase, including our method for labeling the collected data. 
+Detailed discussions regarding the key design decisions and implementation considerations, which have a substantial impact on the application, are to be found in Section \ref{sec:data_collection_implementation}.
 
+Subsequently, in Section \ref{sec:knn_implementation}, we delve into the mechanics of how the second phase of fingerprinting is realized in the application. We will outline the procedure for performing classification of the terms \textit{inside} or \textit{outside}, based on our collected and labeled data. 
 
-
+By addressing these elements, this section aims to present a clear and detailed exposition of our system design, ensuring our methodology is transparent and replicable.

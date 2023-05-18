@@ -10,15 +10,16 @@ d_{noiseless} = d_0 \cdot 10^{ \frac{(RSSI_{0} - RSSI)}{10 \cdot n}}
 $$
 
 In this equation, \(d_{noiseless}\) symbolizes the estimated distance in an ideal, noiseless environment expressed in meters.
-$d_0$ is the reference distance measured in meters, while \(RSSI_{0}\) represents the transmitted signal strength distance $d_0$ to the transmitter while \(RSSI\) denotes the received signal strength, both expressed in decibels-milliwatts (dBm). 
+$d_0$ is the reference distance measured in meters, while \(RSSI_{0}\) represents the transmitted signal strength distance $d_0$ to the transmitter, and \(RSSI\) denotes the received signal strength, both expressed in decibels-milliwatts (dBm). 
 Due to the assumption of the transmitted signal strength diminishing, the expression $(RSSI_{0} - RSSI) \geq 0\ dBm$ holds. 
 \(n\) denotes the path loss component, which expresses the rate of signal decay with distance.  
 The path loss component \(n\) is chosen based on environmental factors \cite{spachosBLEBeaconsIndoor2020}. 
 
 Despite its merits, including cost-effectiveness, ease of implementation, and scalability, proximity detection has significant limitations in terms of accuracy, primarily due to the potential for inaccurate range estimation. 
-The intrinsic nature of Bluetooth signals causes the signal strength to fluctuate based on environment factors, such as obstructions or radio-wave noise.\cite{spachosBLEBeaconsIndoor2020}
-Furthermore, the environmental component $n$ in the formula must be adjusted to account for these environmental factors. 
-This implies that the system must be calibrated to yield accurate results in a particular environment. This undertaking can be labor-intensive and may necessitate periodic recalibration.\cite{spachosBLEBeaconsIndoor2020}
+The intrinsic nature of Bluetooth signals causes the signal strength to fluctuate based on environment factors, such as obstructions or radio-wave noise.\cite{spachosBLEBeaconsIndoor2020} 
+Furthermore, the environmental component $n$ in the formula must be adjusted to account for these environmental factors.  
+This implies that any system utilzing this approach must be calibrated for it to yield accurate results in a particular environment. 
+Such an undertaking can be labor-intensive and may necessitate periodic recalibration.\cite{spachosBLEBeaconsIndoor2020}
 
 To summarize, while proximity-based presence detection using RSSI offers a foundational and relatively easy-to-implement mechanism for automating meeting room occupancy management, the concerns regarding its accuracy present a significant limitation. 
 Considering alternative methodologies with higher accuracy could lead to the establishment of a more robust and reliable solution for managing meeting room occupancy.

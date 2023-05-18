@@ -4,13 +4,15 @@ Utilizing RSSI values, the proximity of devices, such as smartphones or wearable
 This determination is based on the assumption that as the signal strength diminishes, the distance between the device and the hub increases. 
 Although the signal strength may fluctuate due to environmental factors, this method provides a rudimentary approximation of the user's location.\cite{spachosBLEBeaconsIndoor2020}
 
-The principle of proximity detection is fundamentally rooted in the path-loss model, which correlates the received signal strength with the distance from the transmitter. This relationship can be formulated mathematically as follows:
+The principle of proximity detection is fundamentally rooted in the path-loss model, which correlates the received signal strength with the distance from the transmitter. This relationship can be formulated mathematically as follows:\cite{spachosBLEBeaconsIndoor2020}
 
 $$
 d = 10^{ \frac{(RSSI_{tx} - RSSI_{rx})}{10 \cdot n}}
-$$\cite{spachosBLEBeaconsIndoor2020}
+$$
 
-In this equation, \(d\) symbolizes the estimated distance, \(RSSI_{tx}\) stands for the transmitted signal strength, \(RSSI_{rx}\) denotes the received signal strength, and \(n\) is the path loss exponent. The path loss exponent \(n\) is chosen based on environmental factors. In open spaces, \(n\) is typically around 2, while in obstructed spaces, \(n\) is typically 4 - 6.\cite{spachosBLEBeaconsIndoor2020, mathuranathanLogDistancePath2013}
+In this equation, \(d\) symbolizes the estimated distance typically expresesed in meters, \(RSSI_{tx}\) stands for the transmitted signal strength expressed in decibels-milliwatts (dBm), \(RSSI_{rx}\) denotes the received signal strength expressed in dBm, and \(n\) is the path loss exponent.
+The path loss exponent \(n\) is chosen based on environmental factors. 
+In open spaces, \(n\) is typically around 2, while in obstructed spaces, \(n\) is typically 4 - 6.\cite{spachosBLEBeaconsIndoor2020, mathuranathanLogDistancePath2013}
 
 Despite its merits, including cost-effectiveness, ease of implementation, and scalability, proximity detection has significant limitations in terms of accuracy, primarily due to the potential for inaccurate range estimation. The intrinsic nature of RSSI causes the signal strength to fluctuate, complicating the task of obtaining an accurate measurement of distance.\cite{spachosBLEBeaconsIndoor2020}
 

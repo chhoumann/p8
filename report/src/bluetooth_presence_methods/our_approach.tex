@@ -1,0 +1,49 @@
+% \section{Approach}\label{sec:approach}
+% - We use fingerprinting.
+% - Phase 1: Data collection in grid
+%     - Collect data by measuring RSSI values at different locations in the room.
+%     - The locations are shaped by the grid.
+% 	- Each measurement is made up of one (averaged over samples in that location) RSSI value per beacon, along with a label designating whether the grid tile represents being inside or outside the room.
+% - Phase 2: Classification
+%     - We use kNN to classify the data into either \textit{inside} or \textit{outside}.
+%     - The kNN algorithm finds the k-nearest neighbors of the data for the latest measurement.
+%     - We weigh the nearest neighbors by their distance from the latest measurement (close neighbors weigh more). The resulting weight is calculated as the (confidence? certainty?) of being inside the room.
+%     - We then label the data as either \textit{inside} or \textit{outside}.
+
+\section{Our Approach}\label{sec:our_approach}
+Based on our prior discussion in Section \ref{sec:ChoiceOfTechnique} on potential approaches, we have opted to use a fingerprinting technique for our system.
+Our methodology is split into two main phases: data collection and classification.
+Each phase plays a critical role in successfully implementing this technique and, when combined, they offer an effective method of presence detection.
+
+\subsection{Phase 1: Data Collection}\label{sec:phase1_data_collection}
+In the first phase, our focus is on collecting RSSI values from various locations within a predefined area. The area is partitioned into a grid, with each cell in the grid representing a specific location. 
+
+For each cell of the grid, we measure and record the RSSI value from every beacon within the system.
+The RSSI value is averaged over several samples to account for fluctations.
+Furthermore, we augment each measurement with a label indicating whether the corresponding grid cell is considered to be \textit{inside} or \textit{outside} the room.
+This labeling is necessary for the classification stage of our approach.
+In the context of the system, we refer to the collected measurements as the \textit{data set}.
+
+\subsection{Phase 2: Classification}\label{sec:phase2_classification}
+In the second phase, we employ a k-Nearest Neighbors algorithm to classify our collected data. Our labels from the data collection phase serve as the classes: \textit{inside} and \textit{outside}.
+
+By continuously listening for beacon advertisements, we store the latest RSSI values in memory. 
+We then apply the kNN algorithm to identify the k-nearest values to the most recent RSSI readings.
+
+Using the latest measurement, the kNN algorithm identifies the k-nearest neighbors from the data set. 
+The nearest neighbors are found based on their Euclidean distances to the latest measurement.
+
+We assign each neighbor a weight that is inversely proportional to its distance from the new measurement, implying that neighbors closer to the measurement have a larger influence on the classification decision.
+
+The final classification is determined by summing the weights of the neighbors belonging to each class, and checking whether this sum exceeds some preset threshold.
+The resulting weight is the confidence of the presence within the room.
+
+
+
+The quality of the classification depends on the threshold.
+Therefore, it is important to tune the threshold to suit the environment in order to provide a good compromise between accuracy and precision.
+
+Hence, the confidence of the presence within the room is derived from the total weight of the \textit{inside} class neighbors.
+
+This two-phase approach, combining data collection via grid partitioning and kNN classification, forms the basis of our fingerprinting-based presence detection system.
+The following sections delve into the key design decisions and the specifics of implementing this approach.

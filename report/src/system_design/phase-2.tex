@@ -12,9 +12,10 @@ The classification algorithm can be seen in code snippet~\ref{lst:knn-implementa
 	language=CSharp, 
 	frame=single, 
 	label={lst:knn-implementation},
+	escapeinside={(*}{*)},
 	caption={C\# Implementation of the K-Nearest Neighbors Algorithm with Weighted Voting}, 
 	captionpos=b] 
-public ClassLabel Classify(
+public ClassLabel Classify( (*\label{line:classify}*)
 	int[] rssis, 
 	IReadOnlyList<DataPoint> rssiDataPoints
 ) {
@@ -23,12 +24,12 @@ public ClassLabel Classify(
 		rssiDataPoints
 	);
 
-	DataPointDistance[] kNearestNeighbors = GetKNearestNeighbors(
+	DataPointDistance[] kNearestNeighbors = GetKNearestNeighbors( (*\label{line:GetKNearestNeighbors}*)
 		distances,
 		k
 	);
 
-	double weightedNumNeighborsInsideRoom = CalculateWeight(
+	double weightedNumNeighborsInsideRoom = CalculateWeight( (*\label{line:weighted-num-neighbors-inside-room}*)
 		kNearestNeighbors,
 		ClassLabel.Inside
 	);
@@ -40,19 +41,8 @@ public ClassLabel Classify(
 \end{lstlisting}
 \end{figure}
 
-The \texttt{CalculateWeight} method, seen in code snippet~\ref{lst:knn-implementation}, calculates the weighted number of neighbors matching the provided target class label using the k-nearest neighbors.
-It calculates the sum of the inverse distances of all the k-nearest neighbors. This is done to normalize the distances so that closer neighbors (which have smaller distances and thus larger inverse distances) contribute more to the sum.
-This computation is expressed in equation \ref{eq:calculate_weight}.
+The \texttt{CalculateWeight} method, seen in code snippet~\ref{lst:knn-implementation} on line \ref{line:weighted-num-neighbors-inside-room}, calculates the weighted number of neighbors matching the provided target class label using the k-nearest neighbors. 
+The \texttt{GetKNearestNeighbors} method on line \ref{line:GetKNearestNeighbors}, and the \texttt{CalculateWeight} method on line \ref{line:weighted-num-neighbors-inside-room}, are implementations of the approach described in Section~\ref{sec:phase2_classification}.
 
-\begin{equation}\label{eq:calculate_weight}
-W_j = \sum_{i=1}^{k} \frac{I(y_i = j)}{d_i} \Bigg/ \sum_{i=1}^{k} \frac{1}{d_i}
-\end{equation}
-
-where $k$ is the number of nearest neighbors, $y_i$ is the class label of the $i$-th neighbor, $d_i$ is the distance from the test point to the $i$-th neighbor, $I(y_i=j)$ is the indicator function, which is $1$ when $y_i=j$, and $0$ otherwise, and $W_j$ is the calculated weight for class $j$.
-
-For each neighbor in the k-nearest-neighbors, it checks if the neighbors class label is equivalent to the target class label. As shown by the indicator function in equation~\ref{eq:calculate_weight}, we only consider the inverse distance of neighbors with the target class label. This is done to ensure that neighbors with the opposite class label do not contribute to the sum.
-
-We finally return the sum, $W_j$, which is the weighted number of neighbors with the target class label. This weight indicates the likelihood of the original data point belonging to the given class label.
-
-In the \texttt{Classify} method, we use the resulting weight to determine whether the current point is inside or outside the room by comparing it to a threshold.
+In the \texttt{Classify} method, as seen on line \ref{line:classify} in code snippet~\ref{lst:knn-implementation}, we use the resulting weight to determine whether the current point is inside or outside the room by comparing it to a threshold.
 The threshold value can be adjusted to meet specific requirements for the application. A higher threshold will result in a stricter classification for \textit{inside} the room, while a lower threshold will make it more lenient.

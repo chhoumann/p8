@@ -1,6 +1,8 @@
 \section{Proximity detection}\label{sec:proximity_detection}
 Proximity detection computes distances using the Received Signal Strength Indicator (RSSI).
-Utilizing RSSI values, the proximity of devices, such as smartphones or wearables, to a central hub in the meeting room can be determined. This determination is based on the fact that as the signal strength diminishes, the distance between the device and the hub increases, providing a rudimentary approximation of the user's location.\cite{spachosBLEBeaconsIndoor2020}
+Utilizing RSSI values, the proximity of devices, such as smartphones or wearables, to a central hub in the meeting room can be determined. 
+This determination is based on the assumption that as the signal strength diminishes, the distance between the device and the hub increases. 
+Although the signal strength may fluctuate due to environmental factors, this method provides a rudimentary approximation of the user's location.\cite{spachosBLEBeaconsIndoor2020}
 
 The principle of proximity detection is fundamentally rooted in the path-loss model, which correlates the received signal strength with the distance from the transmitter. This relationship can be formulated mathematically as follows:
 

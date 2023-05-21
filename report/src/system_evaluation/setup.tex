@@ -17,36 +17,42 @@ To create the fingerprinting-map, the room and the common area is partitioned in
 Measurements for the map are taken where gridlines intersect.
 This results in $6 \times 4$ measurements with a classification label of \textit{inside} being taken inside the room.
 The common area outside of the room is partitioned in the same fashion, resulting in  $6 \times 2$ classification labels of \textit{outside}. 
-The gridwise partition of the room and the common area is shown in Figure \ref{fig:room_partition}, while Figure \ref{fig:room_partition_measurements} depics the locations where measurements for the map is taken.
+
 
 \begin{figure}
     \centering
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/experiment_room.png}
         \caption{A sketch showing the room and the common area in which the experiments take place}
         \label{fig:experiment_room}
     \end{subfigure}
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/roomwithgrid.png}
         \caption{The gridwise partition of the experiment room and the common area (red)}
         \label{fig:room_partition}
     \end{subfigure}
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
+    \begin{subfigure}[b]{0.48\textwidth}
         \includegraphics[width=\textwidth]{images/roomwithgridandmeasurements.png}
         \caption{The partitioned room decorated with locations where measurements are taken(green)}
         \label{fig:room_partition_measurements}
     \end{subfigure}
-    \caption{The room and common area in which the experiment takes place. Figures \ref{fig:room_partition} and \ref{fig:room_partition_measurements} shows how the area is partitioned and where measurements are taken.}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/gridwithbeacons.png}
+        \caption{The partitioned room with four iBeacon BLE9 Bluetooth beacons. }
+        \label{fig:room_partition_beacons}
+    \end{subfigure}
+    \caption{The room and common area in which the experiment takes place. Figures \ref{fig:room_partition} and \ref{fig:room_partition_measurements} shows how the area is partitioned and where measurements are taken. Figure \ref{fig:room_partition_beacons} shows the placement of beacons when performing the experiments. }
     \label{fig:allfiguresForTheGridPartition}
 \end{figure}
+The gridwise partition of the room and the common area is shown in Figure \ref{fig:room_partition}, while Figure \ref{fig:room_partition_measurements} depics the \textit{collection points} where measurements for the map is taken.
+During the creation of the map, measurements are collected for each collection point until a standard deviation of under $6.5$ xxx insert the correct unit xxx is achieved, with a minimum of $40$ measurements being required, as described in Section \ref{sec:data_collection_implementation}.
+The map creation process was done during out-of-office hours to ensure that the datapoint collected to create the map was collected with a minimum of background signal noise.
 
-Four Bluetooth iBeacon BLE9 beacons \cite{BluetoothiBeaconBLE9} are placed on top of the cabinet and in the three corners furthest away from the door. 
-The beacons in the corners of the room are placed in a height of $2.5m$, while the center beacon on top of the cabinet is placed in a height of $1.5m$.   
+During both the creation of the map and the classification, four iBeacon BLE9 Bluetooth beacons \cite{BluetoothiBeaconBLE9} are placed on top of the cabinet and in the three corners furthest away from the door. This is depicted on Figure \ref{fig:room_partition_beacons}.
+The beacons in the corners of the room are placed in a height of $2.5m$, while the center beacon on top of the cabinet is placed in a height of $1.5m$.
 The beacons placed near the windows are located on top of a whiteboard, while the beacon in the lower left corner of the room is held in place using painter's tape.
-
 
 %Mention the threshold and argue why its set to .5
 

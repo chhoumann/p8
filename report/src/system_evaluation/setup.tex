@@ -47,7 +47,7 @@ The common area outside of the room is partitioned in the same fashion, resultin
     \label{fig:allfiguresForTheGridPartition}
 \end{figure}
 The gridwise partition of the room and the common area is shown in Figure \ref{fig:room_partition}, while Figure \ref{fig:room_partition_measurements} depics the \textit{collection points} where measurements for the map is taken.
-During the creation of the map, measurements are collected for each collection point until a standard deviation of under $6.5$ xxx insert the correct unit xxx is achieved, with a minimum of $40$ measurements being required, as described in Section \ref{sec:data_collection_implementation}.
+During the creation of the map, measurements are collected for each collection point until a standard deviation of under $6.5$ \todo{insert unit of standard deviation. What does 6.5 mean?} is achieved, with a minimum of $40$ measurements being required, as described in Section \ref{sec:data_collection_implementation}.
 The map creation process was done during out-of-office hours to ensure that the datapoint collected to create the map was collected with a minimum of background signal noise.
 
 During both the creation of the map and the classification, four iBeacon BLE9 Bluetooth beacons \cite{BluetoothiBeaconBLE9} are placed on top of the cabinet and in the three corners furthest away from the door. This is depicted on Figure \ref{fig:room_partition_beacons}.
@@ -55,7 +55,10 @@ The beacons in the corners of the room are placed in a height of $2.5m$, while t
 The beacons placed near the windows are located on top of a whiteboard, while the beacon in the lower left corner of the room is held in place using painter's tape.
 
 %Why are the beacons placed here?
-The placement of the beacons are selected based on xxxxxx\todo{explain the placement}
+By placing a beacon close to the door of the meeting room, one makes the classification system dependent on a high precision.
+This can be understood by imagining a scenario where a person is located in position B (see Figure \ref{fig:experiment_setup}).
+By having a beacon next by door, we risk that a slight fluctuation in the received signal strengh from the will result in the determined location of the person being that of the measurement point next to the door,immediatedly outside the room (see Figure \ref{fig:room_partition_beacons}).
+For this particular system, we would rather have classifications skew towards being inside of the room as to not cancel meetings that are ongoing.  
 
 %Mention the threshold and argue why its set to .5
 

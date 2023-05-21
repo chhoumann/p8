@@ -23,3 +23,24 @@ Data collection points and beacon placement of the room during the experiment is
 During the second phase, the experimenter stands in the classification points and use the functionality of the developed described in Section \ref{sec:knn_implementation}, and the created map described in Section \ref{sec:eval_phase1}, to classify received signals. 
 During the classification experiment, n-values of $2,3$ and $4$ and a threshold of $0.5$ were selected. 
 This means that more than half of the neighbors to the received measurements needs to be classifed as \textit{inside} for the measurements to be classified as \textit{inside}.
+
+While the room was unused during the creation of the map, this was not the case for this part of the experiment.
+Computers and phones were placed near the tables of the room, with several of them having either only WiFi, or both Bluetooth and WiFi, enabled. 
+In the common area outside the room, two people were tasked with moving around, and a laptop with Bluetooth and WiFi enabled was placed on one of the tables.
+This was done to create an environment that more accurately represents a meeting room in use.
+The classification context must be considered when establishing whether fingerprinting is a viable approach for the stakeholder - if an unrealistic experimental configuration is used, the results might not translate for the configuration of the stakeholder's meeting rooms. 
+Similarly, multiple devices must be used to understand whether the approach is viable only for the device used to create the map, or if a solution requires the stakeholder to provide employees with specific devices. 
+During this experiment, three different devices were selected for experimentation. 
+The devices and their Bluetooth specifications are shown in Table \ref{tab:devicesAndBluetooth}.
+
+\begin{table}[]
+    \begin{tabular}{llll}
+    Device name                & Samsung Galaxy A53 & Samsung Galaxy S20 & Lenovo Tab M10 FHD Plus \\
+    \textbf{Bluetooth version} & 5.1                & 5.0                & 5.0                    
+    \end{tabular}
+    \caption{The devices used in during classification and their supported Bluetooth version.}
+    \label{tab:devicesAndBluetooth}
+\end{table}
+
+During the experiment, the experimenter stands in one of the location shown on Figure \ref{fig:experiment_setup}, and uses the developed application to perform $10$ classifications using the previously described threshold.
+This process is repeated for each devices, giving a total of $210$ measurements for each k-value.

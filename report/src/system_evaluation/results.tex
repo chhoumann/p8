@@ -1,10 +1,6 @@
 \section{Results}\label{sec:experiment_results}
 %describe in terms of criteria for using bluetooth. `'
-Having created a map that can be used to classify received measurements, we can now begin to examine whether these classifications are accurate. 
-The measurements are collected by a single person using the implemented functionality described in Section \ref{sec:knn_implementation}.
-However, while the room was unused during the creation of the map, this was not the case for this part of the experiment. 
-Computers and phones were placed near the tables of the room, with several of them having either only WiFi, or both Bluetooth and WiFi, enabled. 
-In the common area outside the room, two people were tasked with moving around, and a laptop with Bluetooth and WiFi enabled was placed on one of the tables.
+Having created a map that can be used to classify received measurements and having collected information about these classifications, we will now summarizes and comment on the results. 
 
 \begin{table}[H]
     \scalebox{0.8}{
@@ -48,12 +44,11 @@ In the common area outside the room, two people were tasked with moving around, 
         \label{lst:resultsTablet}
         \end{table}
 
-To create an environment that more accurately represents a meeting room in use, several devices were used for testing. 
-The method for collecting results from these tests mirrored previous ones, by making $10$ classifications on both a Samsung Galaxy A53, a Samsung Galaxy S20 phone, and a Lenovo TabM10 FHD Plus tablet. 
-The classification results were gathered in the locations shown on Figure \ref{fig:experiment_room}
-During the experiment, k-values of $2$, $3$, and $4$ were used.  
+
+The classification results of the experiments were gathered in the locations shown on Figure \ref{fig:experiment_room}. During the experiment, k-values of $2$, $3$, and $4$ were used.  
 The results of the experiment can be seen in Tables \ref{lst:resultsPhone}, \ref{lst:resultsPhoneS20}, and  \ref{lst:resultsTablet}.
-Table \ref{lst:resultsPhone_precision} summarizes the experiment's results, indicating the percentage of true positive classifications. 
+Table \ref{lst:resultsPhone_precision} summarizes the experiment's results, indicating the percentage of true positive classifications.
+We see that for all devices (Tables \ref{lst:resultsPhone}, \ref{lst:resultsPhoneS20}, and  \ref{lst:resultsTablet})
 
 \begin{table}[H]
     \centering

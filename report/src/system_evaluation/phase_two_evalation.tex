@@ -4,7 +4,7 @@ To do this, we want to establish how well different devices can utilize the map 
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.5]{images/experiment_setup.png}
-    \caption{A sketch of the meeting room in which the experiments were carried out, decorated with beacon placements (red antenna) and measurement locations(green circles)}
+    \caption{A sketch of the meeting room in which the experiments were carried out, decorated with beacon placements (red antenna) and measurement locations (circles with letters)}
     \label{fig:experiment_setup}
 \end{figure}
 
@@ -34,10 +34,13 @@ During this experiment, three different devices were selected for experimentatio
 The devices and their Bluetooth specifications are shown in Table \ref{tab:devicesAndBluetooth}.
 
 \begin{table}[]
-    \begin{tabular}{llll}
-    Device name                & Samsung Galaxy A53 & Samsung Galaxy S20 & Lenovo Tab M10 FHD Plus \\
-    \textbf{Bluetooth version} & 5.1                & 5.0                & 5.0                    
-    \end{tabular}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|l|l}
+    \cline{1-4}
+    Device name                & Samsung Galaxy A53 \cite{a53phone} & Samsung Galaxy S20 \cite{galaxy20phone} & Lenovo Tab M10 FHD Plus \cite{tablet} &  \\ \cline{1-4}
+    \textbf{Bluetooth version} & 5.1                & 5.0                & 5.0                     &  \\ \cline{1-4}
+    \end{tabular}%
+    }
     \caption{The devices used in during classification and their supported Bluetooth version.}
     \label{tab:devicesAndBluetooth}
 \end{table}

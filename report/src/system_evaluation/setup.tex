@@ -1,14 +1,9 @@
 \section{Experiment design}\label{sec:experiment_design}
 %Forsoegsopstilling, der inkludere en tegning af omraadet set oppefra med indtegning af beacons, objectern og hvor rigtige position for test person.
-The implemented system's evaluation experiments are conducted in a room measuring $4.75m \times 6.5m$.
+Experiments to evaluate the implemented system described in Chapter \ref{chap:system_design} are conducted in a a room measuring $4.75m \times 6.5m$.
 In the room, a cabinet is placed between two tables, effectively dividing the room into two smaller areas. 
 Each of the smaller areas are furnished with a table surrounded by six chairs, and whiteboards mounted on the walls.
-\begin{figure}[h!]
-    \centering
-    \includegraphics[scale=0.5]{images/experiment_room.png}
-    \caption{A sketch of the meeting room in which the experiments were carried out.}
-    \label{fig:experiment_room}
-\end{figure}
+
 On one end of each table is a large, rectangular window.
 Furthermore, one table has a large TV screen placed near its window. 
 Near the door of the room, an airconditioning controller and a large glass pane, acting as a window out into the common area, is located. 
@@ -18,11 +13,43 @@ Outside the meeting room, is the aforementioned common area containing two high 
 Each of these tables has a small couch and two chairs placed next to it.
 The meeting room and its surrounding area is depicted in Figure \ref{fig:experiment_room}.
 
+To create the fingerprinting-map, the room and the common area is partitioned into a $1m \times 1m$ grid using painter's tape.
+Measurements for the map are taken where gridlines intersect.
+This results in $6 \times 4$ measurements with a classification label of \textit{inside} being taken inside the room.
+The common area outside of the room is partitioned in the same fashion, resulting in  $6 \times 2$ classification labels of \textit{outside}. 
+The gridwise partition of the room and the common area is shown in Figure \ref{fig:room_partition}, while Figure \ref{fig:room_partition_measurements} depics the locations where measurements for the map is taken.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/experiment_room.png}
+        \caption{A sketch showing the room and the common area in which the experiments take place}
+        \label{fig:experiment_room}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/roomwithgrid.png}
+        \caption{The gridwise partition of the experiment room and the common area (red)}
+        \label{fig:room_partition}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/roomwithgridandmeasurements.png}
+        \caption{The partitioned room decorated with locations where measurements are taken(green)}
+        \label{fig:room_partition_measurements}
+    \end{subfigure}
+    \caption{The room and common area in which the experiment takes place. Figures \ref{fig:room_partition} and \ref{fig:room_partition_measurements} shows how the area is partitioned and where measurements are taken.}
+    \label{fig:allfiguresForTheGridPartition}
+\end{figure}
+
 Four Bluetooth iBeacon BLE9 beacons \cite{BluetoothiBeaconBLE9} are placed on top of the cabinet and in the three corners furthest away from the door. 
 The beacons in the corners of the room are placed in a height of $2.5m$, while the center beacon on top of the cabinet is placed in a height of $1.5m$.   
-The beacons placed near the windows are located on top of a whiteboard, while the beacon in the lower left corner of the room is held in place using painter's tape. 
+The beacons placed near the windows are located on top of a whiteboard, while the beacon in the lower left corner of the room is held in place using painter's tape.
+
 
 %Mention the threshold and argue why its set to .5
+
 
 %Explain the configuration of the grid
 

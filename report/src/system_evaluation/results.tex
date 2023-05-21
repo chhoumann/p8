@@ -1,6 +1,10 @@
 \section{Results}\label{sec:experiment_results}
 %describe in terms of criteria for using bluetooth. `'
 Having created a map that can be used to classify received measurements and having collected information about these classifications, we will now summarizes and comment on the results. 
+The classification results of the experiments were gathered in the locations shown on Figure \ref{fig:experiment_setup}. During the experiment, k-values of $2$, $3$, and $4$ were used.  
+The results of the experiment can be seen in Tables \ref{lst:resultsPhone}, \ref{lst:resultsPhoneS20}, and  \ref{lst:resultsTablet}.
+The tables shows the number of correct classifications. 
+Table \ref{lst:resultsPhone_precision} summarizes the experiment's results, showing the percentage of true positive classifications for the different locations from Figure \ref{fig:experiment_setup}.
 
 \begin{table}[H]
     \scalebox{0.8}{
@@ -30,16 +34,6 @@ Having created a map that can be used to classify received measurements and havi
     \label{lst:resultsPhoneS20}
 \end{table}
 
-The classification results of the experiments were gathered in the locations shown on Figure \ref{fig:experiment_room}. During the experiment, k-values of $2$, $3$, and $4$ were used.  
-The results of the experiment can be seen in Tables \ref{lst:resultsPhone}, \ref{lst:resultsPhoneS20}, and  \ref{lst:resultsTablet}.
-The tables shows the number of correct classifications. 
-Table \ref{lst:resultsPhone_precision} summarizes the experiment's results, showing the percentage of true positive classifications for the different locations from Figure \ref{fig:experiment_room}.
-
-On Table \ref{lst:resultsPhone_precision} see that a lower k-value results in a larger uncertainty in the classification.
-However, it is worth noticing that for measuring points \textit{B} and \textit{J}  (see Figure \ref{fig:experiment_room}) a large uncertainty in classification is observed.
-We suspect that this is a consequence of the glass pane next to the door having a much lower absorbation of radio frequencies than the door and the wall next to it. 
-This low absorbation results in the two data points next to the pane having similar distances to both map values labelled as inside and some as outside, therefore giving uncertain classifications.
-
 \begin{table}[H]
     \scalebox{0.8}{
     \begin{tabular}{|c|llllllllllll|}
@@ -54,15 +48,24 @@ This low absorbation results in the two data points next to the pane having simi
     \label{lst:resultsTablet}
 \end{table}
 
+On Table \ref{lst:resultsPhone_precision} see that a lower $k$-value results in a larger uncertainty in the classification.
+However, it is worth noticing that for measuring points \textit{B} and \textit{J}  (see Figure \ref{fig:experiment_setup}) a large uncertainty in classification is observed.
+We suspect that this is a consequence of the glass pane next to the door having a much lower absorbation of radio frequencies than the door and the wall next to it. 
+This low absorbation results in the two data points next to the pane having similar distances to both map values labelled as inside and some as outside, therefore giving uncertain classifications.
 
 Similarly, for all devices, when performing the classification in locations H, I, J, K, and L shows, the results are vastly different from the other locations.
 These locations are all outside of the room. 
 We suspect that this can be due to two things.
-First and foremost, it might be due to \todo{something with physical obstacles}
-Secondly, by having placed beacons only inside of the meeting room, and by having more classification data representing locations inside the meeting room, the classification results might be skewed towards \textit{inside} classifications. 
+First and foremost, it might be due to the created map being unreliable. 
+When creating the map, the wall separating the room and the common area might cause large fluctuations in the strength of the received signal. 
+Therefore, classification using the map becomes unreliable.
+We tried to accomodate this by enforcing all map entries to have a standard deviation of 6.5 \todo{units and 6.5}. 
+Enforcing a lower standard deviation of the map might alleviate these issues.
+However, this will increase the time it takes to create the map, as more samples will be required if the signal fluctuates.
+Furthermore, detecting these signal outliers might be difficult if the signal often fluctuates by high degrees.      
 
-We also see that of all the devices (Tables \ref{lst:resultsPhone}, \ref{lst:resultsPhoneS20}, and  \ref{lst:resultsTablet}), \todo{figure out which one is more accurate} is more accurate. 
-We suspect that this is due to xxxxx.
+Secondly, by having placed beacons only inside of the meeting room, and by having more classification data representing locations inside the meeting room, the classification results might be skewed towards \textit{inside} classifications. 
+One could try lessen the effect of this skewing by placing one or more beacons in the common area, and treat signals from this beacon as a weight towards a classification of \textit{outside}.  
 
 \begin{table}[H]
     \centering

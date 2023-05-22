@@ -1,13 +1,11 @@
-Razor pages have tightly-coupled views and controllers, however, we have chosen to separate them in the system diagram, seen in figure~\ref{fig:implementation_diagram}. This is to emphasize the separation of concerns between the view and the controller. The view is responsible for displaying the data, while the controller is responsible for managing the system components. The view handles user interactions, such as such as toggling between listening and non-listening states, and starting or stopping data collection, which it then propagates to the controller.
-
 The system is largely event-driven, which helps decouple the system components. 
-Therefore, much of the responsibility of the controller is to subscribe services to events and to handle the events when they are raised thus delegating responsibility across components. 
+Therefore, much of the responsibility of the \texttt{Controller}, shown in Figure~\ref{fig:implementation_diagram}, is to subscribe services to events and to handle the events when they are raised thus delegating responsibility across components. 
 
 When the application starts, the \texttt{Beacon Scanner} component will begin listening for Bluetooth devices and add those who match the iBeacon signature to a list of devices.
 These devices are shown to the user in the view inside of a list.
 Each device in the list has a corresponding toggle, letting the user select which devices to use for data collection.
-After selecting at least one device, the user can click the "Start listening collection" button, which prompts the \texttt{Data Collector} class to listen for advertisement packets from the selected devices. 
-While the \texttt{Data Collector} is actively listening for packets, the \texttt{BeaconRssis} hashtable is continuously populated with the selected beacons' GUIDs and latest RSSI values.
+After selecting at least one device, the user can click the "Start listening collection" button, which prompts the \texttt{Data Collector} class to listen for advertisement packets from the selected devices, facilitated through the \texttt{Advertisement Scanner} component. 
+While the \texttt{Data Collector} is actively receiving packets from the \texttt{Advertisement Scanner}, the \texttt{BeaconRssis} hashtable is continuously populated with the selected beacons' GUIDs and latest RSSI values.
 
 
 At this point, the data collection process for a given point in the grid may begin.
@@ -15,9 +13,9 @@ First, the user must select a label (inside or outside), denoting whether the cu
 Then, when the user presses the "Collect data" button on the view, the \texttt{Data Collector} class will begin collecting data from the selected beacons.
 The data collection process is implemented using standard deviation to account for fluctations.
 During data collection, the latest beacon RSSI measurements are added to a collection every 500ms until at least 40 measurements have been made, and the standard deviation is lower than some preset threshold.
-The collection interval was selected based on a heuristic -- the beacons advertise every 100ms, and therefore 500ms was selected to account for potential delays.
+The collection interval was selected based on a heuristic: the beacons advertise every 100ms, and therefore 500ms was selected to account for potential delays.
 Originally, the threshold was set to 20 measurements based on \citeauthor{improving_indoor_localization}~\cite{improving_indoor_localization}, which collected data for 10 seconds.
-Since we collect every 500ms, we could collect 20 measurements in approximately 10 seconds. However, during development, we found that the standard deviation varied too much with only 20 measurements, and therefore we doubled the minimum number of required measurements to 40.
+Since we collect a measurement every 500ms, we collect 20 measurements in approximately 10 seconds. However, during development, we found that the standard deviation varied too much with only 20 measurements, and therefore doubled the minimum number of required measurements to 40.
 
 Ultimately, the requirement of at least 40 measurements is a safety measure to ensure a more representative sample for the given point. 
 It is important to emphasize that even with 40 measurements, deviation may still fluctuate, necessitating additional measurements to reach a stable point. 

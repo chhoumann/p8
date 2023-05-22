@@ -1,5 +1,6 @@
-We decided to develop a mobile application to create a system that can implement the fingerprinting technique in a suitable way.
-The benefit of using a mobile application is that typical mobile devices already have the capability to interact and collect data from Bluetooth devices, such as Bluetooth beacons. 
+\section{System Overview}\label{sec:system_overview}
+
+We decided to develop a mobile application, as modern mobile devices already have the capability to interact and collect data from Bluetooth devices like BLE beacons. 
 This allowed us to integrate the process of collecting the data, doing classification, and applying the resulting classification model to conduct experiments within the same system.
 
 The application will be developed in C\#\cite{billwagnerDocsGetStarted} with Blazor\cite{BlazorBuildClient} and Razor Pages\cite{tdykstraIntroductionRazorPages2023}.
@@ -14,16 +15,15 @@ As illustrated in figure \ref{fig:ScanAdvertisement}, when the device is running
     \label{fig:ScanAdvertisement}
 \end{figure}
 
-Each beacon broadcasts data, which may include a unique identifier for the specific beacon or manufacturer-specific information.
+Each beacon broadcasts data, which consists of a unique identifier for the specific beacon and manufacturer-specific information.
 A device configured to receive these broadcasts can extract this information and also calculate the received signal strength indicator (RSSI) of the signal.
 
 As outlined in Section \ref{sec:fingerprinting}, fingerprinting involves two stages.
 The first stage entails the creation of a map based on the RSSI of the received Bluetooth signal. The second stage involves estimating the unknown location of a Bluetooth receiver.
 
-Through the collection of the broadcast data from the beacons, the application supports the initial phase of fingerprinting, which involves map generation.
-Figure \ref{fig:CreateMap} illustrates the map creation process. During this process, a device equipped with the application collects data while being carried around the room in a specific pattern.
-
-Moreover, the beacons are strategically positioned to demarcate the room's perimeter, a critical aspect in the second stage, which entails position inference.
+The application supports the initial stage of fingerprinting - map generation - by collecting broadcast information from the beacons. 
+The map creation procedure is demonstrated in Figure \ref{fig:CreateMap}. 
+Throughout this operation, a device installed with the application gathers data as it is moved around the room following a particular path.
 
 \begin{figure}[H]
     \centering
@@ -33,11 +33,12 @@ Moreover, the beacons are strategically positioned to demarcate the room's perim
 \end{figure}
 
 To support the second phase of fingerprinting, we have developed a classification module as part of the application. 
-By collecting new data and using the map generated during the first phase, the classification module is able to classify the position of other devices relative to the room. 
+By collecting new data and using the map created during the first phase, the system can classify the position of other devices relative to the room. 
 Using the classifier, the application is able to estimate whether a device is either inside or outside the room.
 
 The system diagram in figure \ref{fig:implementation_diagram} illustrates the system architecture and design.
-In the following sections, we delve deeper into each phase, offering comprehensive descriptions of crucial aspects of the implementation. In addition, we present our reasoning behind our chosen methodology.
+In the following sections, we delve deeper into each phase and component shown in the diagram, offering comprehensive descriptions of crucial aspects of the implementation.
+In addition, we present our reasoning behind our chosen methodology.
 
 \begin{figure}[H]
   \centering

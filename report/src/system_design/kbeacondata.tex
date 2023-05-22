@@ -104,7 +104,7 @@ The notion of endianness is crucial while interpreting the byte sequence.
 Endianness refers to the order in which bytes are arranged in memory, either least significant to most significant (little endian) or vice versa (big endian)\cite{EndiannessMDNWeb2023}.
 In the context of the \texttt{KBeaconData} class, the constructor accepts a boolean parameter that indicates whether the byte order of the data is little-endian or not. If the byte order is indeed little-endian, the sequence is read as-is. Otherwise, the sequence is reversed before interpreting, thereby maintaining the accuracy of the parsed data.
 The beacon advertisement data is in little-endian format, which means that the least significant byte is stored first.\cite{CoreSpecification2023}
-The \texttt{BitConverter} class, which is built into C\#, and visible in code snippet~\ref{lst:KBeaconData}, is used to convert data in a manner that is compatible with the endianness of the machine it is running on. 
+The \texttt{BitConverter} class, which is built into C\#, and visible in code snippet~\ref{lst:KBeaconData}, is used to convert data in a manner that is compatible with the endianness of the machine that it is running on. 
 It is important to account for endianness because the system receiving the data may have a different byte order than the one used in the beacon advertisement packet. 
 Therefore, the \texttt{KBeaconData} class has been designed to accurately interpret the data from the beacon advertisement packet, irrespective of the endianness of the host system.
 

@@ -14,7 +14,7 @@ Fingerprinting techniques could use the grid measurements, established in the fi
 This would create a set of labelled data, where the labels of the k-nearest neighbors could be used to determine whether an object is present. 
 
 Between the two approaches, the fingerprinting approach can easily be configured with beacons to increase accuracy.
-Edge cases for this approach can be analyzed and handled by setting some threshold for when a \textit{inside} label is considered correct. 
+Edge cases for this approach can be analyzed and handled by setting some threshold for when an \textit{inside} label is considered correct. 
 This threshold could be found experimentally or determined from existing research. 
 For instance, \citeauthor{ble_kneares_neural}~\cite{ble_kneares_neural} showed that a kNN approach yielded high precision, in a range of up to 3 meters.
 As the goal of the project is not to localize people in a room, but to classify whether they are present or not, we will use the kNN method for classification.

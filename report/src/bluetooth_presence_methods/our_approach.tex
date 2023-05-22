@@ -7,7 +7,7 @@ Each phase plays a critical role in successfully implementing this technique and
 In the first phase, our focus is on collecting RSSI values from various locations within a predefined area. The area is partitioned into a grid, with each cell in the grid representing a specific location. 
 
 For each cell of the grid, we measure and record the RSSI value from every beacon within the system.
-In each cell of the grid, we take measurements and log the Received Signal Strength Indicator (RSSI) values from every beacon that is part of the system. 
+In each cell of the grid, we take measurements and store the Received Signal Strength Indicator (RSSI) values from every beacon that is part of the system. 
 We average the RSSI values over multiple samples to mitigate the effect of any fluctuations, thereby obtaining a reliable final data point. 
 In the data collection process, a single receiver device is manually moved to each grid point sequentially, ensuring that necessary data is collected from every location.
 We only secure each sample once we have confirmed the RSSI values have reached a stable state. This stability is determined using the standard deviation.

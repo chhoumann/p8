@@ -32,7 +32,7 @@ As described by \citeauthor{apple2023ibeacon}~\cite{apple2023ibeacon}, the alloc
   \item The subsequent 16 bytes represent the \textit{Universally Unique Identifier} (UUID).
 This UUID (\texttt{77-77-77-2E-6B-6B-6D-63-6E-2E-63-6F-6D-00-00-01}) is a standard identifier that the beacon broadcasts, allowing the receiving devices to recognize the specific beacon or a group of beacons.
   \item The next two bytes denote the Major number (\texttt{00-03}), and the two bytes following them indicate the Minor number (\texttt{39-2B}). 
-These two values, which can be user-defined, allow further differentiation among beacons and can be used to group beacons by e.g. floor. We do not use these values in this system.
+These two values, which can be user-defined, allow further differentiation among beacons and can be used to group beacons by, for example, which floor they are on. We do not use these values in this system.
   \item The final byte, called TxPower (\texttt{C5}), indicates the \textit{Measured Power}, which represents a standardized signal strength value within Apple's proximity beacon technology. Obtained via a systematic procedure using an iPhone 5s, it involves sampling the Received Signal Strength Indicator (RSSI) from the beacon at a one-meter distance. Outliers in the RSSI samples are discarded to minimize signal strength variability. The remaining data is averaged, producing the 'Measured Power' - a benchmark for subsequent ranging calculations.
 \end{itemize}
 

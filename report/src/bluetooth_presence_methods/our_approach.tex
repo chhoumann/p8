@@ -3,7 +3,7 @@ Based on our prior discussion in Section \ref{sec:ChoiceOfTechnique} on potentia
 Our methodology is split into two main phases: data collection and classification.
 Each phase plays a critical role in successfully implementing this technique and, when combined, they offer an effective method of presence detection.
 
-\subsection{Phase 1: Data Collection}\label{sec:phase1_data_collection}
+\subsection{Phase One: Data Collection}\label{sec:phase1_data_collection}
 In the first phase, our focus is on collecting RSSI values from various locations within a predefined area. The area is partitioned into a grid, with each cell in the grid representing a specific location. 
 
 For each cell of the grid, we measure and record the RSSI value from every beacon within the system.
@@ -18,7 +18,7 @@ In the context of the system, we refer to the collected samples as the \textit{d
 This data set represents the map of the given room, as described in Section \ref{sec:fingerprinting}.
 
 
-\subsection{Phase 2: Classification}\label{sec:phase2_classification}
+\subsection{Phase Two: Classification}\label{sec:phase2_classification}
 In the second phase, we employ a k-Nearest Neighbors algorithm to classify our collected data. Our labels from the data collection phase serve as the classes: \textit{inside} and \textit{outside}.
 
 By continuously listening for beacon advertisements, we store the latest RSSI values in memory. 

@@ -1,7 +1,7 @@
 \section{Results}\label{sec:experiment_results}
 %describe in terms of criteria for using bluetooth. `'
 Having created a map that can be used to classify received measurements and having collected information about these classifications, we will now summarizes and comment on the results. 
-The classification results of the experiments were gathered in the locations shown on Figure \ref{fig:experiment_setup}. During the experiment, k-values of $2$, $3$, and $4$ were used.  
+The classification results of the experiments were gathered in the locations shown on Figure \ref{fig:experiment_setup}. During the experiment, $k$-values of $2$, $3$, and $4$ were used.  
 The results of the experiment can be seen in Tables \ref{lst:resultsPhone}, \ref{lst:resultsPhoneS20}, and \ref{lst:resultsTablet}.
 These tables show the number of correct classifications. 
 Table \ref{lst:resultsPhone_precision} summarizes the experiment's results, showing the percentage of true positive classifications for the different locations from Figure \ref{fig:experiment_setup}.
@@ -10,13 +10,13 @@ Table \ref{lst:resultsPhone_precision} summarizes the experiment's results, show
     \scalebox{0.8}{
     \begin{tabular}{|c|llllllllllll|}
     \hline
-    \multicolumn{1}{|l|}{K-Value} & \multicolumn{12}{c|}{Position} \\ \hline
+    \multicolumn{1}{|l|}{$k$-value} & \multicolumn{12}{c|}{Position} \\ \hline
     \multicolumn{1}{|l|}{}        & \multicolumn{1}{c|}{a}     & \multicolumn{1}{c|}{b}    & \multicolumn{1}{c|}{c}     & \multicolumn{1}{c|}{d}     & \multicolumn{1}{c|}{e}     & \multicolumn{1}{c|}{f}     & \multicolumn{1}{c|}{g}     & \multicolumn{1}{c|}{h}    & \multicolumn{1}{c|}{i}    & \multicolumn{1}{c|}{j}    & \multicolumn{1}{c|}{k}     & \multicolumn{1}{c|}{l} \\ \hline
     2                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{8/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10}  & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{8/10}  & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{4/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{2/10} & \multicolumn{1}{l|}{5/10}  & 7/10                   \\ \hline
     3                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10}  & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{7/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{7/10} & \multicolumn{1}{l|}{9/10}  & 10/10                  \\ \hline
     4                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{8/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10}  & \multicolumn{1}{l|}{9/10} & \multicolumn{1}{l|}{8/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{10/10} & 10/10                  \\ \hline
     \end{tabular}}
-    \caption{Evaluation results from Samsung Galaxy A53 showing the number of correct classifications out of a possible ten for each k-value}
+    \caption{Evaluation results from Samsung Galaxy A53 showing the number of correct classifications out of a possible ten for each $k$-value.}
     \label{lst:resultsPhone}
 \end{table}
 
@@ -24,13 +24,13 @@ Table \ref{lst:resultsPhone_precision} summarizes the experiment's results, show
     \scalebox{0.8}{
     \begin{tabular}{|c|llllllllllll|}
     \hline
-    \multicolumn{1}{|l|}{K-Value} & \multicolumn{12}{c|}{Position}                                                                                                                                                                                                                                                                                                                   \\ \hline
+    \multicolumn{1}{|l|}{$k$-value} & \multicolumn{12}{c|}{Position}                                                                                                                                                                                                                                                                                                                   \\ \hline
     \multicolumn{1}{|l|}{}        & \multicolumn{1}{c|}{a}     & \multicolumn{1}{c|}{b}    & \multicolumn{1}{c|}{c}     & \multicolumn{1}{c|}{d}     & \multicolumn{1}{c|}{e}     & \multicolumn{1}{c|}{f}     & \multicolumn{1}{c|}{g}     & \multicolumn{1}{c|}{h}    & \multicolumn{1}{c|}{i}    & \multicolumn{1}{c|}{j}    & \multicolumn{1}{c|}{k}    & \multicolumn{1}{c|}{l} \\ \hline
     2                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{8/10}  & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{2/10} & \multicolumn{1}{l|}{2/10} & \multicolumn{1}{l|}{3/10} & \multicolumn{1}{l|}{6/10} & 7/10                   \\ \hline
     3                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10}  & \multicolumn{1}{l|}{4/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{2/10} & \multicolumn{1}{l|}{6/10} & 8/10                   \\ \hline
     4                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{8/10} & 8/10                   \\ \hline
     \end{tabular}}
-    \caption{Evaluation results from Samsung Galaxy S20 showing the number of correct classifications out of a possible ten for each k-value}
+    \caption{Evaluation results from Samsung Galaxy S20 showing the number of correct classifications out of a possible ten for each $k$-value.}
     \label{lst:resultsPhoneS20}
 \end{table}
 
@@ -38,13 +38,13 @@ Table \ref{lst:resultsPhone_precision} summarizes the experiment's results, show
     \scalebox{0.8}{
     \begin{tabular}{|c|llllllllllll|}
     \hline
-    \multicolumn{1}{|l|}{K-Value} & \multicolumn{12}{c|}{Position}                                                                                                                                                                                                                                                                                                                   \\ \hline
+    \multicolumn{1}{|l|}{$k$-value} & \multicolumn{12}{c|}{Position}                                                                                                                                                                                                                                                                                                                   \\ \hline
     \multicolumn{1}{|l|}{}        & \multicolumn{1}{c|}{a}     & \multicolumn{1}{c|}{b}    & \multicolumn{1}{c|}{c}     & \multicolumn{1}{c|}{d}     & \multicolumn{1}{c|}{e}     & \multicolumn{1}{c|}{f}     & \multicolumn{1}{c|}{g}     & \multicolumn{1}{c|}{h}    & \multicolumn{1}{c|}{i}    & \multicolumn{1}{c|}{j}    & \multicolumn{1}{c|}{k}    & \multicolumn{1}{c|}{l} \\ \hline
     2                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{8/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10}  & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{0/10} & \multicolumn{1}{l|}{4/10} & \multicolumn{1}{l|}{5/10} & \multicolumn{1}{l|}{7/10} & 8/10                   \\ \hline
     3                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{7/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{5/10} & \multicolumn{1}{l|}{5/10} & \multicolumn{1}{l|}{5/10} & \multicolumn{1}{l|}{8/10} & 8/10                   \\ \hline
     4                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{7/10} & \multicolumn{1}{l|}{9/10} & 10/10                  \\ \hline
     \end{tabular}}
-    \caption{Evaluation results from Lenovo TabM10 FHD Plus showing the number of correct classifications out of a possible ten for each $k$-value}
+    \caption{Evaluation results from Lenovo TabM10 FHD Plus showing the number of correct classifications out of a possible ten for each $k$-value.}
     \label{lst:resultsTablet}
 \end{table}
 
@@ -72,12 +72,12 @@ To counter this bias, one possible approach is to position one or more beacons i
     \begin{tabular}{|l|ll|}
     \hline
             & \multicolumn{2}{l|}{Accuracy}                      \\ \hline
-    K-Value & \multicolumn{1}{l|}{Indoor}          & Outside      \\ \hline
+    $k$-value & \multicolumn{1}{l|}{Indoor}          & Outside      \\ \hline
     2       & \multicolumn{1}{l|}{199/210 (94.76\%)} & 68/150 (45.33\%) \\ \hline
     3       & \multicolumn{1}{l|}{200/210 (95.24\%)} & 96/150 (64.00\%) \\ \hline
     4       & \multicolumn{1}{l|}{205/210 (97.62\%)} & 115/150 (76.67\%) \\ \hline   
     \end{tabular}
-    \caption{Accuracy of the classifications for different $k$-values}
+    \caption{Accuracy of the classifications for different $k$-values.}
     \label{lst:resultsPhone_precision}
 \end{table}
 As can be seen in Table \ref{lst:resultsPhone_precision}, the results show that the system can determine that the occupant is inside the room with high accuracy, even when a small $k$-value is selected. The approach is not as accurate when detecting that the occupant is outside the room when small values of $k$ are selected.  

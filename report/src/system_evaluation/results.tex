@@ -1,10 +1,10 @@
-\section{System evaluation}\label{sec:experiment_results}
+\section{Results}\label{sec:experiment_results}
 %describe in terms of criteria for using bluetooth. `'
-Having created a map that can be used to classify received measurements, we can now begin to examine whether these classifications are accurate. 
-The measurements are collected by a single person using the implemented functionality described in Section \ref{sec:knn_implementation}.
-However, while the room was unused during the creation of the map, this was not the case for this part of the experiment. 
-Computers and phones were placed near the tables of the room, with several of them having either only WiFi, or both Bluetooth and WiFi, enabled. 
-In the common area outside the room, two people were tasked with moving around, and a laptop with Bluetooth and WiFi enabled was placed on one of the tables.
+Having created a map that can be used to classify received measurements and having collected information about these classifications, we will now summarizes and comment on the results. 
+The classification results of the experiments were gathered in the locations shown on Figure \ref{fig:experiment_setup}. During the experiment, k-values of $2$, $3$, and $4$ were used.  
+The results of the experiment can be seen in Tables \ref{lst:resultsPhone}, \ref{lst:resultsPhoneS20}, and \ref{lst:resultsTablet}.
+These tables show the number of correct classifications. 
+Table \ref{lst:resultsPhone_precision} summarizes the experiment's results, showing the percentage of true positive classifications for the different locations from Figure \ref{fig:experiment_setup}.
 
 \begin{table}[H]
     \scalebox{0.8}{
@@ -32,28 +32,40 @@ In the common area outside the room, two people were tasked with moving around, 
     \end{tabular}}
     \caption{Evaluation results from Samsung Galaxy S20 showing the number of correct classifications out of a possible ten for each k-value}
     \label{lst:resultsPhoneS20}
-    \end{table}
+\end{table}
 
-    \begin{table}[H]
-        \scalebox{0.8}{
-        \begin{tabular}{|c|llllllllllll|}
-        \hline
-        \multicolumn{1}{|l|}{K-Value} & \multicolumn{12}{c|}{Position}                                                                                                                                                                                                                                                                                                                   \\ \hline
-        \multicolumn{1}{|l|}{}        & \multicolumn{1}{c|}{a}     & \multicolumn{1}{c|}{b}    & \multicolumn{1}{c|}{c}     & \multicolumn{1}{c|}{d}     & \multicolumn{1}{c|}{e}     & \multicolumn{1}{c|}{f}     & \multicolumn{1}{c|}{g}     & \multicolumn{1}{c|}{h}    & \multicolumn{1}{c|}{i}    & \multicolumn{1}{c|}{j}    & \multicolumn{1}{c|}{k}    & \multicolumn{1}{c|}{l} \\ \hline
-        2                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{8/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10}  & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{0/10} & \multicolumn{1}{l|}{4/10} & \multicolumn{1}{l|}{5/10} & \multicolumn{1}{l|}{7/10} & 8/10                   \\ \hline
-        3                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{7/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{5/10} & \multicolumn{1}{l|}{5/10} & \multicolumn{1}{l|}{5/10} & \multicolumn{1}{l|}{8/10} & 8/10                   \\ \hline
-        4                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{7/10} & \multicolumn{1}{l|}{9/10} & 10/10                  \\ \hline
-        \end{tabular}}
-        \caption{Evaluation results from Lenovo TabM10 FHD Plus showing the number of correct classifications out of a possible ten for each $k$-value}
-        \label{lst:resultsTablet}
-        \end{table}
+\begin{table}[H]
+    \scalebox{0.8}{
+    \begin{tabular}{|c|llllllllllll|}
+    \hline
+    \multicolumn{1}{|l|}{K-Value} & \multicolumn{12}{c|}{Position}                                                                                                                                                                                                                                                                                                                   \\ \hline
+    \multicolumn{1}{|l|}{}        & \multicolumn{1}{c|}{a}     & \multicolumn{1}{c|}{b}    & \multicolumn{1}{c|}{c}     & \multicolumn{1}{c|}{d}     & \multicolumn{1}{c|}{e}     & \multicolumn{1}{c|}{f}     & \multicolumn{1}{c|}{g}     & \multicolumn{1}{c|}{h}    & \multicolumn{1}{c|}{i}    & \multicolumn{1}{c|}{j}    & \multicolumn{1}{c|}{k}    & \multicolumn{1}{c|}{l} \\ \hline
+    2                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{8/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10}  & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{0/10} & \multicolumn{1}{l|}{4/10} & \multicolumn{1}{l|}{5/10} & \multicolumn{1}{l|}{7/10} & 8/10                   \\ \hline
+    3                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{7/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{5/10} & \multicolumn{1}{l|}{5/10} & \multicolumn{1}{l|}{5/10} & \multicolumn{1}{l|}{8/10} & 8/10                   \\ \hline
+    4                             & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{9/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{10/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{6/10} & \multicolumn{1}{l|}{7/10} & \multicolumn{1}{l|}{9/10} & 10/10                  \\ \hline
+    \end{tabular}}
+    \caption{Evaluation results from Lenovo TabM10 FHD Plus showing the number of correct classifications out of a possible ten for each $k$-value}
+    \label{lst:resultsTablet}
+\end{table}
 
-To create an environment that more accurately represents a meeting room in use, several devices were used for testing. 
-The method for collecting results from these tests mirrored previous ones, by making $10$ classifications on both a Samsung Galaxy A53, a Samsung Galaxy S20 phone, and a Lenovo TabM10 FHD Plus tablet. 
-The classification results were gathered in the locations shown on Figure \ref{fig:experiment_room}
-During the experiment, k-values of $2$, $3$, and $4$ were used.  
-The results of the experiment can be seen in Tables \ref{lst:resultsPhone}, \ref{lst:resultsPhoneS20}, and  \ref{lst:resultsTablet}.
-Table \ref{lst:resultsPhone_precision} summarizes the experiment's results, indicating the percentage of true positive classifications. 
+In Table~\ref{lst:resultsPhone_precision}, we see that a lower $k$-value results in a greater uncertainty in the classifications.
+However, it is worth noticing that for classification points \textit{B} and \textit{J}, shown in Figure~\ref{fig:experiment_setup}, a large uncertainty in classification is observed.
+We suspect that this is caused by the glass pane next to the door having a much lower absorbation of radio frequencies than the door and the wall next to it. 
+This low absorbation results in the two data points next to the pane having similar distances to both map values labelled as inside and some as outside, therefore giving uncertain classifications.
+
+Similarly, for all devices, when performing classification in locations \textit{H}, \textit{I}, \textit{J}, \textit{K}, and \textit{L}, the results are vastly different from the other locations.
+These locations are all outside of the room. 
+There are a couple of reasons we suspect for this. 
+
+The map's unreliability might be a contributing factor. During the map's construction, the wall between the room and the common area might have triggered significant fluctuations in the received signal's strength.
+This inconsistency could potentially lead to unreliable classifications using the map. In an attempt to remedy this, we regulated all map entries to possess a standard deviation of 6.5.
+Reducing the standard deviation of the map might help to mitigate these issues.
+However, this process could extend the time required to create the map, as more samples would be needed in the face of fluctuating signals.
+Additionally, identifying these signal outliers could be challenging if the signal is highly volatile.
+
+Furthermore, the placement of beacons only within the meeting room and a larger amount of classification data representing locations within the meeting room may lead to a bias towards \textit{inside} classifications. 
+To counter this bias, one possible approach is to position one or more beacons in the common area, considering signals from this beacon as a bias towards an \textit{outside} classification.
+
 
 \begin{table}[H]
     \centering
@@ -68,4 +80,4 @@ Table \ref{lst:resultsPhone_precision} summarizes the experiment's results, indi
     \caption{Accuracy of the classifications for different $k$-values}
     \label{lst:resultsPhone_precision}
 \end{table}
-As can be seen in table \ref{lst:resultsPhone_precision}, the results show that the system can determine that the occupant is inside the room with high accuracy, even when a small $k$-value is selected. The approach is not as accurate when detecting that the occupant is outside the room, when small values of $k$ are selected.  
+As can be seen in Table \ref{lst:resultsPhone_precision}, the results show that the system can determine that the occupant is inside the room with high accuracy, even when a small $k$-value is selected. The approach is not as accurate when detecting that the occupant is outside the room when small values of $k$ are selected.  

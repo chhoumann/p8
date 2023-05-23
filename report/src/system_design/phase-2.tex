@@ -1,4 +1,4 @@
-\section{Phase two: Presence classification}\label{sec:knn_implementation}
+\section{Phase Two: Presence Classification}\label{sec:knn_implementation}
 The \texttt{Data Handler}, as shown in Figure~\ref{fig:implementation_diagram}, loads the data set from the JSON file and removes any duplicates to ensure data consistency.
 Failing to eliminate duplicates could lead to erroneous classifications in the kNN computations.
 This is because each duplicate data point would be equidistant from the target point and could potentially be counted as the k-nearest neighbors, even when non-duplicate points are available.

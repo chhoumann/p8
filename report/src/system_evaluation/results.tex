@@ -55,16 +55,17 @@ This low absorbation results in the two data points next to the pane having simi
 
 Similarly, for all devices, when performing the classification in locations H, I, J, K, and L shows, the results are vastly different from the other locations.
 These locations are all outside of the room. 
-This might be due to the map being unreliable, since when creating the map, the wall separating the room and the common area might cause large fluctuations in the strength of the received signal. 
-Consequently, classifications using the map can become unreliable.
-We tried to accomodate this by enforcing all map entries to have a standard deviation of $6.5 dCb$.
-Enforcing a lower standard deviation of the map might alleviate these issues.
-However, this will increase the time it takes to create the map, as more samples will be required if the signal fluctuates.
-Furthermore, detecting these signal outliers might be difficult if the signal is volatile.
-The standard deviations of $6.5 dCb$ was choosen, as we found it to be time-wise suitable when creating the map, yet still yielding promising results.
+There are a couple of reasons we suspect for this. 
 
-Furthermore, by having placed beacons only inside of the meeting room, and by having more classification points representing locations inside the meeting room, the classification results might be biased towards \textit{inside} classifications.
-One could try to lessen the effect of this bias by placing one or more beacons in the common area or create map of higher resolution.
+The map's unreliability might be a contributing factor. During the map's construction, the wall between the room and the common area might have triggered significant fluctuations in the received signal's strength.
+This inconsistency could potentially lead to unreliable classifications using the map. In an attempt to remedy this, we regulated all map entries to possess a standard deviation of 6.5.
+Reducing the standard deviation of the map might help to mitigate these issues.
+However, this process could extend the time required to create the map, as more samples would be needed in the face of fluctuating signals.
+Additionally, identifying these signal outliers could be challenging if the signal is highly volatile.
+
+Furthermore, the placement of beacons only within the meeting room and a larger amount of classification data representing locations within the meeting room may lead to a bias towards \textit{inside} classifications. 
+To counter this bias, one possible approach is to position one or more beacons in the common area, considering signals from this beacon as a bias towards an 'outside' classification.
+
 
 \begin{table}[H]
     \centering

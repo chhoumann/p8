@@ -1,0 +1,59 @@
+\section{Our Approach}\label{sec:our_approach}
+Based on our prior discussion in Section \ref{sec:ChoiceOfTechnique} on potential approaches, we have opted to use a fingerprinting technique for our system.
+Our methodology is split into two main phases: data collection and classification.
+Each phase plays a critical role in successfully implementing this technique and, when combined, they offer an effective method of presence detection.
+
+\subsection{Phase 1: Data Collection}\label{sec:phase1_data_collection}
+In the first phase, our focus is on collecting RSSI values from various locations within a predefined area. The area is partitioned into a grid, with each cell in the grid representing a specific location. 
+
+For each cell of the grid, we measure and record the RSSI value from every beacon within the system.
+In each cell of the grid, we take measurements and store the Received Signal Strength Indicator (RSSI) values from every beacon that is part of the system. 
+We average the RSSI values over multiple samples to mitigate the effect of any fluctuations, thereby obtaining a reliable final data point. 
+In the data collection process, a single receiver device is manually moved to each grid point sequentially, ensuring that necessary data is collected from every location.
+We only secure each sample once we have confirmed the RSSI values have reached a stable state. This stability is determined using the standard deviation.
+Upon achieving this stability, we store the averaged RSSI value.
+Each sample includes a label indicating whether the corresponding grid cell is considered to be \textit{inside} or \textit{outside} the room.
+The labeling is necessary for the classification stage of our approach.
+In the context of the system, we refer to the collected samples as the \textit{data set}.
+This data set represents the map of the given room, as described in Section \ref{sec:fingerprinting}.
+
+
+\subsection{Phase 2: Classification}\label{sec:phase2_classification}
+In the second phase, we employ a k-Nearest Neighbors algorithm to classify our collected data. Our labels from the data collection phase serve as the classes: \textit{inside} and \textit{outside}.
+
+By continuously listening for beacon advertisements, we store the latest RSSI values in memory. 
+We then apply the kNN algorithm to identify the k-nearest values to the most recent RSSI readings.
+
+Using the latest measurement, the kNN algorithm identifies the k-nearest neighbors from the data set. 
+The nearest neighbors are found based on their Euclidean distances to the latest measurement.
+
+We assign each neighbor a weight that is inversely proportional to its distance from the new measurement, implying that neighbors closer to the measurement have a larger influence on the classification decision.
+This computation is expressed in equation \ref{eq:calculate_weight}.
+
+\begin{equation}\label{eq:calculate_weight}
+W_j = \sum_{i=1}^{k} \frac{I(y_i = j)}{d_i} \Bigg/ \sum_{i=1}^{k} \frac{1}{d_i}
+\end{equation}
+
+where $k$ is the number of nearest neighbors, $y_i$ is the class label of the $i$-th neighbor, $d_i$ is the distance from the test point to the $i$-th neighbor, $I(y_i=j)$ is the indicator function, which is $1$ when $y_i=j$, and $0$ otherwise, and $W_j$ is the calculated weight for class $j$.
+
+For each neighbor in the k-nearest-neighbors, it checks if the neighbors class label is equivalent to the target class label. As shown by the indicator function in equation~\ref{eq:calculate_weight}, we only consider the inverse distance of neighbors with the target class label. This is done to ensure that neighbors with the opposite class label do not contribute to the sum.
+
+The resulting weight $W_j$ indicates the likelihood of the latest measurement belonging to the given class label.
+
+We compare $W_j$ to some preset threshold $t$. Therefore, the classification decision $D$ is determined by:
+
+$$
+D = 
+\begin{cases}
+\text{"inside"} & \text{if } W_j \geq t \\
+\text{"outside"} & \text{if } W_j < t 
+\end{cases}
+$$
+
+Here, $D$ is the classification decision, which takes the value \textit{inside} if $W_j$ is greater than or equal to the threshold $t$, and \textit{outside} if $W_j$ is less than $t$.
+
+The quality of the classification depends on the threshold $t$.
+Therefore, it is important to tune the threshold to suit the environment in order to provide a good compromise between accuracy and precision.
+
+This two-phase approach, combining data collection via grid partitioning and kNN classification, forms the basis of our fingerprinting-based presence detection system.
+The following sections delve into the key design decisions and the specifics of implementing this approach.

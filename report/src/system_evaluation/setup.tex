@@ -1,14 +1,9 @@
-\subsection{Experiment design}\label{sec:experiment_design}
+\section{Experiment Design}\label{sec:experiment_design}
 %Forsoegsopstilling, der inkludere en tegning af omraadet set oppefra med indtegning af beacons, objectern og hvor rigtige position for test person.
-The implemented system's evaluation experiments are conducted in a room measuring $4.75m \times 6.5m$.
+We conducted experiments in a room measuring $4.75m \times 6.5m$ to evaluate the implemented system described in Chapter~\ref{chap:system_design}.
 In the room, a cabinet is placed between two tables, effectively dividing the room into two smaller areas. 
 Each of the smaller areas are furnished with a table surrounded by six chairs, and whiteboards mounted on the walls.
-\begin{figure}[h]
-    \centering
-    \includegraphics[scale=0.5]{images/experiment_room.png}
-    \caption{A sketch of the meeting room in which the experiments were carried out.}
-    \label{fig:experiment_room}
-\end{figure}
+
 On one end of each table is a large, rectangular window.
 Furthermore, one table has a large TV screen placed near its window. 
 Near the door of the room, an airconditioning controller and a large glass pane, acting as a window out into the common area, is located. 
@@ -16,48 +11,51 @@ Next to the door is placed a glass pane, acting as a window out into the common 
 Lighting is built into the ceiling, thus no hanging light will interfere with the broadcasted signals. 
 Outside the meeting room, is the aforementioned common area containing two high tables.
 Each of these tables has a small couch and two chairs placed next to it.
-The meeting room and its surrounding area is depicted in Figure \ref{fig:experiment_room}.
+The meeting room and its surrounding area are depicted in Figure \ref{fig:experiment_room}.
+The room was provided as-is by AAU, so using it provides a realistic setting for experimentation.
 
-Bluetooth iBeacon BLE9 beacons \cite{BluetoothiBeaconBLE9} are placed on top of the cabinet and in the three corners furthest away from the door. 
-The beacons in the corners of the room are placed in a height of $2.5m$, while the center beacon on top of the cabinet is placed in a height of $1.5m$.   
-The beacons placed near the windows are located on top of a whiteboard, while the beacon in the lower left corner of the room is held in place using painter's tape. 
+To create the map, the room and the common area was partitioned into a $1m \times 1m$ grid using painter's tape.
+Measurements for the map were taken where gridlines intersect.
+This resulted in $6 \times 4$ measurements with a classification label of \textit{inside} being taken inside the room.
+The common area outside of the room was partitioned in the same fashion, resulting in  $6 \times 2$ classification labels of \textit{outside}. 
 
-\subsection{Creating a map}
-To execute the first phase of the approach described in Section \ref{sec:first_phase},  we partition the previously described meeting room into a $1m \times 1m$ grid and place beacons as described using painter's tape.%Supervisor requests EXACT setup
-To collect measurements for the creation of the map, a person holding a Samsung Galaxy A53 5G phone, with the application described in Section 2 installed and running, traverses systematically through the room and stops at the intersection of each grid line to collect data. 
-We will refer to this person as the \textit{collector}.
-With the app, it is possible to perform measurements from any number of selected beacons and append a label to the measurements.
-In this experiment, the collector selects all beacons and is responsible for the correct collection and labeling of each cell.
-\begin{figure}[h]
+
+\begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{images/experiment_map_creation.png}
-    \caption{A sketch of the meeting room partitioned into a grid decorated with beacon placements (red antenna) and measurement locations (circles with letters). The figure how the measurements are collected systematically in the meeting room.}
-    \label{fig:experiment_map_creation}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/experiment_room.png}
+        \caption{A sketch showing the room and the common area in which the experiments take place}
+        \label{fig:experiment_room}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/roomwithgrid.png}
+        \caption{The gridwise partition of the experiment room and the common area (red)}
+        \label{fig:room_partition}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/roomwithgridandmeasurements.png}
+        \caption{The partitioned room decorated with locations where measurements are taken (green)}
+        \label{fig:room_partition_measurements}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/gridwithbeacons.png}
+        \caption{The partitioned room with four iBeacon BLE9 Bluetooth beacons. }
+        \label{fig:room_partition_beacons}
+    \end{subfigure}
+    \caption{The room and common area in which the experiment takes place. Figures \ref{fig:room_partition} and \ref{fig:room_partition_measurements} shows how the area is partitioned and where measurements are taken. Figure \ref{fig:room_partition_beacons} shows the placement of beacons when performing the experiments. }
+    \label{fig:allfiguresForTheGridPartition}
 \end{figure}
-When the collector stops at the intersection of two grid-lines, they can press a button in the app, which starts measuring after five seconds.
-The phone provides auditory feedback when it has collected enough measurements for the requirements described in Section \ref{sec:first_phase} to be fulfilled.
-When the information for measurement has been computed and stored on the phone, the collector is informed auditorily and continues to the next intersection in the grid. 
-During the measurement the phone is kept in roughly the same height.
-Measurements are collected in a setup using 4 beacons, as depicted in Figure \ref{fig:experiment_map_creation}.
-The map creation process was done during out-of-office hours to ensure that the datapoint collected to create the map was collected with a minimum of background signal noise.  
+The gridwise partition of the room and the common area is shown in Figure \ref{fig:room_partition}, while Figure \ref{fig:room_partition_measurements} depicts the \textit{collection points} where measurements for the map were taken.
+During the creation of the map, measurements were collected for each collection point until a standard deviation of under $6.5$dBm is achieved, with a minimum of $40$ measurements being required, as described in Section \ref{sec:data_collection_implementation}.
+The map creation process was done during out-of-office hours to ensure that the datapoint collected to create the map was collected with a minimum of background signal noise.
 
-\subsection{Evaluation strategy} %This is where we examine if we can classify correctly
-\begin{figure}[h]
-    \centering
-    \includegraphics[scale=0.5]{images/experiment_setup.png}
-    \caption{A sketch of the meeting room in which the experiments were carried out, decorated with beacon placements (red antenna) and measurement locations(green circles)}
-    \label{fig:experiment_setup}
-\end{figure}
-In evaluating the generated map, our aim is to determine if the system can accurately distinguish whether a receiving device is situated inside or outside the room.
-As described in Section \ref{sec:bluetooth_low_energy}, physical obstacles can cause fluctuations in the received signals. 
-Therefore, we design the expirement such that measurements are taken in areas where some, none, and all of the beacons are blocked. 
-We perform measurements in the following areas:
-\begin{itemize}
-    \item Along the walls inside of the meeting room, to examine border values of the map while inside the room
-    \item Along both sides of the divider, to examine whether obstructions inside the room has any meaningful effect on the classification
-    \item On the cabinet, next to the beacon, to examine classification of a receiver placed in the middle of the room
-    \item $1$ meter, $2$ meters, and $3$ meters outside the door, to examine how far away from the meeting a receiver must be before it is classified as outside.
-    \item By the tables in the common area, to ensure that we do not classify an outside area as an inside area.
-\end{itemize}
-For each of these areas 10 data points has been collected and classified on several devices.
-Data collection points and beacon placement of the room during the experiment is shown in Figure \ref{fig:experiment_setup}. 
+During both the creation of the map and the classification, four iBeacon BLE9 Bluetooth beacons \cite{BluetoothiBeaconBLE9} were placed on top of the cabinet and in the three corners furthest away from the door. This is depicted on Figure \ref{fig:room_partition_beacons}.
+The beacons in the corners of the room were placed at a height of $2.5m$, while the center beacon on top of the cabinet was placed at a height of $1.5m$.
+The beacons placed near the windows were located on top of a whiteboard, while the beacon in the lower left corner of the room was held in place using painter's tape.
+
+If one were to place a beacon close to the door of the meeting room, one makes the classification system dependent on a high precision.
+This can be understood by imagining a scenario where a person is located in a position only just inside the meeting room.
+By having a beacon by door, we risk that a slight fluctuation in the received signal strength from the beacon will result in the determined location being immediatedly outside the room (see Figure \ref{fig:room_partition_measurements}).
+For this particular system, we would rather have classifications biased towards being inside of the room as to not cancel meetings that are ongoing, and therefore place beacons further inside the room.

@@ -10,10 +10,10 @@ Therefore, the chosen technique should be able to support the classification of 
 For this purpose, lateration techniques could utilize a distance measure, and classify everything with an estimated distance smaller than some threshold as being present.
 Variations of Equation \ref{distance_equation} could be examined to determine which approach is best for the system.
 However, lateration approaches rely on a non-noisy environment, as they rely directly on the measured RSSI values.
+Similarly, in Section~\ref{sec:proximity_detection}, we discussed proximity detection via RSSI values as an accessible and cost-effective method for occupancy estimation. However, its accuracy is inhibited by environmental factors and range estimation inaccuracies. To uphold accuracy, it necessitates regular, potentially labor-intensive calibration.
 Fingerprinting techniques could use the grid measurements, established in the first phase of the approach, described in Section \ref{sec:fingerprinting}, with additional labels for each cell, determining whether the cell is inside or outside the meeting room.
 This would create a set of labelled data, where the labels of the k-nearest neighbors could be used to determine whether an object is present. 
-
-Between the two approaches, the fingerprinting approach can easily be configured with beacons to increase accuracy.
+Between these approaches, the fingerprinting approach can easily be configured with beacons to increase accuracy.
 Edge cases for this approach can be analyzed and handled by setting some threshold for when an \textit{inside} label is considered correct. 
 This threshold could be found experimentally or determined from existing research. 
 For instance, \citeauthor{ble_kneares_neural}~\cite{ble_kneares_neural} showed that a kNN approach yielded high precision, in a range of up to 3 meters.
